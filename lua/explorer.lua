@@ -17,7 +17,7 @@ end
 vim.api.nvim_create_user_command("ExplorerOpen", function()
   local path = vim.api.nvim_buf_get_name(0)
   local parent = vim.fs.dirname(path)
-  vim.cmd("topleft vnew " .. parent)
+  vim.cmd("topleft 40vnew " .. parent)
 
   explorer_window = vim.api.nvim_get_current_win()
   explorer_group = vim.api.nvim_create_augroup(("explorer_%d"):format(explorer_window), { clear = true })

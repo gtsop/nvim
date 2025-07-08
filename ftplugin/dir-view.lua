@@ -3,6 +3,8 @@ if vim.b.did_ftplugin then
 end
 vim.b.did_ftplugin = true
 
+local state = require("state")
+
 -- Press "Enter" to edit the file under cursor
 vim.keymap.set("n", "<CR>", function()
   local path = vim.api.nvim_buf_get_name(0)
@@ -19,7 +21,6 @@ end, { buffer = true, silent = true, noremap = true})
   
 -- Press "0" to go to the initial directory being edited
 vim.keymap.set("n", "0", function() 
-  if vim.w.dir_view_initial_path then
-    vim.cmd("edit " .. vim.w.dir_view_initial_path)
-  end
+  local project_dir = state.get_project_dir()
+  vim.cmd("edit " .. project_dir)
 end, { buffer = true, silent = true, noremap = true})

@@ -1,3 +1,5 @@
+local state = require("state")
+
 local explorer_window = nil
 local explorer_group = nil
 
@@ -15,9 +17,10 @@ function clean_up_explorer_state()
 end
 
 vim.api.nvim_create_user_command("ExplorerOpen", function()
-  local path = vim.api.nvim_buf_get_name(0)
-  local parent = vim.fs.dirname(path)
-  vim.cmd("topleft 40vnew " .. parent)
+
+  local project_dir = state.get_project_dir()
+
+  vim.cmd("topleft 40vnew " .. project_dir)
 
   explorer_window = vim.api.nvim_get_current_win()
   explorer_group = vim.api.nvim_create_augroup(("explorer_%d"):format(explorer_window), { clear = true })

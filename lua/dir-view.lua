@@ -17,11 +17,6 @@ vim.api.nvim_create_autocmd({ "VimEnter", "BufEnter" }, {
     local buffer = args.buf
     local handle = vim.uv.fs_scandir(path)
 
-    -- Check if window has initial directory state
-    if not vim.w.dir_view_initial_path then
-      vim.w.dir_view_initial_path = path
-    end
-
     local dir_contents = {}
 
     -- Fetch directory contesnts from the filesystem

@@ -24,7 +24,9 @@ function M.open(on_change, on_submit, on_cancel)
   input_win = vim.api.nvim_get_current_win()
   input_buf = utils.create_scratch_buffer()
 
-  vim.api.nvim_win_set_buf(0, input_buf)
+  vim.api.nvim_win_set_option(input_win, "number", false)
+  vim.api.nvim_win_set_option(input_win, "relativenumber", false)
+  vim.api.nvim_win_set_buf(input_win, input_buf)
 
   on_change(input_str)
 
@@ -68,22 +70,25 @@ function M.print()
   if input_options then
     for i, option in ipairs(input_options) do
       if i == input_selected_option then
-        table.insert(lines, "> " .. option)
+        table.insert(lines, " ~ " .. option .. " ~")
       else
-        table.insert(lines, option)
+        table.insert(lines, "   " .. option)
       end
     end
     lines = vim.fn.reverse(lines)
   end
 
-  table.insert(lines, "File Finder:")
-  table.insert(lines, input_str) 
+  local win_width = vim.api.nvim_win_get_width(input_win)
+  table.insert(lines, string.rep("_", win_width))
+
+  table.insert(lines, ">>> " .. input_str) 
 
   local last_row = #lines
   lines[last_row] = lines[last_row] .. " "
 
   local last_col = #lines[last_row]
 
+  vim.api.nvim_win_set_height(input_win, #lines)
   vim.api.nvim_buf_set_lines(input_buf, 0, -1, false, lines)
   vim.api.nvim_win_set_cursor(input_win, { last_row, last_col })
 end

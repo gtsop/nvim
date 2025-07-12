@@ -151,4 +151,26 @@ function M.rank_by_subsequence(tbl, subsequence)
   return vim.tbl_map(function(i) return i.value end, rank)
 end
 
+function M.tbl_slice(tbl, first, last)
+  local len = #tbl
+  -- default to full range
+  first = first or 1
+  last  = last  or len
+
+  -- handle negative indices
+  if first < 0 then first = len + first + 1 end
+  if last  < 0 then last  = len + last  + 1 end
+
+  -- clamp bounds
+  if first < 1 then first = 1 end
+  if last  > len then last  = len end
+
+  -- build the slice
+  local out = {}
+  for i = first, last do
+    out[#out + 1] = tbl[i]
+  end
+  return out
+end 
+
 return M

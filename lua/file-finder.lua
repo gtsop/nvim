@@ -2,7 +2,7 @@ local state = require("state")
 local utils = require("utils")
 local input = require("input")
 
-vim.api.nvim_create_user_command("FileFinderShow", function()
+vim.api.nvim_create_user_command("FileFinderShowOld", function()
   vim.ui.input({ prompt = "File: " }, function(choice)
 
     local project_dir = state.get_project_dir()
@@ -26,14 +26,14 @@ function get_project_files(keyword)
   return files
 end
 
-vim.api.nvim_create_user_command("Input", function()
+vim.api.nvim_create_user_command("FileFinderShow", function()
 
   local project_dir = state.get_project_dir()
   local files = get_project_files()
   local stripped = utils.tbl_strip_prefix(files, project_dir .. "/")
 
   input.open(function(choice)
-    local ranked_files = utils.rank_by_subsequence(stripped, choice)
+    local ranked_files = utils.tbl_slice(utils.rank_by_subsequence(stripped, choice), 1, 5)
     input.options(ranked_files)
     input.print()
   end,

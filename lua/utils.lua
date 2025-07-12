@@ -5,6 +5,9 @@ list_ignore = { ".git" }
 function M.list_dir_files(dir, recursive)
     local path = dir
     local handle = vim.uv.fs_scandir(path)
+    if not handle then
+      return {}
+    end
 
     local dir_contents = {}
 

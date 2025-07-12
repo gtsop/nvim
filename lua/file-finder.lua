@@ -33,7 +33,7 @@ vim.api.nvim_create_user_command("FileFinderShow", function()
   local stripped = utils.tbl_strip_prefix(files, project_dir .. "/")
 
   input.open(function(choice)
-    local ranked_files = utils.tbl_slice(utils.rank_by_subsequence(stripped, choice), 1, 5)
+    local ranked_files = utils.tbl_slice(utils.rank_by_subsequence(stripped, choice, true), 1, 5)
     input.options(ranked_files)
     input.print()
   end,

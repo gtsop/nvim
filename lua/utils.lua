@@ -108,9 +108,14 @@ function M.tbl_strip_prefix(table, prefix)
   end, table)
 end
 
-function M.subsequence_score(sequence_str, test_str)
+function M.subsequence_score(sequence_str, test_str, case_sensitive)
   if not sequence_str or not test_str then
     return nil
+  end
+
+  if not case_sensitive then
+    test_str = string.lower(test_str)
+    sequence_str = string.lower(sequence_str)
   end
 
   local score = 0
@@ -172,5 +177,9 @@ function M.tbl_slice(tbl, first, last)
   end
   return out
 end 
+
+function M.tbl_to_lower(tbl)
+  return vim.tbl_map(string.lower, tbl)
+end
 
 return M

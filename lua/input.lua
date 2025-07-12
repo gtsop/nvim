@@ -7,6 +7,7 @@ local cr_code    = vim.api.nvim_replace_termcodes("<CR>",  true, false, true)
 local bs_code    = vim.api.nvim_replace_termcodes("<BS>",  true, false, true)
 local up_code    = vim.api.nvim_replace_termcodes("<Up>",   true, false, true)
 local down_code  = vim.api.nvim_replace_termcodes("<Down>", true, false, true)
+local ctrl_c     = vim.api.nvim_replace_termcodes("<C-C>", true, false, true)
 
 local input_on_key_ns = nil
 local input_str = ""
@@ -37,7 +38,7 @@ function M.open(on_change, on_submit, on_cancel)
       else
         on_submit(input_str)
       end
-    elseif raw == esc_code then
+    elseif raw == esc_code or raw == ctrl_c then
       M.close()
     elseif raw == bs_code then
       if #input_str > 0 then

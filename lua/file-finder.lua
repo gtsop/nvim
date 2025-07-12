@@ -28,14 +28,17 @@ end
 
 vim.api.nvim_create_user_command("Input", function()
 
+  local project_dir = state.get_project_dir()
+
   input.open(function(choice)
     local files = get_project_files()
-    input.options(files)
+    local stripped = utils.tbl_strip_prefix(files, project_dir .. "/")
+    input.options(stripped)
     input.print()
   end,
   function(choice)
     input.close()
-    vim.cmd("edit " .. choice)
+    vim.cmd("edit " .. project_dir .. "/" .. choice)
   end,
   function()
     input.close()

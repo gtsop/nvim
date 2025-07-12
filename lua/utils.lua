@@ -98,4 +98,14 @@ function M.create_scratch_buffer()
   return buf
 end
 
+function M.strip_prefix(string, prefix)
+  return string:gsub("^" .. vim.pesc(prefix), "")
+end
+
+function M.tbl_strip_prefix(table, prefix)
+  return vim.tbl_map(function (s)
+    return M.strip_prefix(s, prefix)
+  end, table)
+end
+
 return M

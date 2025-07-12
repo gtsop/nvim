@@ -93,7 +93,7 @@ function M.create_scratch_buffer()
   vim.bo[buf].bufhidden = "wipe"
   vim.bo[buf].swapfile = false
   vim.bo[buf].buflisted = false
-  vim.api.nvim_buf_set_name(buf, "")
+  vim.api.nvim_buf_set_name(buf, " ")
 
   return buf
 end

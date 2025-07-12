@@ -24,9 +24,9 @@ function M.open(on_change, on_submit, on_cancel)
   input_win = vim.api.nvim_get_current_win()
   input_buf = utils.create_scratch_buffer()
 
+  vim.api.nvim_win_set_buf(input_win, input_buf)
   vim.api.nvim_win_set_option(input_win, "number", false)
   vim.api.nvim_win_set_option(input_win, "relativenumber", false)
-  vim.api.nvim_win_set_buf(input_win, input_buf)
 
   on_change(input_str)
 
@@ -88,8 +88,8 @@ function M.print()
 
   local last_col = #lines[last_row]
 
-  vim.api.nvim_win_set_height(input_win, #lines)
   vim.api.nvim_buf_set_lines(input_buf, 0, -1, false, lines)
+  vim.api.nvim_win_set_height(input_win, #lines)
   vim.api.nvim_win_set_cursor(input_win, { last_row, last_col })
 end
 

@@ -29,11 +29,12 @@ end
 vim.api.nvim_create_user_command("Input", function()
 
   local project_dir = state.get_project_dir()
+  local files = get_project_files()
+  local stripped = utils.tbl_strip_prefix(files, project_dir .. "/")
 
   input.open(function(choice)
-    local files = get_project_files()
-    local stripped = utils.tbl_strip_prefix(files, project_dir .. "/")
-    input.options(stripped)
+    local ranked_files = utils.rank_by_subsequence(stripped, choice)
+    input.options(ranked_files)
     input.print()
   end,
   function(choice)

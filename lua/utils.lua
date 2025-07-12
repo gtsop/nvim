@@ -108,4 +108,47 @@ function M.tbl_strip_prefix(table, prefix)
   end, table)
 end
 
+function M.subsequence_score(sequence_str, test_str)
+  if not sequence_str or not test_str then
+    return nil
+  end
+
+  local score = 0
+  local sequence = sequence_str
+  
+  for test_str_ch in test_str:gmatch(".") do
+    local ch_index = string.find(sequence, test_str_ch, 1, true)
+
+    if not ch_index then
+      return { is_subsequence = false, score = 0 }
+    end
+
+    score = score - ch_index + 1
+    
+    sequence = sequence:sub(ch_index + 1)
+  end
+
+  score = score - #sequence
+
+  return { is_subsequence = true, score = score }
+end
+
+function M.rank_by_subsequence(tbl, subsequence)
+  local rank = {}
+
+  for i, item in ipairs(tbl) do
+    local result = M.subsequence_score(item, subsequence)
+
+    if result then
+      if result.is_subsequence then
+        table.insert(rank, { score = result.score, value = item })
+      end
+    end
+  end
+
+  table.sort(rank, function(a, b) return a.score > b.score end)
+
+  return vim.tbl_map(function(i) return i.value end, rank)
+end
+
 return M

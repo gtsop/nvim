@@ -1,6 +1,9 @@
 -- We have disabled everything, so let's stuff putting back things
 vim.cmd("filetype plugin on")
 
+-- Cursor style
+vim.opt.guicursor = "a:ver1"
+
 -- Whitespace stuff
 vim.opt.expandtab = true
 vim.opt.tabstop = 2

@@ -15,3 +15,7 @@ vim.keymap.set({ 'n', 'v' }, '<Leader>e', '<esc>:ExplorerShow<CR>', { silent = t
 -- Ctrl + p: Show File Finder
 vim.keymap.set({ 'n', 'v' }, '<C-p>', '<esc>:FileFinderShow<CR>', { silent = true })
 
+-- Ctrl + f: Show File Finder
+vim.keymap.set({ 'n', 'v' }, '<C-f>', '<esc>/', { silent = true })
+
+

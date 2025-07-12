@@ -1,5 +1,37 @@
 local M = {}
 
+list_ignore = { ".git" }
+
+function M.list_dir_files(dir, recursive)
+    local path = dir
+    local handle = vim.uv.fs_scandir(path)
+
+    local dir_contents = {}
+
+    -- Fetch directory contents from the filesystem
+    while true do
+      local name, typ = vim.uv.fs_scandir_next(handle)
+      if not name then
+        break
+      end
+
+      if typ == "directory" then
+        if recursive and not vim.tbl_contains(list_ignore, name) then
+          local inner_contents = M.list_dir_files(dir .. "/" .. name, true)
+          if inner_contents then
+            vim.list_extend(dir_contents, inner_contents)
+          end
+        end
+      else
+        table.insert(dir_contents, dir .. "/" .. name)
+      end
+    end
+
+    table.sort(dir_contents)
+
+    return dir_contents
+end
+
 function M.is_dir(path)
   local file = vim.uv.fs_stat(vim.fs.normalize(path))
 

@@ -47,10 +47,6 @@ require("explorer")
 require("shortcuts")
 require("file-finder")
 
-vim.api.nvim_create_user_command('Reload', function() 
-  vim.cmd('source $HOME/.config/nvim/init.lua') 
-end, {})
-
 vim.api.nvim_create_autocmd("VimEnter", {
   once = true,
   callback = function()

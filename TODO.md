@@ -1,0 +1,5 @@
+- rename explorer to file-explorer
+- add file modifiers to file explorer (add, move, delete)
+- refactor 'state' to 'project'
+- add tree-sitter
+- add colors

@@ -43,9 +43,9 @@ vim.opt.relativenumber = true
 local state = require("state")
 
 require("dir-view")
-require("explorer")
-require("shortcuts")
+require("file-explorer")
 require("file-finder")
+require("shortcuts")
 
 vim.api.nvim_create_autocmd("VimEnter", {
   once = true,

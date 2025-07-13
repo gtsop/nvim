@@ -19,6 +19,8 @@ function M.open()
 
   vim.cmd("topleft 40vnew " .. project_dir)
 
+  vim.api.nvim_buf_set_option(0, "filetype", "dir-view.explorer")
+
   explorer_window = vim.api.nvim_get_current_win()
   explorer_group = vim.api.nvim_create_augroup(("explorer_%d"):format(explorer_window), { clear = true })
 

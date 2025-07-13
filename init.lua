@@ -43,7 +43,7 @@ vim.opt.relativenumber = true
 local state = require("state")
 
 require("dir-view")
-require("file-explorer")
+require("explorer")
 require("file-finder")
 require("shortcuts")
 

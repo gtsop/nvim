@@ -1,22 +1,19 @@
+local M = {}
+
 local state = require("state")
 
 local explorer_window = nil
 local explorer_group = nil
 
-function is_explorer_out_of_dir_view()
-  local win_id = vim.api.nvim_get_current_win()
-  local filetype = vim.bo.filetype
-
-  return win_id == explorer_window and filetype ~= "dir-view" 
+function M.show()
+  if not explorer_window then
+    M.open()
+  else
+    vim.api.nvim_set_current_win(explorer_window)
+  end
 end
 
-function clean_up_explorer_state()
-  vim.api.nvim_del_augroup_by_id(explorer_group)
-  explorer_window = nil
-  explorer_group = nil
-end
-
-vim.api.nvim_create_user_command("ExplorerOpen", function()
+function M.open()
 
   local project_dir = state.get_project_dir()
 
@@ -28,35 +25,53 @@ vim.api.nvim_create_user_command("ExplorerOpen", function()
   -- Abort explorer state when user edits a file
   vim.api.nvim_create_autocmd("BufWinEnter", {
     group = explorer_group,
-    callback = function(args)
-      if is_explorer_out_of_dir_view() then
-          clean_up_explorer_state()
-      end
-    end
+    callback = convert_window_to_non_explorer
   })
 
-  -- Cleanup
+  -- Setup Cleanup
   vim.api.nvim_create_autocmd("WinClosed", {
     group = explorer_group,
     pattern = tostring(explorer_window),
     once = true,
-    callback = clean_up_explorer_state
+    callback = M.close
   })
-end, { nargs = 0 })
+end
 
-vim.api.nvim_create_user_command("ExplorerShow", function()
+function M.close()
+  clear_window()
+  clear_augroup()
+end
+
+function clear_window()
   if explorer_window then
-    vim.api.nvim_set_current_win(explorer_window)
-  else
-    vim.cmd("ExplorerOpen")
+    if vim.api.nvim_win_is_valid(explorer_window) then
+      vim.api.nvim_win_close(explorer_window, true)
+    end
+    explorer_window = nil
   end
-end, { nargs = 0 })
+end
 
-vim.api.nvim_create_user_command("ExplorerLocate", function()
-  if explorer_window then
-    vim.print(explorer_window)
-  else
-    vim.print("no explorer")
+function clear_augroup()
+  if explorer_group then
+    pcall(vim.api.nvim_del_augroup_by_id, explorer_group)
+    explorer_group = nil
   end
-end, { nargs = 0 })
+end
 
+function convert_window_to_non_explorer()
+  local win_id = vim.api.nvim_get_current_win()
+  local filetype = vim.bo.filetype
+
+  -- The window that was previously the explorer, no it is editing a file
+  if win_id == explorer_window and filetype ~= "dir-view" then
+    clear_augroup()
+    explorer_window = nil
+  end
+end
+
+vim.api.nvim_create_user_command("Explorer", M.show, { nargs = 0 })
+vim.api.nvim_create_user_command("ExplorerShow", M.show, { nargs = 0 })
+vim.api.nvim_create_user_command("ExplorerOpen", M.open, { nargs = 0 })
+vim.api.nvim_create_user_command("ExplorerClose", M.close, { nargs = 0 })
+
+return M

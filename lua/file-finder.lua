@@ -18,7 +18,6 @@ vim.api.nvim_create_user_command("FileFinderShowOld", function()
   end)
 end, { nargs = 0 })
 
-
 function get_project_files(keyword)
   local project_dir = state.get_project_dir()
   local files = utils.list_dir_files(project_dir, true)

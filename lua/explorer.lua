@@ -20,6 +20,7 @@ function M.open()
   vim.cmd("topleft 40vnew " .. project_dir)
 
   vim.api.nvim_buf_set_option(0, "filetype", "dir-view.explorer")
+  vim.b.is_explorer = true
 
   explorer_window = vim.api.nvim_get_current_win()
   explorer_group = vim.api.nvim_create_augroup(("explorer_%d"):format(explorer_window), { clear = true })
@@ -67,6 +68,7 @@ function convert_window_to_non_explorer()
   -- The window that was previously the explorer, no it is editing a file
   if win_id == explorer_window and filetype ~= "dir-view" then
     clear_augroup()
+    vim.b.is_explorer = false
     explorer_window = nil
   end
 end

@@ -185,4 +185,24 @@ function M.tbl_to_lower(tbl)
   return vim.tbl_map(string.lower, tbl)
 end
 
+function M.win_get_buf_filetype(win_id)
+  local win_buf = vim.api.nvim_win_get_buf(win_id)
+
+  return vim.api.nvim_buf_get_option(win_buf, "filetype")
+end
+
+function M.request_window_to_edit_code()
+  for _, win in ipairs(vim.api.nvim_tabpage_list_wins(0)) do
+    vim.print(win)
+    local filetype = M.win_get_buf_filetype(win)
+    vim.print("checking " .. filetype)
+    if filetype ~= "dir-view.explorer" then
+      return win
+    end
+  end
+
+  return vim.api.get_current_win()
+end
+
 return M
+

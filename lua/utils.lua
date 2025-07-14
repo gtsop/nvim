@@ -1,6 +1,6 @@
 local M = {}
 
-list_ignore = { ".git" }
+list_ignore = { ".git", "node_modules", "build" }
 
 function M.list_dir_files(dir, recursive)
     local path = dir

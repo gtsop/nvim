@@ -70,7 +70,7 @@ function convert_window_to_non_explorer()
   local filetype = vim.bo.filetype
 
   -- The window that was previously the explorer, no it is editing a file
-  if win_id == explorer_window and filetype ~= "dir-view" then
+  if win_id == explorer_window and filetype ~= "dir-view.explorer" then
     clear_augroup()
     vim.w.is_explorer = false
     explorer_window = nil

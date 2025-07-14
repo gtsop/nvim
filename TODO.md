@@ -15,6 +15,5 @@
 # Technical Debt
 
 - tests: start writing unit tests
-- refactor: create an `ide` module to contain some of the logic that currently exists in `utils`
 - refactor: further nest `utils` with extra files (`tbl`, `fs`, `path`, etc)
 - refactor: create a module that is aware of the project and supplies the other modules with relevant functionality

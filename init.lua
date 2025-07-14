@@ -1,3 +1,5 @@
+require("polyfills")
+
 local state = require('state')
 
 -- We first declare the config reset code, if stuff goes wrong down the 

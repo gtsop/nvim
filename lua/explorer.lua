@@ -45,6 +45,10 @@ function M.close()
   clear_augroup()
 end
 
+function M.get_window()
+  return explorer_window
+end
+
 function clear_window()
   if explorer_window then
     if vim.api.nvim_win_is_valid(explorer_window) then

@@ -5,6 +5,7 @@ vim.b.did_ftplugin = true
 
 local state = require("state")
 local utils = require("utils")
+local ide = require("ide")
 
 -- Press "Enter" to edit the file under cursor
 vim.keymap.set("n", "<CR>", function()
@@ -13,31 +14,23 @@ vim.keymap.set("n", "<CR>", function()
 
   local full_path = vim.fs.normalize(path .. "/" .. filename)
 
-  local buff_id = vim.fn.bufadd(full_path)
-  local win_id = nil
+  ide.edit(full_path)
 
-  if utils.is_dir(full_path) then
-    vim.cmd("edit " .. full_path)
-    win_id = vim.api.nvim_get_current_win()
-  else
-    win_id = utils.get_next_win()
-  end
-
-  vim.api.nvim_win_set_buf(win_id, buff_id)
-  vim.api.nvim_set_current_win(win_id)
 end, { buffer = true, silent = true, noremap = true })
 
 -- Press "-" to go to parent directory
 vim.keymap.set("n", "-", function()
   local path = vim.api.nvim_buf_get_name(0)
   local parent = vim.fs.dirname(path)
-  vim.cmd("edit " .. parent)
+
+  ide.edit(parent)
 end, { buffer = true, silent = true, noremap = true})
   
 -- Press "0" to go to the initial directory being edited
 vim.keymap.set("n", "0", function() 
   local project_dir = state.get_project_dir()
-  vim.cmd("edit " .. project_dir)
+
+  ide.edit(project_dir)
 end, { buffer = true, silent = true, noremap = true})
 
 -- Press "a" to add a file

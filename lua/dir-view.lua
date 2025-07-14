@@ -53,7 +53,10 @@ vim.api.nvim_create_autocmd({ "VimEnter", "BufEnter" }, {
 
     vim.bo[buffer].buftype = "nofile"
     vim.bo[buffer].bufhidden = "wipe"
-    if not vim.b.is_explorer then
+
+    if vim.w.is_explorer then
+      vim.bo[buffer].filetype = "dir-view.explorer"
+    else
       vim.bo[buffer].filetype = "dir-view"
     end
   end

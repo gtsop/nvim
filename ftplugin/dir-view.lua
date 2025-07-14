@@ -13,15 +13,18 @@ vim.keymap.set("n", "<CR>", function()
 
   local full_path = vim.fs.normalize(path .. "/" .. filename)
 
+  local buff_id = vim.fn.bufadd(full_path)
+  local win_id = nil
+
   if utils.is_dir(full_path) then
     vim.cmd("edit " .. full_path)
+    win_id = vim.api.nvim_get_current_win()
   else
-    local next_win = utils.get_next_win()
-    local buff_id = vim.fn.bufadd(full_path)
-
-    vim.api.nvim_win_set_buf(next_win, buff_id)
-    vim.api.nvim_set_current_win(next_win)
+    win_id = utils.get_next_win()
   end
+
+  vim.api.nvim_win_set_buf(win_id, buff_id)
+  vim.api.nvim_set_current_win(win_id)
 end, { buffer = true, silent = true, noremap = true })
 
 -- Press "-" to go to parent directory

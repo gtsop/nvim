@@ -12,18 +12,9 @@ vim.api.nvim_create_autocmd({ "VimEnter", "BufEnter" }, {
       return
     end
 
-    local buffer = args.buf
-
     local contents = fs.read_dir_contents(path)
 
-    -- Sort directory entries
-    table.sort(contents, function(a, b)
-      if a.is_dir ~= b.is_dir then
-        return a.is_dir
-      end
-
-      return a.name < b.name
-    end)
+    table.sort(contents, sort_by_dir_by_name)
 
     local lines = {}
     for index, entry in ipairs(contents) do
@@ -33,6 +24,8 @@ vim.api.nvim_create_autocmd({ "VimEnter", "BufEnter" }, {
         table.insert(lines, entry.name)
       end
     end
+
+    local buffer = args.buf
 
     vim.bo[buffer].modifiable = true
     vim.api.nvim_buf_set_lines(buffer, 0, -1, false, lines)
@@ -48,3 +41,11 @@ vim.api.nvim_create_autocmd({ "VimEnter", "BufEnter" }, {
     end
   end
 })
+
+function sort_by_dir_by_name(a, b)
+  if a.is_dir ~= b.is_dir then
+    return a.is_dir
+  end
+
+  return a.name < b.name
+end

@@ -1,3 +1,8 @@
+vim.cmd("filetype plugin on")
+
+-- vim.opt.runtimepath:remove('/usr/share/nvim/runtime')
+-- vim.opt.runtimepath:remove('/usr/share/nvim/runtime/after')
+
 require("polyfills")
 
 local state = require('state')
@@ -22,7 +27,6 @@ vim.api.nvim_create_user_command("RC", function()
 end, { nargs = 0 })
 
 -- We have disabled everything, so let's stuff putting back things
-vim.cmd("filetype plugin on")
 
 ----------------------------------------------------------------------
 ----------------------------------------------------------------------
@@ -37,6 +41,7 @@ vim.opt.expandtab = true
 vim.opt.tabstop = 2
 vim.opt.softtabstop = 2
 vim.opt.shiftwidth = 2
+vim.opt.swapfile = false
 
 -- Line numbers
 vim.opt.number = true
@@ -55,3 +60,4 @@ vim.api.nvim_create_autocmd("VimEnter", {
     state.detect_project_dir()
   end
 })
+

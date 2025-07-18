@@ -12,6 +12,10 @@
 - feat: when navigating to "up" directory stop at project level
 - feat: shortcut to open explorer in the directory of the file being edited (nerd-tree-find equivalent)
 
+## DirView
+
+- feat: nested view
+
 # Technical Debt
 
 - tests: start writing unit tests

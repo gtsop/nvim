@@ -42,12 +42,11 @@ vim.opt.tabstop = 2
 vim.opt.softtabstop = 2
 vim.opt.shiftwidth = 2
 vim.opt.swapfile = false
+vim.opt.winborder = 'rounded'
 
 -- Line numbers
 vim.opt.number = true
 vim.opt.relativenumber = true
-
-local state = require("state")
 
 require("dir-view")
 require("explorer")
@@ -60,4 +59,6 @@ vim.api.nvim_create_autocmd("VimEnter", {
     state.detect_project_dir()
   end
 })
+
+require("lsp")
 

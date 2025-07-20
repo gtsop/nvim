@@ -4,7 +4,6 @@ end
 vim.b.did_ftplugin = true
 
 local state = require("state")
-local utils = require("utils")
 local ide = require("ide")
 
 -- Press "Enter" to edit the file under cursor
@@ -25,9 +24,9 @@ vim.keymap.set("n", "-", function()
 
   ide.edit(parent)
 end, { buffer = true, silent = true, noremap = true})
-  
+
 -- Press "0" to go to the initial directory being edited
-vim.keymap.set("n", "0", function() 
+vim.keymap.set("n", "0", function()
   local project_dir = state.get_project_dir()
 
   ide.edit(project_dir)
@@ -37,7 +36,7 @@ end, { buffer = true, silent = true, noremap = true})
 vim.keymap.set("n", "a", function()
   local dir = vim.api.nvim_buf_get_name(0)
 
-  vim.ui.input({ prompt = "New file: ", default = dir .. "/" }, function(new_file) 
+  vim.ui.input({ prompt = "New file: ", default = dir .. "/" }, function(new_file)
     if new_file then
       vim.fn.mkdir(vim.fs.dirname(new_file), "p")
       vim.fn.writefile({}, new_file)
@@ -55,7 +54,7 @@ vim.keymap.set("n", "d", function()
 
   local full_path = vim.fs.normalize(path .. "/" .. filename)
 
-  vim.ui.input({ prompt = "Are you sure you want to delete '" .. full_path .. "' ? [y/n]: " }, function(answer) 
+  vim.ui.input({ prompt = "Are you sure you want to delete '" .. full_path .. "' ? [y/n]: " }, function(answer)
     if answer == "y" then
       vim.fn.delete(full_path)
       vim.cmd("e!")
@@ -72,7 +71,7 @@ vim.keymap.set("n", "m", function()
 
   local full_path = vim.fs.normalize(path .. "/" .. filename)
 
-  vim.ui.input({ prompt = "Give new file location for", default = full_path }, function(new_file) 
+  vim.ui.input({ prompt = "Give new file location for", default = full_path }, function(new_file)
     if new_file then
       vim.fn.rename(full_path, new_file)
       vim.cmd("e!")

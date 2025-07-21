@@ -52,6 +52,7 @@ require("dir-view")
 require("explorer")
 require("file-finder")
 require("shortcuts")
+require("lsp")
 
 vim.api.nvim_create_autocmd("VimEnter", {
   once = true,
@@ -59,6 +60,3 @@ vim.api.nvim_create_autocmd("VimEnter", {
     state.detect_project_dir()
   end
 })
-
-require("lsp")
-

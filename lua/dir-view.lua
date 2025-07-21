@@ -17,7 +17,7 @@ vim.api.nvim_create_autocmd({ "VimEnter", "BufEnter" }, {
     table.sort(contents, sort_by_dir_by_name)
 
     local lines = {}
-    for index, entry in ipairs(contents) do
+    for _, entry in ipairs(contents) do
       if entry.is_dir then
         table.insert(lines, entry.name .. "/")
       else

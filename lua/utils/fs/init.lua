@@ -8,12 +8,12 @@ end
 
 function M.read_dir_contents(path)
 
+    local contents = {}
+
     local handle = vim.uv.fs_scandir(path)
     if not handle then
-      return {}
+      return contents
     end
-
-    local contents = {}
 
     while true do
       local name, typ = vim.uv.fs_scandir_next(handle)
@@ -28,7 +28,12 @@ function M.read_dir_contents(path)
       })
     end
 
+
     return contents
+end
+
+function M.list_dir_contents()
+
 end
 
 return M

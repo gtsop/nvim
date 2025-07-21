@@ -27,13 +27,7 @@ function M.read_dir_contents(path)
         is_dir = (typ == "directory")
       })
     end
-
-
     return contents
-end
-
-function M.list_dir_contents()
-
 end
 
 return M

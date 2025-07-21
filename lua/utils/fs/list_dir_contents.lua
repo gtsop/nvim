@@ -1,4 +1,15 @@
-local function list_dir_contents(path)
+local function list_dir_contents(path, opts)
+    -- Remove trailing slash
+    if path:sub(-1) == "/" then
+      path = path.sub(1, -2)
+    end
+
+    opts = opts or { recurse = false, rootDir = nil }
+
+    if opts.recurse and not opts.rootDir then
+      opts.rootDir = path
+    end
+
     local contents = {}
 
     local handle = vim.uv.fs_scandir(path)
@@ -13,6 +24,19 @@ local function list_dir_contents(path)
       end
 
       table.insert(contents, { name, typ })
+      if typ == "directory" and opts.recurse then
+        local inner_contents = list_dir_contents(path .. "/" .. name, opts)
+        for _, item in ipairs(inner_contents) do
+          local prefix = "";
+          if path == opts.rootDir then
+            prefix = name .. "/"
+          else
+            prefix = path .. "/" .. name .. "/"
+          end
+          table.insert(contents, { prefix .. item[1], item[2] })
+        end
+      end
+
     end
 
     return contents

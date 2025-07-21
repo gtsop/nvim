@@ -4,6 +4,9 @@ return {
   root_markers = { ".git" },
   settings = {
     Lua = {
+      workspace = {
+        ignoreDir = { "test" },
+      },
       runtime = {
         version = "LuaJIT",
       },

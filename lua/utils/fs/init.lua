@@ -1,5 +1,7 @@
 local M = {}
 
+M.list_dir_contents = require("utils.fs.list_dir_contents")
+
 function M.is_dir(path)
   local file = vim.uv.fs_stat(vim.fs.normalize(path))
 

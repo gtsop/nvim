@@ -1,3 +1,4 @@
+local list_ignore = { ".git", "node_modules", "build" }
 local function list_dir_contents(path, opts)
     -- Remove trailing slash
     if path:sub(-1) == "/" then
@@ -24,7 +25,7 @@ local function list_dir_contents(path, opts)
       end
 
       table.insert(contents, { name, typ })
-      if typ == "directory" and opts.recurse then
+      if typ == "directory" and opts.recurse and not vim.tbl_contains(list_ignore, name) then
         local inner_contents = list_dir_contents(path .. "/" .. name, opts)
         for _, item in ipairs(inner_contents) do
           local prefix = "";

@@ -1,6 +1,16 @@
 local fs = require("utils.fs")
 
+local directory_view = require("views.directory")
+
 local dir_view_group = vim.api.nvim_create_augroup("DirViewGroup", { clear = true })
+
+local function sort_by_dir_by_name(a, b)
+  if a[2] ~= b[2] then
+    return a[2] == "directory"
+  end
+
+  return a[1] < b[1]
+end
 
 vim.api.nvim_create_autocmd({ "VimEnter", "BufEnter" }, {
   group = dir_view_group,
@@ -12,18 +22,11 @@ vim.api.nvim_create_autocmd({ "VimEnter", "BufEnter" }, {
       return
     end
 
-    local contents = fs.read_dir_contents(path)
+    local contents = fs.list_dir_contents(path)
 
     table.sort(contents, sort_by_dir_by_name)
 
-    local lines = {}
-    for _, entry in ipairs(contents) do
-      if entry.is_dir then
-        table.insert(lines, entry.name .. "/")
-      else
-        table.insert(lines, entry.name)
-      end
-    end
+    local lines = directory_view.render(contents)
 
     local buffer = args.buf
 
@@ -42,10 +45,4 @@ vim.api.nvim_create_autocmd({ "VimEnter", "BufEnter" }, {
   end
 })
 
-function sort_by_dir_by_name(a, b)
-  if a.is_dir ~= b.is_dir then
-    return a.is_dir
-  end
 
-  return a.name < b.name
-end

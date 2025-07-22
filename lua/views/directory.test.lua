@@ -38,12 +38,18 @@ describe("directory view", function()
   it("renders nested views", function()
     local lines = directory_view.render({
       { "directory-a", "directory" },
-      { "directory-a/file-a", "file" }
+      { "directory-a/directory-b", "directory" },
+      { "directory-a/directory-b/file-b", "file" },
+      { "directory-a/file-a", "file" },
+      { "file", "file" }
     })
 
     assert.are.same({
       "directory-a/",
-      "  file-a"
+      "  directory-b/",
+      "    file-b",
+      "  file-a",
+      "file"
     }, lines)
   end)
 end)

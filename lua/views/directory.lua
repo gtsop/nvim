@@ -1,6 +1,5 @@
 local M = {}
 
-
 local function count_char(s, sep)
   local c = 0
   for _ in string.gmatch(s, "([^" .. sep .. "]+)") do

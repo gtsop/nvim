@@ -3,22 +3,7 @@ local M = {}
 local utils = require("utils")
 local explorer = require("explorer")
 
-M.edit = function(full_path)
-
-  local buff_id = vim.fn.bufadd(full_path)
-  local win_id = nil
-
-  if utils.is_dir(full_path) then
-    win_id = get_dir_edit_window()
-  else
-    win_id = get_file_edit_window()
-  end
-
-  vim.api.nvim_win_set_buf(win_id, buff_id)
-  vim.api.nvim_set_current_win(win_id)
-end
-
-function get_dir_edit_window()
+local function get_dir_edit_window()
 
   local explorer_win_id = explorer.get_window()
 
@@ -35,7 +20,7 @@ function get_dir_edit_window()
   return vim.api.nvim_get_current_win()
 end
 
-function get_file_edit_window()
+local function get_file_edit_window()
   local avoid_filetypes = { "dir-view", "dir-view.explorer" }
 
   for _, win in ipairs(vim.api.nvim_tabpage_list_wins(0)) do
@@ -46,5 +31,64 @@ function get_file_edit_window()
 
   return vim.api.nvim_get_current_win()
 end
+
+local function split_path(full_path)
+  local dir, file = full_path:match("^(.*[/\\])([^/\\]+)$")
+  dir  = dir  or ""
+  file = file or full_path
+
+  local base, ext = file:match("^(.*)%.([^%.]+)$")
+  if not base then
+    base, ext = file, ""
+  end
+
+  return dir, base, ext
+end
+
+local function file_exists(path)
+  local f = io.open(path, "r")
+  if f then f:close(); return true end
+  return false
+end
+
+M.edit = function(full_path)
+
+  local buff_id = vim.fn.bufadd(full_path)
+  local win_id = nil
+
+  if utils.is_dir(full_path) then
+    win_id = get_dir_edit_window()
+  else
+    win_id = get_file_edit_window()
+  end
+
+  vim.api.nvim_win_set_buf(win_id, buff_id)
+  vim.api.nvim_set_current_win(win_id)
+end
+
+M.from_code_to_test = function(full_path)
+  local dir, base, ext = split_path(full_path)
+
+  local test_path = dir .. "/" .. base .. ".test." .. ext
+
+  if file_exists(test_path) then
+    M.edit(test_path)
+  else
+    vim.print("Test file: " .. test_path .. " does not exist")
+  end
+end
+
+M.from_test_to_code = function(full_path)
+  local dir, base, ext = split_path(full_path)
+
+  local code_path = dir .. "/" .. base:gsub("%.test", "") .. "." .. ext
+
+  if file_exists(code_path) then
+    M.edit(code_path)
+  else
+    vim.print("Test file: " .. code_path .. " does not exist")
+  end
+end
+
 
 return M

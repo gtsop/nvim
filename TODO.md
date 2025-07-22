@@ -2,8 +2,9 @@
 
 # Features
 
+- feat: add shortcut to go to unit test file
 - feat: add tree-sitter
-- add colors
+- feat: add colors
 
 ## Explorer
 
@@ -19,6 +20,7 @@
 
 # Technical Debt
 
-- tests: start writing unit tests
 - refactor: further nest `utils` with extra files (`tbl`, `fs`, `path`, etc)
 - refactor: create a module that is aware of the project and supplies the other modules with relevant functionality
+
+

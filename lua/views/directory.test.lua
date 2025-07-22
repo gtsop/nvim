@@ -34,4 +34,16 @@ describe("directory view", function()
       "file-a"
     }, lines)
   end)
+
+  it("renders nested views", function()
+    local lines = directory_view.render({
+      { "directory-a", "directory" },
+      { "directory-a/file-a", "file" }
+    })
+
+    assert.are.same({
+      "directory-a/",
+      "  file-a"
+    }, lines)
+  end)
 end)

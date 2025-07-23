@@ -1,6 +1,8 @@
 ---@meta _                     
 if _G.vim then return end
 
+require("polyfills")
+
 _G.vim = {
   uv  = {
     fs_scandir = function(path) return path end,

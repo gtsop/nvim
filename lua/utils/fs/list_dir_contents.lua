@@ -25,7 +25,7 @@ local function list_dir_contents(path, opts)
       end
 
       table.insert(contents, { name, typ })
-      if typ == "directory" and opts.recurse and not vim.tbl_contains(list_ignore, name) then
+      if typ == "directory" and opts.recurse and not table.contains(list_ignore, name) then
         local inner_contents = list_dir_contents(path .. "/" .. name, opts)
         for _, item in ipairs(inner_contents) do
           local prefix = "";

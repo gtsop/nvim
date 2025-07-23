@@ -68,7 +68,7 @@ function M.new(path)
       end
 
       if node.tree then
-        return find_node_by_path(node_path, node.tree)
+        return self.find_node_by_path(node_path, node.tree)
       end
     end
 
@@ -89,6 +89,10 @@ function M.new(path)
 
   function self.expand_node(node)
     node.tree = list_dir_contents(node.path)
+  end
+
+  function self.collapse_node(node)
+    node.tree = nil
   end
 
   return self

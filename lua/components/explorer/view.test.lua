@@ -1,6 +1,7 @@
 local assert = require("luassert")
 local spy = require("luassert.spy")
 local mock_vim_api_nvim_create_buf = require("test.helpers.mock_vim_api_nvim_create_buf")
+local mock_vim_api_nvim_win_get_cursor = require("test.helpers.mock_vim_api_nvim_win_get_cursor")
 
 local View = require("components.explorer.view")
 
@@ -10,6 +11,7 @@ describe("Explorer View", function()
 
   local fake_buffer = 1
   mock_vim_api_nvim_create_buf(fake_buffer, before_each, after_each)
+  mock_vim_api_nvim_win_get_cursor(2, 0, before_each, after_each)
 
   it("instanciates", function()
     local view = View.new()
@@ -80,5 +82,25 @@ describe("Explorer View", function()
       split    = 'left',
       width    = 40,
     })
+  end)
+
+  describe("get_hovered_node", function()
+    it("returns the model node that is currently being hovered by the UI", function()
+
+      local view = View.new()
+
+      local model_tree = {
+        { path = "/root/dir-1", name = "dir-1", type = "directory", is_dir = true },
+        { path = "/root/dir-2", name = "dir-2", type = "directory", is_dir = true },
+        { path = "/root/dir-3", name = "dir-3", type = "directory", is_dir = true },
+      }
+
+      view.render(model_tree)
+
+      assert.are.equal(
+        view.get_hovered_node(model_tree),
+        model_tree[2]
+      )
+    end)
   end)
 end)

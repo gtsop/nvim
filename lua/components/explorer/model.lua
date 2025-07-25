@@ -87,12 +87,21 @@ function M.new(path)
     return tree
   end
 
+  function self.enter_node(node)
+    self.expand_node(node)
+    tree = node.tree
+  end
+
   function self.expand_node(node)
     node.tree = list_dir_contents(node.path)
   end
 
   function self.collapse_node(node)
     node.tree = nil
+  end
+
+  function self.reset()
+    self.scan()
   end
 
   return self

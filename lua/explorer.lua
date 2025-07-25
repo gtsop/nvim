@@ -2,9 +2,15 @@ local M = {}
 
 local state = require("state")
 
+-- local ide = require("ide")
+
 local project_dir = state.get_project_dir()
 
 local explorer = require("components.explorer.controller").new(project_dir)
+
+explorer:register('ide', function()
+  return require("ide")
+end)
 
 local explorer_buffer = nil
 local explorer_window = nil

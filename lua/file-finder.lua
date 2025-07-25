@@ -19,7 +19,7 @@ vim.api.nvim_create_user_command("FileFinderShow", function()
   input.open(function(choice)
     if not choice then return end
 
-    local ranked_files = utils.tbl_slice(utils.rank_by_subsequence(stripped, choice, true), 1, 5)
+    local ranked_files = utils.tbl_slice(utils.rank_by_subsequence(stripped, choice, true), 1, 10)
     input.options(ranked_files)
     input.print()
   end,

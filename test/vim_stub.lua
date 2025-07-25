@@ -10,5 +10,8 @@ _G.vim = {
   },
   api = setmetatable({}, {
     __index = function(t,k)  t[k] = function() end; return t[k] end
-  })
+  }),
+  keymap = {
+    set = function() return 1 end,
+  }
 }

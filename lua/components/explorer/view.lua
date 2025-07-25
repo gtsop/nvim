@@ -39,6 +39,11 @@ function M.new()
     return buffer
   end
 
+  function self.get_hovered_node(tree)
+    local line = vim.api.nvim_win_get_cursor(0)[1]
+    return tree[line]
+  end
+
   return self
 end
 

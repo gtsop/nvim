@@ -2,7 +2,6 @@
 
 # Features
 
-- feat: add shortcut to go to unit test file
 - feat: add tree-sitter
 - feat: add colors
 

@@ -2,7 +2,9 @@ local M = {}
 
 local state = require("state")
 
-local explorer = nil
+local project_dir = state.get_project_dir()
+
+local explorer = require("components.explorer.controller").new(project_dir)
 
 local explorer_buffer = nil
 local explorer_window = nil
@@ -18,14 +20,11 @@ end
 
 function M.open()
 
-  local project_dir = state.get_project_dir()
-
-  explorer = require("components.explorer.controller").new(project_dir)
-
   explorer.show()
 
   explorer_buffer = explorer.get_buffer()
   explorer_window = explorer.get_window()
+
   explorer_group = vim.api.nvim_create_augroup(("explorer_%d"):format(explorer_window), { clear = true })
 
   -- Abort explorer state when user edits a file

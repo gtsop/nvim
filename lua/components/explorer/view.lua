@@ -5,6 +5,7 @@ function M.new()
   local self = setmetatable({}, M)
 
   local buffer = vim.api.nvim_create_buf(true, false)
+  vim.api.nvim_buf_set_option(buffer, 'filetype', 'explorer')
   local window = nil
 
   function self.render(tree)
@@ -27,6 +28,7 @@ function M.new()
       split = 'left',
       width = 40
     })
+    vim.api.nvim_win_set_var(window, 'is_explorer', true)
   end
 
   function self.get_window()

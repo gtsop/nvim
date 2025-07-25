@@ -21,7 +21,7 @@ local function get_dir_edit_window()
 end
 
 local function get_file_edit_window()
-  local avoid_filetypes = { "dir-view", "dir-view.explorer" }
+  local avoid_filetypes = { "dir-view", "dir-view.explorer", "explorer" }
 
   for _, win in ipairs(vim.api.nvim_tabpage_list_wins(0)) do
     if not table.contains(avoid_filetypes, utils.win_get_buf_filetype(win)) then

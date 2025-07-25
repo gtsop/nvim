@@ -23,7 +23,9 @@ function M.detect_project_dir()
     project_dir = current_file
   else
     project_dir = vim.fs.dirname(current_file)
-  end 
+  end
 end
+
+M.detect_project_dir()
 
 return M

@@ -16,6 +16,10 @@ vim.api.nvim_create_autocmd({ "VimEnter", "BufEnter" }, {
   group = dir_view_group,
   callback = function(args)
 
+    if true then
+      return
+    end
+
     local path = args.file
 
     if not fs.is_dir(path) then

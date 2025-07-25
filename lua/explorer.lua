@@ -2,6 +2,9 @@ local M = {}
 
 local state = require("state")
 
+local explorer = nil
+
+local explorer_buffer = nil
 local explorer_window = nil
 local explorer_group = nil
 
@@ -17,12 +20,12 @@ function M.open()
 
   local project_dir = state.get_project_dir()
 
-  vim.cmd("topleft 40vnew " .. project_dir)
+  explorer = require("components.explorer.controller").new(project_dir)
 
-  vim.api.nvim_buf_set_option(0, "filetype", "dir-view.explorer")
-  vim.w.is_explorer = true
+  explorer.show()
 
-  explorer_window = vim.api.nvim_get_current_win()
+  explorer_buffer = explorer.get_buffer()
+  explorer_window = explorer.get_window()
   explorer_group = vim.api.nvim_create_augroup(("explorer_%d"):format(explorer_window), { clear = true })
 
   -- Abort explorer state when user edits a file

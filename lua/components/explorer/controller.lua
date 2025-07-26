@@ -3,17 +3,14 @@ M.__index = M
 
 function M.new(opts)
 
+  local self = setmetatable({ di = { providers = {}, instances = {} }}, M)
+
   local base_path = opts.base_path
   local layout = opts.layout or "flat"
-
-  local self = setmetatable({ di = { providers = {}, instances = {} }}, M)
 
   local model = require("components.explorer.model").new(base_path)
   local view = require("components.explorer.view").new()
 
-  local view_buffer = view.get_buffer()
-
-  local tree = nil
 
   function self.show()
     view.show()
@@ -28,7 +25,7 @@ function M.new(opts)
   end
 
   local function render()
-    tree = model.get_tree()
+    local tree = model.get_tree()
     view.render(tree)
   end
 
@@ -92,6 +89,7 @@ function M.new(opts)
   end
 
   -- Set keymaps
+  local view_buffer = view.get_buffer()
   vim.keymap.set('n', '<CR>', on_press_enter, { buffer = view_buffer })
   vim.keymap.set('n', '0', on_press_zero, { buffer = view_buffer })
   vim.keymap.set('n', '-', on_press_minus, { buffer = view_buffer })

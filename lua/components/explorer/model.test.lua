@@ -17,6 +17,12 @@ describe("Explorer Model", function()
       { "dir-2", "directory" },
       { "file-2", "file" },
       { nil, nil }
+    },
+    ["/unsorted"] = {
+      { "file-2", "file" },
+      { "dir-2", "directory" },
+      { "dir-1", "directory" },
+      { "file-1", "file" },
     }
   }, before_each, after_each)
 
@@ -24,6 +30,17 @@ describe("Explorer Model", function()
     local model = Model.new()
 
     assert.is_table(model)
+  end)
+
+  test("'scan' sorts contents by directory and by name", function()
+    local model = Model.new("/unsorted")
+
+    assert.are.same({
+      { path = "/unsorted/dir-1", name = "dir-1", type = "directory", is_dir = true },
+      { path = "/unsorted/dir-2", name = "dir-2", type = "directory", is_dir = true },
+      { path = "/unsorted/file-1", name = "file-1", type = "file", is_dir = false },
+      { path = "/unsorted/file-2", name = "file-2", type = "file", is_dir = false }
+    }, model.get_tree())
   end)
 
   test("'get_tree' returns the contents of the directory", function()

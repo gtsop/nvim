@@ -1,8 +1,6 @@
 local M = {}
 M.__index = M
 
-local list_ignore = { ".git", "node_modules", "build" }
-
 local function list_dir_contents(path, opts)
 
     if path:sub(-1) == "/" then
@@ -29,20 +27,15 @@ local function list_dir_contents(path, opts)
       end
 
       table.insert(contents, { path = path .. "/" .. name, name = name, type = typ, is_dir = (typ == "directory") })
-      if typ == "directory" and opts.recurse and not table.contains(list_ignore, name) then
-        local inner_contents = list_dir_contents(path .. "/" .. name, opts)
-        for _, item in ipairs(inner_contents) do
-          local prefix = "";
-          if path == opts.rootDir then
-            prefix = name .. "/"
-          else
-            prefix = path .. "/" .. name .. "/"
-          end
-          table.insert(contents, { path = path .. "/" .. name, name = name, type = typ, is_dir = (typ == "directory") })
-        end
+    end
+
+    table.sort(contents, function(a, b)
+      if a.is_dir ~= b.is_dir then
+        return a.is_dir
       end
 
-    end
+      return a.name < b.name
+    end)
 
     return contents
 end

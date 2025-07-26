@@ -57,46 +57,60 @@ function M.new(opts)
     render()
   end
 
-  local function on_press_enter()
+  local function using_hovered_node(callback)
     local node = view.get_hovered_node()
-
     if not node then
       vim.print("explorer: failed to parse selected node")
       return
     end
+    callback(node)
+  end
 
-    if node.is_dir then
-      if layout == "flat" then
-        enter_node(node)
-      elseif layout == "nest" then
-        if node.tree then
-          collapse_node(node)
-        else
-          expand_node(node)
+  local function on_press_enter()
+    using_hovered_node(function(node)
+      if node.is_dir then
+        if layout == "flat" then
+          enter_node(node)
+        elseif layout == "nest" then
+          if node.tree then
+            collapse_node(node)
+          else
+            expand_node(node)
+          end
         end
+      else
+        edit_node(node)
       end
-    else
-      edit_node(node)
-    end
+    end)
   end
 
   local function create_file()
-    local node = view.get_hovered_node()
+    using_hovered_node(function(node)
+      self:service('ide').create_file(node.path)
+    end)
+  end
 
-    if not node then
-      vim.print("explorer: failed to parse selected node")
-      return
-    end
+  local function move_file()
+    using_hovered_node(function(node)
+      self:service('ide').move_file(node.path)
+    end)
+  end
 
-    self:service('ide').create_file(node.path)
+  local function delete_file()
+    using_hovered_node(function(node)
+      self:service('ide').delete_file(node.path)
+    end)
   end
 
   -- Set keymaps
   local view_buffer = view.get_buffer()
+
   vim.keymap.set('n', '<CR>', on_press_enter, { buffer = view_buffer })
-  vim.keymap.set('n', '0', go_to_root, { buffer = view_buffer })
-  vim.keymap.set('n', '-', go_dir_up, { buffer = view_buffer })
-  vim.keymap.set('n', 'a', create_file, { buffer = view_buffer })
+  vim.keymap.set('n', '0',    go_to_root,     { buffer = view_buffer })
+  vim.keymap.set('n', '-',    go_dir_up,      { buffer = view_buffer })
+  vim.keymap.set('n', 'a',    create_file,    { buffer = view_buffer })
+  vim.keymap.set('n', 'm',    move_file,      { buffer = view_buffer })
+  vim.keymap.set('n', 'd',    delete_file,    { buffer = view_buffer })
 
   render()
 

@@ -15,7 +15,6 @@ explorer:register('ide', function()
   return require("ide")
 end)
 
-local explorer_buffer = nil
 local explorer_window = nil
 local explorer_group = nil
 
@@ -31,7 +30,6 @@ function M.open()
 
   explorer.show()
 
-  explorer_buffer = explorer.get_buffer()
   explorer_window = explorer.get_window()
 
   explorer_group = vim.api.nvim_create_augroup(("explorer_%d"):format(explorer_window), { clear = true })

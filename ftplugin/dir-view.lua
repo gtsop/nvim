@@ -81,7 +81,6 @@ vim.keymap.set("n", "m", function()
 end, { buffer = true, silent = true, noremap = true })
 
 
-
 -- Press "r" to refresh view
 vim.keymap.set("n", "r", function()
   vim.cmd("e!")

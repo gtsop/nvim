@@ -80,19 +80,23 @@ function M.new(opts)
     end
   end
 
-  local function on_press_zero()
-    go_to_root()
-  end
+  local function create_file()
+    local node = view.get_hovered_node()
 
-  local function on_press_minus()
-    go_dir_up()
+    if not node then
+      vim.print("explorer: failed to parse selected node")
+      return
+    end
+
+    self:service('ide').create_file(node.path)
   end
 
   -- Set keymaps
   local view_buffer = view.get_buffer()
   vim.keymap.set('n', '<CR>', on_press_enter, { buffer = view_buffer })
-  vim.keymap.set('n', '0', on_press_zero, { buffer = view_buffer })
-  vim.keymap.set('n', '-', on_press_minus, { buffer = view_buffer })
+  vim.keymap.set('n', '0', go_to_root, { buffer = view_buffer })
+  vim.keymap.set('n', '-', go_dir_up, { buffer = view_buffer })
+  vim.keymap.set('n', 'a', create_file, { buffer = view_buffer })
 
   render()
 

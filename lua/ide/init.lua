@@ -66,6 +66,18 @@ M.edit = function(full_path)
   vim.api.nvim_set_current_win(win_id)
 end
 
+function M.create_file(path)
+  local dir = vim.fs.dirname(path)
+
+  vim.ui.input({ prompt = "New file: ", default = dir .. "/" }, function(new_file)
+    if new_file then
+      vim.fn.mkdir(vim.fs.dirname(new_file), "p")
+      vim.fn.writefile({}, new_file)
+      vim.cmd("e!")
+    end
+  end)
+end
+
 M.from_code_to_test = function(full_path)
   local dir, base, ext = split_path(full_path)
 

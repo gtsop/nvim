@@ -73,7 +73,22 @@ function M.create_file(path)
     if new_file then
       vim.fn.mkdir(vim.fs.dirname(new_file), "p")
       vim.fn.writefile({}, new_file)
-      vim.cmd("e!")
+    end
+  end)
+end
+
+function M.delete_file(path)
+  vim.ui.input({ prompt = "Are you sure you want to delete '" .. path .. "' ? [y/n]: " }, function(answer)
+    if answer == "y" then
+      vim.fn.delete(path)
+    end
+  end)
+end
+
+function M.move_file(path)
+  vim.ui.input({ prompt = "Give new file location for", default = path }, function(new_file)
+    if new_file then
+      vim.fn.rename(path, new_file)
     end
   end)
 end

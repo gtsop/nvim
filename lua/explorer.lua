@@ -6,7 +6,10 @@ local state = require("state")
 
 local project_dir = state.get_project_dir()
 
-local explorer = require("components.explorer.controller").new(project_dir)
+local explorer = require("components.explorer.controller").new({
+  base_path = project_dir,
+  layout = "nest"
+})
 
 explorer:register('ide', function()
   return require("ide")

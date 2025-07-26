@@ -27,3 +27,19 @@ function table.clone(orig, copies)
     end
     return copy
 end
+
+function table.extend(a, b)
+  table.move(b, 1, #b, #a + 1, a)
+end
+
+function table.map(list, mapper)
+  assert(type(list)   == 'table',   'table.map: list must be a table')
+  assert(type(mapper) == 'function','table.map: mapper must be a function')
+
+  local into = {}
+
+  for i = 1, #list do
+    into[i] = mapper(list[i], i, list)
+  end
+  return into
+end

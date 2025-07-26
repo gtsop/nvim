@@ -1,11 +1,17 @@
 local M = {}
 M.__index = M
 
-function M.new(base_path)
+function M.new(opts)
+
+  local base_path = opts.base_path
+  local layout = opts.layout or "flat"
+
   local self = setmetatable({ di = { providers = {}, instances = {} }}, M)
 
   local model = require("components.explorer.model").new(base_path)
   local view = require("components.explorer.view").new()
+
+  local view_buffer = view.get_buffer()
 
   local tree = nil
 
@@ -44,10 +50,34 @@ function M.new(base_path)
       self:service('ide').edit(node.path)
   end
 
+  local function collapse_node(node)
+    model.collapse_node(node)
+    render()
+  end
+
+  local function expand_node(node)
+    model.expand_node(node)
+    render()
+  end
+
   local function on_press_enter()
-    local node = view.get_hovered_node(tree)
+    local node = view.get_hovered_node()
+
+    if not node then
+      vim.print("explorer: failed to parse selected node")
+      return
+    end
+
     if node.is_dir then
-      enter_node(node)
+      if layout == "flat" then
+        enter_node(node)
+      elseif layout == "nest" then
+        if node.tree then
+          collapse_node(node)
+        else
+          expand_node(node)
+        end
+      end
     else
       edit_node(node)
     end
@@ -62,9 +92,9 @@ function M.new(base_path)
   end
 
   -- Set keymaps
-  vim.keymap.set('n', '<CR>', on_press_enter)
-  vim.keymap.set('n', '0', on_press_zero)
-  vim.keymap.set('n', '-', on_press_minus)
+  vim.keymap.set('n', '<CR>', on_press_enter, { buffer = view_buffer })
+  vim.keymap.set('n', '0', on_press_zero, { buffer = view_buffer })
+  vim.keymap.set('n', '-', on_press_minus, { buffer = view_buffer })
 
   render()
 

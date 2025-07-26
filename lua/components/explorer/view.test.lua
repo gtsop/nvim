@@ -69,6 +69,27 @@ describe("Explorer View", function()
     })
   end)
 
+  test("'render' prints a nested view", function()
+      local s = spy.on(vim.api, "nvim_buf_set_lines")
+
+    local view = View.new()
+
+    local model_tree = {
+      { path = "/root/dir-1", name = "dir-1", type = "directory", is_dir = true, tree = {
+        { path = "/root/dir-1/file-2", name = "file-2", type = "file", is_dir = false }
+      }},
+      { path = "/root/file-1", name = "file-1", type = "file", is_dir = false }
+    }
+
+    view.render(model_tree)
+
+    assert.spy(s).was_called_with(fake_buffer, 0, -1, false, {
+      "dir-1/",
+      "  file-2",
+      "file-1"
+    })
+  end)
+
   test("'show' opens a window with the buffer", function()
 
     local s = spy.on(vim.api, "nvim_open_win")
@@ -98,9 +119,29 @@ describe("Explorer View", function()
       view.render(model_tree)
 
       assert.are.equal(
-        view.get_hovered_node(model_tree),
+        view.get_hovered_node(),
         model_tree[2]
       )
     end)
   end)
+
+  it("works in nested trees", function()
+
+      local view = View.new()
+
+      local model_tree = {
+        { path = "/root/dir-1", name = "dir-1", type = "directory", is_dir = true, tree = {
+          { path = "/root/dir-2", name = "dir-2", type = "directory", is_dir = true },
+        }},
+        { path = "/root/dir-3", name = "dir-3", type = "directory", is_dir = true },
+      }
+
+      view.render(model_tree)
+
+      assert.are.equal(
+        view.get_hovered_node(),
+        model_tree[1].tree[1]
+      )
+    end)
+
 end)

@@ -11,6 +11,10 @@ function M.new(opts)
   local model = require("components.explorer.model").new(base_path)
   local view = require("components.explorer.view").new()
 
+  local function render()
+    local tree = model.get_tree()
+    view.render(tree)
+  end
 
   function self.show()
     view.show()
@@ -24,6 +28,13 @@ function M.new(opts)
     return view.get_window()
   end
 
+  function self.find_file(path)
+    model.expand_until_path(path)
+    render()
+    local node = model.find_node_by_path(path)
+    view.hover_node(node)
+  end
+
   local function using_hovered_node(callback)
     local node = view.get_hovered_node()
     if not node then
@@ -31,11 +42,6 @@ function M.new(opts)
       return
     end
     callback(node)
-  end
-
-  local function render()
-    local tree = model.get_tree()
-    view.render(tree)
   end
 
   local function refresh()
@@ -109,6 +115,13 @@ function M.new(opts)
     end)
   end
 
+  local function go_to_file()
+    local file = vim.api.nvim_buf_get_name(0)
+    local node = model.expand_until_path(file)
+    render()
+    view.hover_node(node)
+  end
+
   -- Set keymaps
   local view_buffer = view.get_buffer()
 
@@ -119,6 +132,7 @@ function M.new(opts)
   vim.keymap.set('n', 'm',    move_file,      { buffer = view_buffer })
   vim.keymap.set('n', 'd',    delete_file,    { buffer = view_buffer })
   vim.keymap.set('n', 'r',    refresh,        { buffer = view_buffer })
+  vim.keymap.set('n', 'gte',  go_to_file)
 
   render()
 

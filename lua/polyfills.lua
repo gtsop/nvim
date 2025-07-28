@@ -43,3 +43,12 @@ function table.map(list, mapper)
   end
   return into
 end
+
+function table.index_of(a, item)
+  for i, v in ipairs(a) do
+    if v == item then
+      return i
+    end
+  end
+  return nil
+end

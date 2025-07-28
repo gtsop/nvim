@@ -73,6 +73,21 @@ function M.new()
     return rendered_nodes[line_number]
   end
 
+  function self.hover_node(node)
+    if not rendered_nodes then
+      return nil
+    end
+
+    local nodeIndex = table.index_of(rendered_nodes, node)
+    if nodeIndex then
+      vim.api.nvim_set_current_win(window)
+      vim.api.nvim_win_set_cursor(window, { nodeIndex, 1 })
+    else
+      vim.print("Unable to find node")
+    end
+
+  end
+
   return self
 end
 

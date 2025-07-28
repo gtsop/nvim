@@ -1,6 +1,28 @@
 local M = {}
 M.__index = M
 
+local function starts_with(str, prefix)
+  return str:sub(1, #prefix) == prefix
+end
+
+local function find_and_expand(node, path, expand)
+  if node.path == path then
+    return node
+  end
+  if starts_with(path, node.path) then
+    if not node.tree then
+      node = expand(node)
+    end
+    for _, child_node in ipairs(node.tree) do
+      local found_node = find_and_expand(child_node, path, expand)
+      if found_node then
+        return found_node
+      end
+    end
+  end
+  return nil
+end
+
 local function list_dir_contents(path, opts)
 
     if path:sub(-1) == "/" then
@@ -84,10 +106,15 @@ function M.new(path)
 
   function self.expand_node(node)
     node.tree = list_dir_contents(node.path, { parent = node })
+    return node
   end
 
   function self.collapse_node(node)
     node.tree = nil
+  end
+
+  function self.expand_until_path(find_path)
+    return find_and_expand(tree, find_path, self.expand_node)
   end
 
   function self.reset()

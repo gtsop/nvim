@@ -44,7 +44,7 @@ function M.new(opts)
   end
 
   local function edit_node(node)
-      self:service('ide').edit(node.path)
+    self:service('ide').edit(node.path)
   end
 
   local function collapse_node(node)
@@ -102,6 +102,14 @@ function M.new(opts)
     end)
   end
 
+  local function refresh()
+    using_hovered_node(function(node)
+      if node.parent then
+        model.expand_node(node.parent)
+        render()
+      end
+    end)
+  end
   -- Set keymaps
   local view_buffer = view.get_buffer()
 
@@ -111,6 +119,7 @@ function M.new(opts)
   vim.keymap.set('n', 'a',    create_file,    { buffer = view_buffer })
   vim.keymap.set('n', 'm',    move_file,      { buffer = view_buffer })
   vim.keymap.set('n', 'd',    delete_file,    { buffer = view_buffer })
+  vim.keymap.set('n', 'r',    refresh,        { buffer = view_buffer })
 
   render()
 

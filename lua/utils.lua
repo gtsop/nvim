@@ -1,6 +1,6 @@
 local M = {}
 
-list_ignore = { ".git", "node_modules", "build" }
+local list_ignore = { ".git", "node_modules", "build" }
 
 function M.list_dir_files(dir, recursive)
     local path = dir
@@ -87,7 +87,7 @@ function M.find_file(file_to_find, root_dir)
     end
   end
 
-  return nill
+  return nil
 end
 
 function M.create_scratch_buffer()
@@ -123,7 +123,7 @@ function M.subsequence_score(sequence_str, test_str, case_sensitive)
 
   local score = 0
   local sequence = sequence_str
-  
+
   for test_str_ch in test_str:gmatch(".") do
     local ch_index = string.find(sequence, test_str_ch, 1, true)
 
@@ -132,7 +132,7 @@ function M.subsequence_score(sequence_str, test_str, case_sensitive)
     end
 
     score = score - ch_index + 1
-    
+
     sequence = sequence:sub(ch_index + 1)
   end
 
@@ -144,7 +144,7 @@ end
 function M.rank_by_subsequence(tbl, subsequence)
   local rank = {}
 
-  for i, item in ipairs(tbl) do
+  for _, item in ipairs(tbl) do
     local result = M.subsequence_score(item, subsequence)
 
     if result then
@@ -179,7 +179,7 @@ function M.tbl_slice(tbl, first, last)
     out[#out + 1] = tbl[i]
   end
   return out
-end 
+end
 
 function M.tbl_to_lower(tbl)
   return vim.tbl_map(string.lower, tbl)

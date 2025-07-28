@@ -3,7 +3,7 @@ local utils = require("utils")
 local input = require("input")
 local ide = require("ide")
 
-function get_project_files(keyword)
+local function get_project_files()
   local project_dir = state.get_project_dir()
   local files = utils.list_dir_files(project_dir, true)
 
@@ -19,7 +19,7 @@ vim.api.nvim_create_user_command("FileFinderShow", function()
   input.open(function(choice)
     if not choice then return end
 
-    local ranked_files = utils.tbl_slice(utils.rank_by_subsequence(stripped, choice, true), 1, 10)
+    local ranked_files = utils.tbl_slice(utils.rank_by_subsequence(stripped, choice), 1, 10)
     input.options(ranked_files)
     input.print()
   end,

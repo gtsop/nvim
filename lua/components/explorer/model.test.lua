@@ -61,8 +61,8 @@ describe("Explorer Model", function()
 
     assert.are.same({
       { path = "/root/dir-1", name = "dir-1", type = "directory", is_dir = true, tree = {
-        { path = "/root/dir-1/dir-2", name = "dir-2", type = "directory", is_dir = true },
-        { path = "/root/dir-1/file-2", name = "file-2", type = "file", is_dir = false },
+        { path = "/root/dir-1/dir-2", name = "dir-2", type = "directory", is_dir = true, parent = node },
+        { path = "/root/dir-1/file-2", name = "file-2", type = "file", is_dir = false, parent = node },
       }},
       { path = "/root/file-1", name = "file-1", type = "file", is_dir = false }
     }, model.get_tree())
@@ -82,5 +82,4 @@ describe("Explorer Model", function()
       { path = "/root/file-1", name = "file-1", type = "file", is_dir = false }
     }, model.get_tree())
   end)
-
 end)

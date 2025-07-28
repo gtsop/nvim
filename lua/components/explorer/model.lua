@@ -7,11 +7,7 @@ local function list_dir_contents(path, opts)
       path = path.sub(1, -2)
     end
 
-    opts = opts or { recurse = false, rootDir = nil }
-
-    if opts.recurse and not opts.rootDir then
-      opts.rootDir = path
-    end
+    opts = opts or { parent = nil }
 
     local contents = {}
 
@@ -26,7 +22,7 @@ local function list_dir_contents(path, opts)
         break
       end
 
-      table.insert(contents, { path = path .. "/" .. name, name = name, type = typ, is_dir = (typ == "directory") })
+      table.insert(contents, { path = path .. "/" .. name, name = name, type = typ, is_dir = (typ == "directory"), parent = opts.parent })
     end
 
     table.sort(contents, function(a, b)
@@ -54,13 +50,13 @@ function M.new(path)
       sub_tree = tree
     end
 
-    for _, node in ipairs(tree) do
+    for _, node in ipairs(sub_tree) do
 
       if node.path == node_path then
         return node
       end
 
-      if node.tree then
+      if node.tree and #node.tree > 0 then
         return self.find_node_by_path(node_path, node.tree)
       end
     end
@@ -86,7 +82,7 @@ function M.new(path)
   end
 
   function self.expand_node(node)
-    node.tree = list_dir_contents(node.path)
+    node.tree = list_dir_contents(node.path, { parent = node })
   end
 
   function self.collapse_node(node)

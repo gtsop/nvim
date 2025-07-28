@@ -7,6 +7,7 @@
 
 ## Explorer
 
+- bug: fix refreshing the view
 - feat: shortcut to open explorer in the directory of the file being edited (nerd-tree-find equivalent)
 - feat: when creating a file outsite the project require a confirmation
 - feat: when moving a file outsite the project require a confirmation

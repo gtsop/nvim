@@ -24,9 +24,25 @@ function M.new(opts)
     return view.get_window()
   end
 
+  local function using_hovered_node(callback)
+    local node = view.get_hovered_node()
+    if not node then
+      vim.print("explorer: failed to parse selected node")
+      return
+    end
+    callback(node)
+  end
+
   local function render()
     local tree = model.get_tree()
     view.render(tree)
+  end
+
+  local function refresh()
+    using_hovered_node(function(node)
+      model.expand_node(node.parent)
+      render()
+    end)
   end
 
   local function enter_node(node)
@@ -57,15 +73,6 @@ function M.new(opts)
     render()
   end
 
-  local function using_hovered_node(callback)
-    local node = view.get_hovered_node()
-    if not node then
-      vim.print("explorer: failed to parse selected node")
-      return
-    end
-    callback(node)
-  end
-
   local function on_press_enter()
     using_hovered_node(function(node)
       if node.is_dir then
@@ -86,30 +93,22 @@ function M.new(opts)
 
   local function create_file()
     using_hovered_node(function(node)
-      self:service('ide').create_file(node.path)
+      self:service('ide').create_file(node.path, refresh)
     end)
   end
 
   local function move_file()
     using_hovered_node(function(node)
-      self:service('ide').move_file(node.path)
+      self:service('ide').move_file(node.path, refresh)
     end)
   end
 
   local function delete_file()
     using_hovered_node(function(node)
-      self:service('ide').delete_file(node.path)
+      self:service('ide').delete_file(node.path, refresh)
     end)
   end
 
-  local function refresh()
-    using_hovered_node(function(node)
-      if node.parent then
-        model.expand_node(node.parent)
-        render()
-      end
-    end)
-  end
   -- Set keymaps
   local view_buffer = view.get_buffer()
 

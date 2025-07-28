@@ -66,29 +66,38 @@ M.edit = function(full_path)
   vim.api.nvim_set_current_win(win_id)
 end
 
-function M.create_file(path)
+function M.create_file(path, callback)
   local dir = vim.fs.dirname(path)
 
   vim.ui.input({ prompt = "New file: ", default = dir .. "/" }, function(new_file)
     if new_file then
       vim.fn.mkdir(vim.fs.dirname(new_file), "p")
       vim.fn.writefile({}, new_file)
+      if callback then
+        callback()
+      end
     end
   end)
 end
 
-function M.delete_file(path)
+function M.delete_file(path, callback)
   vim.ui.input({ prompt = "Are you sure you want to delete '" .. path .. "' ? [y/n]: " }, function(answer)
     if answer == "y" then
       vim.fn.delete(path)
+      if callback then
+        callback()
+      end
     end
   end)
 end
 
-function M.move_file(path)
+function M.move_file(path, callback)
   vim.ui.input({ prompt = "Give new file location for", default = path }, function(new_file)
     if new_file then
       vim.fn.rename(path, new_file)
+      if callback then
+        callback()
+      end
     end
   end)
 end

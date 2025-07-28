@@ -1,22 +1,6 @@
 local M = {}
 M.__index = M
 
-local function find_node_by_path(tree, path)
-  for _, node in ipairs(tree) do
-    if node.path == path then
-      return node
-    end
-    if node.tree then
-      local child_node = find_node_by_path(node.tree, path)
-      if child_node then
-        return child_node
-      end
-    end
-  end
-
-  return nil
-end
-
 local function get_node_lines(tree, prefix)
 
   if not prefix then
@@ -56,8 +40,8 @@ function M.new()
   vim.api.nvim_buf_set_option(buffer, 'filetype', 'explorer')
   local window = nil
 
-  function self.render(tree)
-    rendered_lines, rendered_nodes = get_node_lines(tree)
+  function self.render(model)
+    rendered_lines, rendered_nodes = get_node_lines(model.tree)
 
     vim.api.nvim_buf_set_lines(buffer, 0, -1, false, rendered_lines)
   end

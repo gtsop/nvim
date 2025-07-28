@@ -47,7 +47,7 @@ function M.new(path)
     end
 
     if not sub_tree then
-      sub_tree = tree
+      sub_tree = tree.tree
     end
 
     for _, node in ipairs(sub_tree) do
@@ -65,7 +65,8 @@ function M.new(path)
   end
 
   function self.scan()
-    tree = list_dir_contents(path)
+    tree = { path = path, name = path, type = "directory", is_dir = true, parent = nil }
+    tree.tree = list_dir_contents(path, { parent = tree })
   end
 
   function self.get_tree()

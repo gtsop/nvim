@@ -24,11 +24,13 @@ describe("Explorer View", function()
 
     local view = View.new()
 
-    local model_tree = {
-      { path = "/root/dir-1", name = "dir-1", type = "directory", is_dir = true },
+    local model = {
+      path = "/root", name = "/root", type = "directory", is_dir = true, tree = {
+        { path = "/root/dir-1", name = "dir-1", type = "directory", is_dir = true },
+      }
     }
 
-    view.render(model_tree)
+    view.render(model)
 
     assert.spy(s).was_called_with(fake_buffer, 0, -1, false, {
       "dir-1/"
@@ -40,11 +42,13 @@ describe("Explorer View", function()
 
     local view = View.new()
 
-    local model_tree = {
-      { path = "/root/file-1", name = "file-1", type = "file", is_dir = false },
+    local model = {
+      path = "/root", name = "/root", type = "directory", is_dir = true, tree = {
+        { path = "/root/file-1", name = "file-1", type = "file", is_dir = false },
+      }
     }
 
-    view.render(model_tree)
+    view.render(model)
 
     assert.spy(s).was_called_with(fake_buffer, 0, -1, false, {
       "file-1"
@@ -56,12 +60,14 @@ describe("Explorer View", function()
 
     local view = View.new()
 
-    local model_tree = {
-      { path = "/root/dir-1", name = "dir-1", type = "directory", is_dir = true },
-      { path = "/root/file-1", name = "file-1", type = "file", is_dir = false }
+    local model = {
+      path = "/root", name = "/root", type = "directory", is_dir = true, tree = {
+        { path = "/root/dir-1", name = "dir-1", type = "directory", is_dir = true },
+        { path = "/root/file-1", name = "file-1", type = "file", is_dir = false }
+      }
     }
 
-    view.render(model_tree)
+    view.render(model)
 
     assert.spy(s).was_called_with(fake_buffer, 0, -1, false, {
       "dir-1/",
@@ -74,14 +80,16 @@ describe("Explorer View", function()
 
     local view = View.new()
 
-    local model_tree = {
-      { path = "/root/dir-1", name = "dir-1", type = "directory", is_dir = true, tree = {
-        { path = "/root/dir-1/file-2", name = "file-2", type = "file", is_dir = false }
-      }},
-      { path = "/root/file-1", name = "file-1", type = "file", is_dir = false }
+    local model = {
+      path = "/root", name = "/root", type = "directory", is_dir = true, tree = {
+        { path = "/root/dir-1", name = "dir-1", type = "directory", is_dir = true, tree = {
+          { path = "/root/dir-1/file-2", name = "file-2", type = "file", is_dir = false }
+        }},
+        { path = "/root/file-1", name = "file-1", type = "file", is_dir = false }
+      }
     }
 
-    view.render(model_tree)
+    view.render(model)
 
     assert.spy(s).was_called_with(fake_buffer, 0, -1, false, {
       "dir-1/",
@@ -110,17 +118,19 @@ describe("Explorer View", function()
 
       local view = View.new()
 
-      local model_tree = {
-        { path = "/root/dir-1", name = "dir-1", type = "directory", is_dir = true },
-        { path = "/root/dir-2", name = "dir-2", type = "directory", is_dir = true },
-        { path = "/root/dir-3", name = "dir-3", type = "directory", is_dir = true },
+      local model = {
+        path = "/root", name = "/root", type = "directory", is_dir = true, tree = {
+          { path = "/root/dir-1", name = "dir-1", type = "directory", is_dir = true },
+          { path = "/root/dir-2", name = "dir-2", type = "directory", is_dir = true },
+          { path = "/root/dir-3", name = "dir-3", type = "directory", is_dir = true },
+        }
       }
 
-      view.render(model_tree)
+      view.render(model)
 
       assert.are.equal(
         view.get_hovered_node(),
-        model_tree[2]
+        model.tree[2]
       )
     end)
   end)
@@ -129,18 +139,20 @@ describe("Explorer View", function()
 
       local view = View.new()
 
-      local model_tree = {
-        { path = "/root/dir-1", name = "dir-1", type = "directory", is_dir = true, tree = {
-          { path = "/root/dir-2", name = "dir-2", type = "directory", is_dir = true },
-        }},
-        { path = "/root/dir-3", name = "dir-3", type = "directory", is_dir = true },
+      local model = {
+        path = "/root", name = "/root", type = "directory", is_dir = true, tree = {
+          { path = "/root/dir-1", name = "dir-1", type = "directory", is_dir = true, tree = {
+            { path = "/root/dir-2", name = "dir-2", type = "directory", is_dir = true },
+          }},
+          { path = "/root/dir-3", name = "dir-3", type = "directory", is_dir = true },
+        }
       }
 
-      view.render(model_tree)
+      view.render(model)
 
       assert.are.equal(
         view.get_hovered_node(),
-        model_tree[1].tree[1]
+        model.tree[1].tree[1]
       )
     end)
 

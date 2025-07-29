@@ -11,13 +11,45 @@ function M.new(opts)
   local model = require("components.explorer.model").new(base_path)
   local view = require("components.explorer.view").new()
 
+  local group = nil
+  local window = nil
+
   local function render()
     local tree = model.get_tree()
     view.render(tree)
   end
 
   function self.show()
+    if window then
+      vim.api.nvim_set_current_win(window)
+      return
+    end
+
     view.show()
+
+    window = self.get_window()
+
+    group = vim.api.nvim_create_augroup(("explorer_%d"):format(window), { clear = true })
+
+    vim.api.nvim_create_autocmd("WinClosed", {
+      group = group,
+      pattern = tostring(window),
+      once = true,
+      callback = self.close
+    })
+  end
+
+  function self.close()
+    if window then
+      if vim.api.nvim_win_is_valid(window) then
+        vim.api.nvim_win_close(window, true)
+      end
+      window= nil
+    end
+    if group then
+      pcall(vim.api.nvim_del_augroup_by_id, group)
+      group = nil
+    end
   end
 
   function self.get_buffer()

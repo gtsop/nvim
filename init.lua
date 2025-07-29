@@ -48,7 +48,6 @@ vim.opt.winborder = 'rounded'
 vim.opt.number = true
 vim.opt.relativenumber = true
 
-require("explorer")
 require("file-finder")
 require("shortcuts")
 require("lsp")

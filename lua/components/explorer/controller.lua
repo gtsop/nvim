@@ -76,11 +76,19 @@ function M.new(opts)
     callback(node)
   end
 
+  function self.using_hovered_node(callback)
+    return using_hovered_node(callback)
+  end
+
   local function refresh()
     using_hovered_node(function(node)
       model.expand_node(node.parent)
       render()
     end)
+  end
+
+  function self.refresh()
+    refresh()
   end
 
   local function enter_node(node)
@@ -129,24 +137,6 @@ function M.new(opts)
     end)
   end
 
-  local function create_file()
-    using_hovered_node(function(node)
-      self:service('ide').create_file(node.path, refresh)
-    end)
-  end
-
-  local function move_file()
-    using_hovered_node(function(node)
-      self:service('ide').move_file(node.path, refresh)
-    end)
-  end
-
-  local function delete_file()
-    using_hovered_node(function(node)
-      self:service('ide').delete_file(node.path, refresh)
-    end)
-  end
-
   local function go_to_file()
     local file = vim.api.nvim_buf_get_name(0)
     local node = model.expand_until_path(file)
@@ -160,11 +150,12 @@ function M.new(opts)
   vim.keymap.set('n', '<CR>', on_press_enter, { buffer = view_buffer })
   vim.keymap.set('n', '0',    go_to_root,     { buffer = view_buffer })
   vim.keymap.set('n', '-',    go_dir_up,      { buffer = view_buffer })
-  vim.keymap.set('n', 'a',    create_file,    { buffer = view_buffer })
-  vim.keymap.set('n', 'm',    move_file,      { buffer = view_buffer })
-  vim.keymap.set('n', 'd',    delete_file,    { buffer = view_buffer })
   vim.keymap.set('n', 'r',    refresh,        { buffer = view_buffer })
   vim.keymap.set('n', 'gte',  go_to_file)
+
+  require("components.explorer.actions.create-file").new(model, view, self)
+  require("components.explorer.actions.delete-file").new(model, view, self)
+  require("components.explorer.actions.move-file").new(model, view, self)
 
   render()
 

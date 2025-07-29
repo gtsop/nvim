@@ -1,27 +1,27 @@
 local M = {}
 
 local utils = require("utils")
-local explorer = require("explorer")
 
-local function get_dir_edit_window()
+local state = require("state")
 
-  local explorer_win_id = explorer.get_window()
+local project_dir = state.get_project_dir()
 
-  if explorer_win_id then
-    return explorer_win_id
-  end
+---------------------------
+-- EXPLORER
+---------------------------
 
-  for _, win in ipairs(vim.api.nvim_tabpage_list_wins(0)) do
-    if utils.win_get_buf_filetype(win) == "dir-view" then
-      return win
-    end
-  end
+local explorer = require("components.explorer.controller").new({ base_path = project_dir, layout = "nest" })
+explorer:register('ide', function()
+  return require("ide")
+end)
 
-  return vim.api.nvim_get_current_win()
-end
+vim.api.nvim_create_user_command("Explorer", explorer.show, { nargs = 0 })
+vim.api.nvim_create_user_command("ExplorerShow", explorer.show, { nargs = 0 })
+vim.api.nvim_create_user_command("ExplorerOpen", explorer.show, { nargs = 0 })
+vim.api.nvim_create_user_command("ExplorerClose", explorer.close, { nargs = 0 })
 
 local function get_file_edit_window()
-  local avoid_filetypes = { "dir-view", "dir-view.explorer", "explorer" }
+  local avoid_filetypes = { "explorer" }
 
   for _, win in ipairs(vim.api.nvim_tabpage_list_wins(0)) do
     if not table.contains(avoid_filetypes, utils.win_get_buf_filetype(win)) then
@@ -56,11 +56,7 @@ M.edit = function(full_path)
   local buff_id = vim.fn.bufadd(full_path)
   local win_id = nil
 
-  if utils.is_dir(full_path) then
-    win_id = get_dir_edit_window()
-  else
-    win_id = get_file_edit_window()
-  end
+  win_id = get_file_edit_window()
 
   vim.api.nvim_win_set_buf(win_id, buff_id)
   vim.api.nvim_set_current_win(win_id)

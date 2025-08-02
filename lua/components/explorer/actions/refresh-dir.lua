@@ -1,11 +1,12 @@
 local M = {}
 
-function M.new(_, _, c)
+function M.new(m, _, c)
   local self = setmetatable({}, M)
 
-  function c.create_file()
+  function c.refresh_dir()
     c.using_hovered_node(function(node)
-      c:service('ide').create_file(node.path, c.refresh)
+      m.expand_node(node.parent)
+      c.render()
     end)
   end
 

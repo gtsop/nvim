@@ -3,9 +3,11 @@ local M = {}
 function M.new(_, _, c)
   local self = setmetatable({}, M)
 
-  function c.create_file()
+  function c.edit_file()
     c.using_hovered_node(function(node)
-      c:service('ide').create_file(node.path, c.refresh)
+      if not node.is_dir then
+        c:service('ide').edit(node.path)
+      end
     end)
   end
 

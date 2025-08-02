@@ -1,15 +1,13 @@
 local M = {}
 
-function M.new(_, view, controller)
+function M.new(_, _, c)
   local self = setmetatable({}, M)
 
-  local function delete_file()
-    controller.using_hovered_node(function(node)
-      controller:service('ide').delete_file(node.path, controller.refresh)
+  function c.delete_file()
+    c.using_hovered_node(function(node)
+      c:service('ide').delete_file(node.path, c.refresh)
     end)
   end
-
-  vim.keymap.set('n', 'd', delete_file, { buffer = view.get_buffer() })
 
   return self
 end

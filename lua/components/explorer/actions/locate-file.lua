@@ -1,16 +1,14 @@
 local M = {}
 
-function M.new(model, view, controller)
+function M.new(m, v, c)
   local self = setmetatable({}, M)
 
-  local function locate_file()
+  function c.locate_file()
       local file = vim.api.nvim_buf_get_name(0)
-      local node = model.expand_until_path(file)
-      controller.render()
-      view.hover_node(node)
+      local node = m.expand_until_path(file)
+      c.render()
+      v.hover_node(node)
   end
-
-  vim.keymap.set('n', 'gte', locate_file)
 
   return self
 end

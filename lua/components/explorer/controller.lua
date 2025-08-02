@@ -19,6 +19,10 @@ function M.new(opts)
     view.render(tree)
   end
 
+  function self.render()
+    render()
+  end
+
   function self.show()
     if window then
       vim.api.nvim_set_current_win(window)
@@ -96,15 +100,6 @@ function M.new(opts)
       render()
   end
 
-  local function go_to_root()
-    model.reset()
-    render()
-  end
-
-  local function go_dir_up()
-    vim.print("not implemented")
-  end
-
   local function edit_node(node)
     self:service('ide').edit(node.path)
   end
@@ -137,24 +132,15 @@ function M.new(opts)
     end)
   end
 
-  local function go_to_file()
-    local file = vim.api.nvim_buf_get_name(0)
-    local node = model.expand_until_path(file)
-    render()
-    view.hover_node(node)
-  end
-
   -- Set keymaps
   local view_buffer = view.get_buffer()
 
   vim.keymap.set('n', '<CR>', on_press_enter, { buffer = view_buffer })
-  vim.keymap.set('n', '0',    go_to_root,     { buffer = view_buffer })
-  vim.keymap.set('n', '-',    go_dir_up,      { buffer = view_buffer })
   vim.keymap.set('n', 'r',    refresh,        { buffer = view_buffer })
-  vim.keymap.set('n', 'gte',  go_to_file)
 
   require("components.explorer.actions.create-file").new(model, view, self)
   require("components.explorer.actions.delete-file").new(model, view, self)
+  require("components.explorer.actions.locate-file").new(model, view, self)
   require("components.explorer.actions.move-file").new(model, view, self)
 
   render()

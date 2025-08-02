@@ -10,7 +10,7 @@ local project_dir = state.get_project_dir()
 -- EXPLORER
 ---------------------------
 
-local explorer = require("components.explorer.controller").new({ base_path = project_dir, layout = "nest" })
+local explorer = require("components.explorer.controller").new({ base_path = project_dir })
 explorer:register('ide', function()
   return require("ide")
 end)
@@ -88,9 +88,21 @@ function M.delete_file(path, callback)
 end
 
 function M.move_file(path, callback)
-  vim.ui.input({ prompt = "Give new file location for", default = path }, function(new_file)
+  vim.ui.input({ prompt = "Give new file location for: ", default = path }, function(new_file)
     if new_file then
       vim.fn.rename(path, new_file)
+      if callback then
+        callback()
+      end
+    end
+  end)
+end
+
+function M.copy_file(path, callback)
+  vim.ui.input({ prompt = "Copy file to new location: ", default = path }, function(new_file)
+    if new_file then
+      vim.fn.mkdir(vim.fn.fnamemodify(new_file, ":h"), "p")
+      vim.fn.writefile(vim.fn.readfile(path), new_file)
       if callback then
         callback()
       end

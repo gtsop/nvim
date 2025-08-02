@@ -5,7 +5,7 @@ function M.new(_, _, c)
 
   function c.create_file()
     c.using_hovered_node(function(node)
-      c:service('ide').create_file(node.path, c.refresh)
+      c:service('ide').create_file(node.path, c.refresh_dir)
     end)
   end
 

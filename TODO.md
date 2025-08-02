@@ -22,8 +22,6 @@
             ...hhnd/.config/nvim/lua/components/explorer/controller.lua:133: in function <...hhnd/.config/nvim/lua/components/explorer/controller.lua:132>
     </trace>
 
-- feat: copy file
-- feat: shortcut to open explorer in the directory of the file being edited (nerd-tree-find equivalent)
 - feat: when creating a file outsite the project require a confirmation
 - feat: when moving a file outsite the project require a confirmation
 - feat: when navigating to "up" directory stop at project level

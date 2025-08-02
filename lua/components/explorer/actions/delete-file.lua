@@ -5,7 +5,7 @@ function M.new(_, _, c)
 
   function c.delete_file()
     c.using_hovered_node(function(node)
-      c:service('ide').delete_file(node.path, c.refresh)
+      c:service('ide').delete_file(node.path, c.refresh_dir)
     end)
   end
 

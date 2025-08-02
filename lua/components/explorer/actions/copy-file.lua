@@ -3,9 +3,9 @@ local M = {}
 function M.new(_, _, c)
   local self = setmetatable({}, M)
 
-  function c.move_file()
+  function c.copy_file()
     c.using_hovered_node(function(node)
-      c:service('ide').move_file(node.path, c.refresh_dir)
+      c:service('ide').copy_file(node.path, c.refresh_dir)
     end)
   end
 

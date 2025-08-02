@@ -68,6 +68,7 @@ function M.new(opts)
   end
 
   -- Register actions
+  require("components.explorer.actions.copy-file").new(model, view, self)
   require("components.explorer.actions.create-file").new(model, view, self)
   require("components.explorer.actions.delete-file").new(model, view, self)
   require("components.explorer.actions.edit-file").new(model, view, self)
@@ -79,10 +80,11 @@ function M.new(opts)
   -- Register keymaps
   local view_buffer = view.get_buffer()
   vim.keymap.set('n', '<CR>', self.enter_node,  { buffer = view_buffer })
+  vim.keymap.set('n', 'c',    self.copy_file,   { buffer = view_buffer })
   vim.keymap.set('n', 'a',    self.create_file, { buffer = view_buffer })
   vim.keymap.set('n', 'd',    self.delete_file, { buffer = view_buffer })
   vim.keymap.set('n', 'm',    self.move_file,   { buffer = view_buffer })
-  vim.keymap.set('n', 'r',    self.refresh,     { buffer = view_buffer })
+  vim.keymap.set('n', 'r',    self.refresh_dir, { buffer = view_buffer })
   vim.keymap.set('n', 'gte',  self.locate_file)
 
   self.render()

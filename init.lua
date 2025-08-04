@@ -14,6 +14,8 @@ vim.opt.softtabstop = 2
 vim.opt.shiftwidth = 2
 vim.opt.swapfile = false
 vim.opt.winborder = 'rounded'
+vim.opt.ignorecase = true
+vim.opt.smartcase = true
 
 -- Line numbers
 vim.opt.number = true

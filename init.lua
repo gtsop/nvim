@@ -8,6 +8,7 @@ local state = require('state')
 vim.opt.guicursor = "a:ver1"
 
 -- Whitespace stuff
+vim.g.mapleader = " "
 vim.opt.expandtab = true
 vim.opt.tabstop = 2
 vim.opt.softtabstop = 2

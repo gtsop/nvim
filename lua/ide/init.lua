@@ -1,9 +1,7 @@
 local M = {}
 
 local utils = require("utils")
-
 local state = require("state")
-
 local project_dir = state.get_project_dir()
 
 ---------------------------
@@ -12,13 +10,14 @@ local project_dir = state.get_project_dir()
 
 local explorer = require("components.explorer.controller").new({ base_path = project_dir })
 explorer:register('ide', function()
-  return require("ide")
+  return M
 end)
 
-vim.api.nvim_create_user_command("Explorer", explorer.show, { nargs = 0 })
-vim.api.nvim_create_user_command("ExplorerShow", explorer.show, { nargs = 0 })
-vim.api.nvim_create_user_command("ExplorerOpen", explorer.show, { nargs = 0 })
-vim.api.nvim_create_user_command("ExplorerClose", explorer.close, { nargs = 0 })
+---------------------------
+-- TREE SITTER
+---------------------------
+
+vim.treesitter.language.register("javascript", { "javascriptreact", "typescriptreact" })
 
 local function get_file_edit_window()
   local avoid_filetypes = { "explorer" }

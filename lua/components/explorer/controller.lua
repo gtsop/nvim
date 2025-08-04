@@ -86,6 +86,7 @@ function M.new(opts)
   vim.keymap.set('n', 'm',    self.move_file,   { buffer = view_buffer })
   vim.keymap.set('n', 'r',    self.refresh_dir, { buffer = view_buffer })
   vim.keymap.set('n', 'gte',  self.locate_file)
+  vim.keymap.set('n', '<Leader>e',  self.show)
 
   self.render()
 

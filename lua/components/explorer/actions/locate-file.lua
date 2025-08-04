@@ -5,6 +5,7 @@ function M.new(m, v, c)
 
   function c.locate_file()
       local file = vim.api.nvim_buf_get_name(0)
+      c.show()
       local node = m.expand_until_path(file)
       c.render()
       v.hover_node(node)

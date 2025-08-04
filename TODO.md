@@ -8,7 +8,6 @@
 ## Explorer
 
 - bug: fix refreshing the view recursively
-- bug: fix opening explorer when it is closed and user pressed `gte`
 - bug: create directory causes a crash
     <trace>
     New file: /home/johhnd/.config/nvim/skata/E5108: Error executing lua: Vim:E482: Can't open file /home/johhnd/.config/nvim/skata/ for writing: illegal operation on a directory

@@ -21,7 +21,8 @@ local xterm_palette = {
 }
 
 local rgb_palette = {
-  peach = "#D9A299"
+  peach = "#D9A299",
+  steel_blue_gray = "#818FB4"
 }
 
 -- Neovim Groups
@@ -47,15 +48,16 @@ vim.api.nvim_set_hl(0, "@comment", { link = "Comment" })
 vim.api.nvim_set_hl(0, "@string", { link = "String" })
 vim.api.nvim_set_hl(0, "@regex", { link = "RegEx" })
 
-vim.api.nvim_set_hl(0, "@keyword.background", { fg = "#818FB4" })
-vim.api.nvim_set_hl(0, "@keyword.feature",    { fg = "#818FB4" })
-vim.api.nvim_set_hl(0, "@keyword.given",      { fg = "#818FB4" })
-vim.api.nvim_set_hl(0, "@keyword.given_and",      { fg = "#818FB4" })
-vim.api.nvim_set_hl(0, "@keyword.scenario",   { fg = "#818FB4" })
+-- Gherkin
+vim.api.nvim_set_hl(0, "@keyword.background", { fg = rgb_palette.steel_blue_gray })
+vim.api.nvim_set_hl(0, "@keyword.feature",    { fg = rgb_palette.steel_blue_gray })
+vim.api.nvim_set_hl(0, "@keyword.given",      { fg = rgb_palette.steel_blue_gray })
+vim.api.nvim_set_hl(0, "@keyword.given_and",  { fg = rgb_palette.steel_blue_gray })
+vim.api.nvim_set_hl(0, "@keyword.scenario",   { fg = rgb_palette.steel_blue_gray })
 vim.api.nvim_set_hl(0, "@keyword.then",       { fg = xterm_palette.cadet_blue })
-vim.api.nvim_set_hl(0, "@keyword.then_and",       { fg = xterm_palette.cadet_blue })
+vim.api.nvim_set_hl(0, "@keyword.then_and",   { fg = xterm_palette.cadet_blue })
 vim.api.nvim_set_hl(0, "@keyword.when",       { fg = rgb_palette.peach })
-vim.api.nvim_set_hl(0, "@keyword.when_and",       { fg = rgb_palette.peach })
+vim.api.nvim_set_hl(0, "@keyword.when_and",   { fg = rgb_palette.peach })
 vim.api.nvim_set_hl(0, "@text.description",   { fg = xterm_palette.gray, italic = true })
 vim.api.nvim_set_hl(0, "@text.title",         { fg = rgb_palette.peach, italic = true })
 

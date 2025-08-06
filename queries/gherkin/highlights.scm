@@ -30,3 +30,4 @@
 (then
   (and "And" @keyword.then_and))
 
+(string) @string

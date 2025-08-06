@@ -4,35 +4,60 @@ vim.opt.termguicolors = true
 
 -- Reference:
 -- https://www.ditig.com/256-colors-cheat-sheet#xterm-system-colors
-local palette = {
+local xterm_palette = {
+  cadet_blue = "#5faf87",
   gray = "#808080",
   gray_27 = "#444444",
-  cadet_blue = "#5faf87",
-  teal = "#008080"
+  light_goldenrod1 = "#ffff5f",
+  light_goldenrod2 = "#ffd75f",
+  light_goldrenrod3 = "#ffd75f",
+  light_steel_blue1 = "#d7d7ff",
+  light_steel_blue3 = "#afafd7",
+  medium_purple3 = "#875faf",
+  spring_green3 = "#00af5f",
+  steel_blue1 = "#5fafff",
+  teal = "#008080",
+  wheat = "#ffffaf"
+}
+
+local rgb_palette = {
+  peach = "#D9A299"
 }
 
 -- Neovim Groups
 vim.api.nvim_set_hl(0, "Comment", {
-  fg = palette.gray_27
+  fg = xterm_palette.gray_27
 })
 
+vim.api.nvim_set_hl(0, "Function", {
+  fg = xterm_palette.medium_purple3
+})
+
+
 vim.api.nvim_set_hl(0, "String", {
-  fg = palette.cadet_blue
+  fg = xterm_palette.cadet_blue
 })
 
 vim.api.nvim_set_hl(0, "RegEx", {
-  fg = palette.teal
+  fg = xterm_palette.teal
 })
-
 
 -- Tree-Sitter groups
 vim.api.nvim_set_hl(0, "@comment", { link = "Comment" })
 vim.api.nvim_set_hl(0, "@string", { link = "String" })
 vim.api.nvim_set_hl(0, "@regex", { link = "RegEx" })
 
-vim.api.nvim_set_hl(0, "@keyword.feature", { fg = palette.teal })
-vim.api.nvim_set_hl(0, "@keyword.scenario", { fg = palette.teal })
-vim.api.nvim_set_hl(0, "@text.description", { fg = palette.gray, italic = true })
+vim.api.nvim_set_hl(0, "@keyword.background", { fg = "#818FB4" })
+vim.api.nvim_set_hl(0, "@keyword.feature",    { fg = "#818FB4" })
+vim.api.nvim_set_hl(0, "@keyword.given",      { fg = "#818FB4" })
+vim.api.nvim_set_hl(0, "@keyword.given_and",      { fg = "#818FB4" })
+vim.api.nvim_set_hl(0, "@keyword.scenario",   { fg = "#818FB4" })
+vim.api.nvim_set_hl(0, "@keyword.then",       { fg = xterm_palette.cadet_blue })
+vim.api.nvim_set_hl(0, "@keyword.then_and",       { fg = xterm_palette.cadet_blue })
+vim.api.nvim_set_hl(0, "@keyword.when",       { fg = rgb_palette.peach })
+vim.api.nvim_set_hl(0, "@keyword.when_and",       { fg = rgb_palette.peach })
+vim.api.nvim_set_hl(0, "@text.description",   { fg = xterm_palette.gray, italic = true })
+vim.api.nvim_set_hl(0, "@text.title",         { fg = rgb_palette.peach, italic = true })
 
 -- LSP Groups
 vim.api.nvim_set_hl(0, "@lsp.type.comment", { link = "Comment" })

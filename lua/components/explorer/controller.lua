@@ -68,14 +68,14 @@ function M.new(opts)
   end
 
   -- Register actions
-  require("components.explorer.actions.copy-file").new(model, view, self)
-  require("components.explorer.actions.create-file").new(model, view, self)
-  require("components.explorer.actions.delete-file").new(model, view, self)
-  require("components.explorer.actions.edit-file").new(model, view, self)
-  require("components.explorer.actions.locate-file").new(model, view, self)
-  require("components.explorer.actions.move-file").new(model, view, self)
-  require("components.explorer.actions.refresh-dir").new(model, view, self)
-  require("components.explorer.actions.toggle-dir").new(model, view, self)
+  self.copy_file   = require("components.explorer.actions.copy-file").create(model, view, self)
+  self.create_file = require("components.explorer.actions.create-file").create(model, view, self)
+  self.delete_file = require("components.explorer.actions.delete-file").create(model, view, self)
+  self.edit_file   = require("components.explorer.actions.edit-file").create(model, view, self)
+  self.locate_file = require("components.explorer.actions.locate-file").create(model, view, self)
+  self.move_file   = require("components.explorer.actions.move-file").create(model, view, self)
+  self.refresh_dir = require("components.explorer.actions.refresh-dir").create(model, view, self)
+  self.toggle_dir  = require("components.explorer.actions.toggle-dir").create(model, view, self)
 
   -- Register keymaps
   local view_buffer = view.get_buffer()

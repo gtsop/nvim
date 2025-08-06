@@ -1,9 +1,7 @@
 local M = {}
 
-function M.new(m, _, c)
-  local self = setmetatable({}, M)
-
-  function c.toggle_dir()
+function M.create(m, _, c)
+  return function()
     c.using_hovered_node(function(node)
       if node.tree then
         m.collapse_node(node)
@@ -13,8 +11,6 @@ function M.new(m, _, c)
       c.render()
     end)
   end
-
-  return self
 end
 
 return M

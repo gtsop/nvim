@@ -19,6 +19,14 @@ end)
 
 vim.treesitter.language.register("javascript", { "javascriptreact", "typescriptreact" })
 
+---------------------------
+-- FILE TYPES
+---------------------------
+
+vim.filetype.add {
+  extension = { feature = "gherkin" }
+}
+
 local function get_file_edit_window()
   local avoid_filetypes = { "explorer" }
 

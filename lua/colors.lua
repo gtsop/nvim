@@ -22,37 +22,27 @@ local xterm_palette = {
 
 local rgb_palette = {
   peach = "#D9A299",
+  brown = "#a0787b",
   steel_blue_gray = "#818FB4"
 }
 
 -- Neovim Groups
-vim.api.nvim_set_hl(0, "Comment", {
-  fg = xterm_palette.gray_27
-})
-
-vim.api.nvim_set_hl(0, "Function", {
-  fg = xterm_palette.medium_purple3
-})
-
-
-vim.api.nvim_set_hl(0, "String", {
-  fg = xterm_palette.cadet_blue
-})
-
-vim.api.nvim_set_hl(0, "RegEx", {
-  fg = xterm_palette.teal
-})
+vim.api.nvim_set_hl(0, "Comment",  { fg = xterm_palette.gray_27 })
+vim.api.nvim_set_hl(0, "Function", { fg = xterm_palette.medium_purple3 })
+vim.api.nvim_set_hl(0, "RegEx",    { fg = xterm_palette.teal })
+vim.api.nvim_set_hl(0, "String",   { fg = xterm_palette.cadet_blue })
 
 -- Tree-Sitter groups
 vim.api.nvim_set_hl(0, "@comment", { link = "Comment" })
-vim.api.nvim_set_hl(0, "@string", { link = "String" })
-vim.api.nvim_set_hl(0, "@regex", { link = "RegEx" })
+vim.api.nvim_set_hl(0, "@keyword", { fg = rgb_palette.brown })
+vim.api.nvim_set_hl(0, "@regex",   { link = "RegEx" })
+vim.api.nvim_set_hl(0, "@string",  { link = "String" })
 
 -- LSP Groups
 vim.api.nvim_set_hl(0, "@lsp.type.comment", { link = "Comment" })
 
 -- Explorer
-vim.api.nvim_set_hl(0, "@explorer.directory", { fg = rgb_palette.steel_blue_gray })
+vim.api.nvim_set_hl(0, "@explorer.directory", { fg = rgb_palette.steel_blue_gray})
 -- vim.api.nvim_set_hl(0, "@explorer.file",    { fg = rgb_palette.steel_blue_gray })
 
 -- Gherkin

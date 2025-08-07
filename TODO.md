@@ -2,9 +2,11 @@
 
 ## Explorer
 
+- feat: remove numbers
 - feat: highlight hoverred node
 - feat: when user is in the window and there is overflow, expand the width of the window. Restore to initial width when user navigates elsewhere
 - feat?: auto "zz" when user moves around
+- bug: make buffer non-editable
 - bug: fix refreshing the view recursively
 - bug: create directory causes a crash
     <trace>
@@ -25,7 +27,13 @@
 
 ## Bridge
 
+- feat: map between .feature and step.js files
 - reafctor: create a table datastructure that maps from code file to test file, so we remove all the if/else code and instead configure everything with a table
+
+## Highlight
+
+- feat: gherkin comments
+- feat: explorer hidden files/dirs (dotfiles)
 
 # Technical Debt
 

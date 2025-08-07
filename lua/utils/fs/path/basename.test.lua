@@ -1,0 +1,16 @@
+local assert = require("luassert")
+local basename = require("utils.fs.path.basename")
+
+describe("basename", function()
+  it("exists", function()
+    assert.is.func(basename)
+  end)
+
+  it("returns the basename of a file", function()
+    assert.equal(basename("file.txt"), "file.txt")
+    assert.equal(basename("./file.txt"), "file.txt")
+    assert.equal(basename("../file.txt"), "file.txt")
+    assert.equal(basename("directory/file.txt"), "file.txt")
+    assert.equal(basename("/root/path/to/file.txt"), "file.txt")
+  end)
+end)

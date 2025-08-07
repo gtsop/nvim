@@ -2,6 +2,7 @@
 if _G.vim then return end
 
 require("polyfills")
+require("test.helpers.assertions")
 
 _G.vim = {
   uv  = {

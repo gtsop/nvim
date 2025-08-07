@@ -1,0 +1,17 @@
+local assert = require("luassert")
+local extension = require("utils.fs.path.extension")
+
+describe("extension", function()
+  it("exists", function()
+    assert.is.func(extension)
+  end)
+
+  it("returns the extension of a file", function()
+    assert.equal(extension("file"), "")
+    assert.equal(extension("file.txt"), "txt")
+    assert.equal(extension("file.test.txt"), "txt")
+    assert.equal(extension("../file.txt"), "txt")
+    assert.equal(extension("directory/file.txt"), "txt")
+    assert.equal(extension("/root/path/to/file.txt"), "txt")
+  end)
+end)

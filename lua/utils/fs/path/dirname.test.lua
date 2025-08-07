@@ -1,0 +1,15 @@
+local assert = require("luassert")
+local dirname = require("utils.fs.path.dirname")
+
+describe("dirname", function()
+  it("exists", function()
+    assert.is.func(dirname)
+  end)
+
+  it("returns the dirname of a file", function()
+    assert.equal(dirname("file.txt"), ".")
+    assert.equal(dirname("../file.txt"), "..")
+    assert.equal(dirname("directory/file.txt"), "directory")
+    assert.equal(dirname("/root/path/to/file.txt"), "/root/path/to")
+  end)
+end)

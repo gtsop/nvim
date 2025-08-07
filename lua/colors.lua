@@ -48,6 +48,13 @@ vim.api.nvim_set_hl(0, "@comment", { link = "Comment" })
 vim.api.nvim_set_hl(0, "@string", { link = "String" })
 vim.api.nvim_set_hl(0, "@regex", { link = "RegEx" })
 
+-- LSP Groups
+vim.api.nvim_set_hl(0, "@lsp.type.comment", { link = "Comment" })
+
+-- Explorer
+vim.api.nvim_set_hl(0, "@explorer.directory", { fg = rgb_palette.steel_blue_gray })
+-- vim.api.nvim_set_hl(0, "@explorer.file",    { fg = rgb_palette.steel_blue_gray })
+
 -- Gherkin
 vim.api.nvim_set_hl(0, "@keyword.background", { fg = rgb_palette.steel_blue_gray })
 vim.api.nvim_set_hl(0, "@keyword.feature",    { fg = rgb_palette.steel_blue_gray })
@@ -61,5 +68,3 @@ vim.api.nvim_set_hl(0, "@keyword.when_and",   { fg = rgb_palette.peach })
 vim.api.nvim_set_hl(0, "@text.description",   { fg = xterm_palette.gray, italic = true })
 vim.api.nvim_set_hl(0, "@text.title",         { fg = rgb_palette.peach, italic = true })
 
--- LSP Groups
-vim.api.nvim_set_hl(0, "@lsp.type.comment", { link = "Comment" })

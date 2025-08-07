@@ -3,7 +3,6 @@
 ## Explorer
 
 - feat: add arrow icons for folders
-- feat: add syntax and colors
 - feat: when user is in the window and there is overflow, expand the width of the window. Restore to initial width when user navigates elsewhere
 - feat: auto "zz" when user moves around
 - bug: fix refreshing the view recursively

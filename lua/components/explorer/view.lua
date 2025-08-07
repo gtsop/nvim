@@ -12,10 +12,14 @@ local function get_node_lines(tree, prefix)
 
   for _, node in ipairs(tree) do
     if node.is_dir then
-      table.insert(lines, prefix .. node.name .. "/")
+      if node.tree then
+        table.insert(lines, prefix .. "⮟ " .. node.name .. "/")
+      else
+        table.insert(lines, prefix .. "⮞ " .. node.name .. "/")
+      end
       table.insert(nodes, node)
     else
-      table.insert(lines, prefix .. node.name)
+      table.insert(lines, prefix .. "  " .. node.name)
       table.insert(nodes, node)
     end
 

@@ -33,7 +33,7 @@ describe("Explorer View", function()
     view.render(model)
 
     assert.spy(s).was_called_with(fake_buffer, 0, -1, false, {
-      "dir-1/"
+      "⮞ dir-1/"
     })
   end)
 
@@ -51,7 +51,7 @@ describe("Explorer View", function()
     view.render(model)
 
     assert.spy(s).was_called_with(fake_buffer, 0, -1, false, {
-      "file-1"
+      "  file-1"
     })
   end)
 
@@ -70,8 +70,8 @@ describe("Explorer View", function()
     view.render(model)
 
     assert.spy(s).was_called_with(fake_buffer, 0, -1, false, {
-      "dir-1/",
-      "file-1"
+      "⮞ dir-1/",
+      "  file-1"
     })
   end)
 
@@ -92,9 +92,9 @@ describe("Explorer View", function()
     view.render(model)
 
     assert.spy(s).was_called_with(fake_buffer, 0, -1, false, {
-      "dir-1/",
-      "  file-2",
-      "file-1"
+      "⮟ dir-1/",
+      "    file-2",
+      "  file-1"
     })
   end)
 

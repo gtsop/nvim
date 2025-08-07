@@ -9,9 +9,20 @@ local project_dir = state.get_project_dir()
 ---------------------------
 
 local explorer = require("components.explorer.controller").new({ base_path = project_dir })
-explorer:register('ide', function()
-  return M
-end)
+explorer:register('ide', function() return M end)
+
+vim.keymap.set('n', 'gte',       '<esc>:ExplorerFindFile<cr>')
+vim.keymap.set('n', '<Leader>e', '<esc>:ExplorerShow<cr>')
+
+---------------------------
+-- BRIDGE
+---------------------------
+
+local bridge = require("components.bridge.controller").new()
+bridge:register('ide', function() return M end)
+
+vim.keymap.set('n', 'gtt', '<esc>:BridgeEditTestFile<cr>')
+vim.keymap.set('n', 'gtc', '<esc>:BridgeEditCodeFile<cr>')
 
 ---------------------------
 -- TREE SITTER
@@ -37,25 +48,6 @@ local function get_file_edit_window()
   end
 
   return vim.api.nvim_get_current_win()
-end
-
-local function split_path(full_path)
-  local dir, file = full_path:match("^(.*[/\\])([^/\\]+)$")
-  dir  = dir  or ""
-  file = file or full_path
-
-  local base, ext = file:match("^(.*)%.([^%.]+)$")
-  if not base then
-    base, ext = file, ""
-  end
-
-  return dir, base, ext
-end
-
-local function file_exists(path)
-  local f = io.open(path, "r")
-  if f then f:close(); return true end
-  return false
 end
 
 M.edit = function(full_path)
@@ -115,30 +107,6 @@ function M.copy_file(path, callback)
       end
     end
   end)
-end
-
-M.from_code_to_test = function(full_path)
-  local dir, base, ext = split_path(full_path)
-
-  local test_path = dir .. "/" .. base .. ".test." .. ext
-
-  if file_exists(test_path) then
-    M.edit(test_path)
-  else
-    vim.print("Test file: " .. test_path .. " does not exist")
-  end
-end
-
-M.from_test_to_code = function(full_path)
-  local dir, base, ext = split_path(full_path)
-
-  local code_path = dir .. "/" .. base:gsub("%.test", "") .. "." .. ext
-
-  if file_exists(code_path) then
-    M.edit(code_path)
-  else
-    vim.print("Test file: " .. code_path .. " does not exist")
-  end
 end
 
 return M

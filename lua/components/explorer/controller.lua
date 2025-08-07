@@ -72,7 +72,7 @@ function M.new(opts)
   self.create_file = require("components.explorer.actions.create-file").create(model, view, self)
   self.delete_file = require("components.explorer.actions.delete-file").create(model, view, self)
   self.edit_file   = require("components.explorer.actions.edit-file").create(model, view, self)
-  self.locate_file = require("components.explorer.actions.locate-file").create(model, view, self)
+  self.find_file   = require("components.explorer.actions.find-file").create(model, view, self)
   self.move_file   = require("components.explorer.actions.move-file").create(model, view, self)
   self.refresh_dir = require("components.explorer.actions.refresh-dir").create(model, view, self)
   self.toggle_dir  = require("components.explorer.actions.toggle-dir").create(model, view, self)
@@ -85,8 +85,10 @@ function M.new(opts)
   vim.keymap.set('n', 'd',    self.delete_file, { buffer = view_buffer })
   vim.keymap.set('n', 'm',    self.move_file,   { buffer = view_buffer })
   vim.keymap.set('n', 'r',    self.refresh_dir, { buffer = view_buffer })
-  vim.keymap.set('n', 'gte',  self.locate_file)
-  vim.keymap.set('n', '<Leader>e',  self.show)
+
+  -- Register commands
+  vim.api.nvim_create_user_command("ExplorerFindFile", self.find_file, { nargs = 0 })
+  vim.api.nvim_create_user_command("ExplorerShow",     self.show,      { nargs = 0 })
 
   self.render()
 

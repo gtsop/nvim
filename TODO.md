@@ -23,10 +23,13 @@
 - feat: when moving a file outsite the project require a confirmation
 - feat: when navigating to "up" directory stop at project level
 
+## Bridge
+
+- reafctor: create a table datastructure that maps from code file to test file, so we remove all the if/else code and instead configure everything with a table
+
 # Technical Debt
 
-- refactor: further nest `utils` with extra files (`tbl`, `fs`, `path`, etc)
 - refactor: convert file-finder into a an MVC arch
-- refactor: create a module that is aware of the project and supplies the other modules with relevant functionality
+- refactor?: create a module that is aware of the project and supplies the other modules with relevant functionality
 
 

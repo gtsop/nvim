@@ -1,12 +1,16 @@
 # Bugs
 
+## LSP
+
+- feat: autocomplete
+- feat: autoimports
+
 ## Explorer
 
-- feat: remove numbers
+- bug: make buffer non-editable
 - feat: highlight hoverred node
 - feat: when user is in the window and there is overflow, expand the width of the window. Restore to initial width when user navigates elsewhere
 - feat?: auto "zz" when user moves around
-- bug: make buffer non-editable
 - bug: fix refreshing the view recursively
 - bug: create directory causes a crash
     <trace>
@@ -32,6 +36,8 @@
 
 ## Highlight
 
+- bug: fix visual mode highlight
+- bug: fix search highlight
 - feat: gherkin comments
 - feat: explorer hidden files/dirs (dotfiles)
 

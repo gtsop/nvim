@@ -40,14 +40,18 @@ function M.new()
   local rendered_nodes = nil
   local rendered_lines = nil
 
-  local buffer = vim.api.nvim_create_buf(true, false)
+  local buffer = vim.api.nvim_create_buf(false, true)
   vim.api.nvim_buf_set_option(buffer, 'filetype', 'explorer')
+  vim.api.nvim_buf_set_option(buffer, 'modifiable', false)
+
   local window = nil
 
   function self.render(model)
     rendered_lines, rendered_nodes = get_node_lines(model.tree)
 
+    vim.api.nvim_buf_set_option(buffer, 'modifiable', true)
     vim.api.nvim_buf_set_lines(buffer, 0, -1, false, rendered_lines)
+    vim.api.nvim_buf_set_option(buffer, 'modifiable', false)
   end
 
   function self.show()
@@ -56,6 +60,8 @@ function M.new()
       split = 'left',
       width = 40
     })
+    vim.api.nvim_win_set_option(window, 'number', false)
+    vim.api.nvim_win_set_option(window, 'relativenumber', false)
     vim.api.nvim_win_set_var(window, 'is_explorer', true)
   end
 

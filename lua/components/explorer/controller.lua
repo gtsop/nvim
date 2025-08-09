@@ -5,7 +5,9 @@ function M.new(opts)
   local self = setmetatable({ di = { providers = {}, instances = {} }}, M)
 
   local model = require("components.explorer.model").new(opts.base_path)
-  local view = require("components.explorer.view").new()
+  local view = require("components.explorer.view").new({
+    window_width = opts.window_width
+  })
 
   local group = nil
   local window = nil
@@ -14,18 +16,18 @@ function M.new(opts)
   function self.render()
     local tree = model.get_tree()
     view.render(tree)
-    -- self.expand()
+    view.expand()
   end
 
   function self.win_enter()
     if vim.api.nvim_get_current_win() == window then
-      self.expand()
+      view.expand()
     end
   end
 
   function self.win_leave()
     if vim.api.nvim_get_current_win() == window then
-      self.collapse()
+      view.collapse()
     end
   end
 
@@ -35,24 +37,7 @@ function M.new(opts)
       self.close()
     end
   end
-
-  function self.expand()
-    -- resize window to fit all contents
-    local lines = vim.api.nvim_buf_get_lines(view_buffer, 0, -1, false)
-    local min_length = 15
-    local max_length = min_length
-    for _, line in ipairs(lines) do
-      if #line > max_length then
-        max_length = #line
-      end
-    end
-    vim.api.nvim_win_set_width(window, max_length)
-  end
-
-  function self.collapse()
-    vim.api.nvim_win_set_width(window, 15)
-  end
-
+  
   function self.show()
     if window then
       vim.api.nvim_set_current_win(window)

@@ -33,7 +33,9 @@ local function get_node_lines(tree, prefix)
   return lines, nodes
 end
 
-function M.new()
+function M.new(args)
+
+  local window_width = args.window_width or 40
 
   local self = setmetatable({}, M)
 
@@ -58,7 +60,7 @@ function M.new()
     window = vim.api.nvim_open_win(buffer, true, {
       relative = '',
       split = 'left',
-      width = 15
+      width = window_width
     })
     vim.api.nvim_set_option_value('number',         false, { win = window })
     vim.api.nvim_set_option_value('relativenumber', false, { win = window })
@@ -95,6 +97,26 @@ function M.new()
     else
       vim.print("Unable to find node")
     end
+  end
+
+  function self.expand()
+    if not window then return end
+
+    -- resize window to fit all contents
+    local lines = vim.api.nvim_buf_get_lines(buffer, 0, -1, false)
+    local max_length = window_width
+    for _, line in ipairs(lines) do
+      if #line > max_length then
+        max_length = #line
+      end
+    end
+    vim.api.nvim_win_set_width(window, max_length)
+  end
+
+  function self.collapse()
+    if not window then return end
+
+    vim.api.nvim_win_set_width(window, window_width)
   end
 
   return self

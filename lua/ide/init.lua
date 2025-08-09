@@ -18,7 +18,10 @@ vim.keymap.set('n', 'gtc', '<esc>:BridgeEditCodeFile<cr>')
 -- EXPLORER
 ---------------------------
 
-local explorer = require("components.explorer.controller").new({ base_path = project_dir })
+local explorer = require("components.explorer.controller").new({
+  base_path = project_dir,
+  window_width = 30
+})
 explorer:register('ide', function() return M end)
 
 vim.keymap.set('n', 'gte',       '<esc>:ExplorerFindFile<cr>')

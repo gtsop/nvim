@@ -58,7 +58,7 @@ function M.new()
     window = vim.api.nvim_open_win(buffer, true, {
       relative = '',
       split = 'left',
-      width = 40
+      width = 15
     })
     vim.api.nvim_set_option_value('number',         false, { win = window })
     vim.api.nvim_set_option_value('relativenumber', false, { win = window })

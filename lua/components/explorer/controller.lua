@@ -9,10 +9,47 @@ function M.new(opts)
 
   local group = nil
   local window = nil
+  local view_buffer = view.get_buffer()
 
   function self.render()
     local tree = model.get_tree()
     view.render(tree)
+    -- self.expand()
+  end
+
+  function self.win_enter()
+    if vim.api.nvim_get_current_win() == window then
+      self.expand()
+    end
+  end
+
+  function self.win_leave()
+    if vim.api.nvim_get_current_win() == window then
+      self.collapse()
+    end
+  end
+
+  function self.win_closed()
+    if vim.api.nvim_get_current_win() == window then
+      self.close()
+    end
+  end
+
+  function self.expand()
+    -- resize window to fit all contents
+    local lines = vim.api.nvim_buf_get_lines(view_buffer, 0, -1, false)
+    local min_length = 15
+    local max_length = min_length
+    for _, line in ipairs(lines) do
+      if #line > max_length then
+        max_length = #line
+      end
+    end
+    vim.api.nvim_win_set_width(window, max_length)
+  end
+
+  function self.collapse()
+    vim.api.nvim_win_set_width(window, 15)
   end
 
   function self.show()
@@ -27,11 +64,19 @@ function M.new(opts)
 
     group = vim.api.nvim_create_augroup(("explorer_%d"):format(window), { clear = true })
 
+    vim.api.nvim_create_autocmd("WinEnter", {
+      group = group,
+      callback = self.win_enter
+    })
+
+    vim.api.nvim_create_autocmd("WinLeave", {
+      group = group,
+      callback = self.win_leave
+    })
+
     vim.api.nvim_create_autocmd("WinClosed", {
       group = group,
-      pattern = tostring(window),
-      once = true,
-      callback = self.close
+      callback = self.win_closed
     })
   end
 
@@ -78,7 +123,6 @@ function M.new(opts)
   self.toggle_dir  = require("components.explorer.actions.toggle-dir").create(model, view, self)
 
   -- Register keymaps
-  local view_buffer = view.get_buffer()
   vim.keymap.set('n', '<CR>', self.enter_node,  { buffer = view_buffer })
   vim.keymap.set('n', 'c',    self.copy_file,   { buffer = view_buffer })
   vim.keymap.set('n', 'a',    self.create_file, { buffer = view_buffer })

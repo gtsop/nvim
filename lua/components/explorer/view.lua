@@ -95,7 +95,6 @@ function M.new()
     else
       vim.print("Unable to find node")
     end
-
   end
 
   return self

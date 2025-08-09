@@ -29,8 +29,9 @@ function M.new(opts)
     end
   end
 
-  function self.win_closed()
-    if vim.api.nvim_get_current_win() == window then
+  function self.win_closed(args)
+    local event_win = tonumber(args.match)
+    if event_win == window then
       self.close()
     end
   end
@@ -64,20 +65,9 @@ function M.new(opts)
 
     group = vim.api.nvim_create_augroup(("explorer_%d"):format(window), { clear = true })
 
-    vim.api.nvim_create_autocmd("WinEnter", {
-      group = group,
-      callback = self.win_enter
-    })
-
-    vim.api.nvim_create_autocmd("WinLeave", {
-      group = group,
-      callback = self.win_leave
-    })
-
-    vim.api.nvim_create_autocmd("WinClosed", {
-      group = group,
-      callback = self.win_closed
-    })
+    vim.api.nvim_create_autocmd("WinEnter", { group = group, callback = self.win_enter })
+    vim.api.nvim_create_autocmd("WinLeave", { group = group, callback = self.win_leave })
+    vim.api.nvim_create_autocmd("WinClosed", { group = group, callback = self.win_closed })
   end
 
   function self.close()

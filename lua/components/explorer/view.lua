@@ -60,9 +60,9 @@ function M.new()
       split = 'left',
       width = 40
     })
-    vim.api.nvim_win_set_option(window, 'number', false)
-    vim.api.nvim_win_set_option(window, 'relativenumber', false)
-    vim.api.nvim_win_set_var(window, 'is_explorer', true)
+    vim.api.nvim_set_option_value('number',         false, { win = window })
+    vim.api.nvim_set_option_value('relativenumber', false, { win = window })
+    vim.api.nvim_set_option_value('wrap',           false, { win = window })
   end
 
   function self.get_window()

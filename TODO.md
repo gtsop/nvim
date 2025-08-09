@@ -1,9 +1,8 @@
-# Bugs
-
+# TODO
 
 ## Formatter
 
-- feat: auto format js files on save
+- feat: automatically pick local prettier bin, or global npm or npx
 
 ## LSP
 
@@ -12,7 +11,7 @@
 
 ## Explorer
 
-- bug: make buffer non-editable
+- feat: nowrap
 - feat: highlight hoverred node
 - feat: when user is in the window and there is overflow, expand the width of the window. Restore to initial width when user navigates elsewhere
 - feat?: auto "zz" when user moves around

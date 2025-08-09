@@ -28,7 +28,7 @@ function M.create(_, _, c)
     if fs.is_file(code_file) then
       c:service("ide").edit(code_file)
     else
-      vim.print("Failed to find code file at: " .. unit_test_file)
+      vim.print("Failed to find code file at: " .. code_file)
     end
   end
 end

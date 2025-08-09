@@ -5,6 +5,16 @@ local state = require("state")
 local project_dir = state.get_project_dir()
 
 ---------------------------
+-- BRIDGE
+---------------------------
+
+local bridge = require("components.bridge.controller").new()
+bridge:register('ide', function() return M end)
+
+vim.keymap.set('n', 'gtt', '<esc>:BridgeEditTestFile<cr>')
+vim.keymap.set('n', 'gtc', '<esc>:BridgeEditCodeFile<cr>')
+
+---------------------------
 -- EXPLORER
 ---------------------------
 
@@ -15,14 +25,10 @@ vim.keymap.set('n', 'gte',       '<esc>:ExplorerFindFile<cr>')
 vim.keymap.set('n', '<Leader>e', '<esc>:ExplorerShow<cr>')
 
 ---------------------------
--- BRIDGE
+-- FORMATTER
 ---------------------------
 
-local bridge = require("components.bridge.controller").new()
-bridge:register('ide', function() return M end)
-
-vim.keymap.set('n', 'gtt', '<esc>:BridgeEditTestFile<cr>')
-vim.keymap.set('n', 'gtc', '<esc>:BridgeEditCodeFile<cr>')
+local formatter = require("components.formatter.controller").new()
 
 ---------------------------
 -- TREE SITTER

@@ -1,5 +1,10 @@
 # Bugs
 
+
+## Formatter
+
+- feat: auto format js files on save
+
 ## LSP
 
 - feat: autocomplete

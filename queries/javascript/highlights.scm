@@ -1,3 +1,4 @@
 (comment) @comment
-(string) @string
+(keyword) @keyword
 (regex) @regex
+(string) @string

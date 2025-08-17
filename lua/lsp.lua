@@ -1,30 +1,13 @@
 vim.lsp.enable('lua_ls')
 vim.lsp.enable('typescript')
 
-vim.api.nvim_create_autocmd("LspAttach", {
-  callback = function(ev)
-    local client = vim.lsp.get_client_by_id(ev.data.client_id)
-    if client:supports_method('textDocument/completion') then
-      vim.opt.completeopt = { 'menu', 'menuone', 'noinsert', 'popup' }
-      vim.lsp.completion.enable(true, client.id, ev.buf, { autotrigger = true })
-      vim.keymap.set('i', '<C-n>', function()
-        vim.lsp.completion.get()
-      end)
-      vim.keymap.set('i','<CR>', function()
-        return vim.fn.pumvisible()==1 and vim.api.nvim_replace_termcodes('<C-y>', true,false,true) or '\r'
-      end, {expr=true})
-    end
-  end
-})
-
 vim.diagnostic.config({
   virtual_lines = {
     current_line = true
   }
 })
 
-vim.keymap.set('n', '<M-o>', function()
-  vim.print("RUNNING")
+vim.keymap.set('n', '<S-M-o>', function()
   vim.lsp.buf.code_action({
     apply = true,
     context = { only = { 'source.addMissingImports.ts' }}

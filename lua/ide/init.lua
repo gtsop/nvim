@@ -5,6 +5,11 @@ local state = require("state")
 local project_dir = state.get_project_dir()
 
 ---------------------------
+-- AUTOCOMPLETE
+---------------------------
+local autocomplete = require("components.autocomplete.controller").new()
+
+---------------------------
 -- BRIDGE
 ---------------------------
 

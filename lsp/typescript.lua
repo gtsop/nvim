@@ -7,6 +7,10 @@ return {
       includeCompletionsForModuleExports = true,
       includeCompletionsWithInsertText = true,
       includeAutomaticOptionalChainCompletions = true,
+
+      includeInlayParameterNameHints = "all",
+      includeInlayParameterNameHintsWhenArgumentMatchesName = false,
+      includeInlayFunctionParameterTypeHints = true,
     }
   }
 }

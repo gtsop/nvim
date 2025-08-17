@@ -5,11 +5,14 @@ vim.api.nvim_create_autocmd("LspAttach", {
   callback = function(ev)
     local client = vim.lsp.get_client_by_id(ev.data.client_id)
     if client:supports_method('textDocument/completion') then
-      vim.opt.completeopt = { 'menu', 'menuone', 'noinsert', 'fuzzy', 'popup' }
+      vim.opt.completeopt = { 'menu', 'menuone', 'noinsert', 'popup' }
       vim.lsp.completion.enable(true, client.id, ev.buf, { autotrigger = true })
-      vim.keymap.set('i', '<C-Space>', function()
+      vim.keymap.set('i', '<C-n>', function()
         vim.lsp.completion.get()
       end)
+      vim.keymap.set('i','<CR>', function()
+        return vim.fn.pumvisible()==1 and vim.api.nvim_replace_termcodes('<C-y>', true,false,true) or '\r'
+      end, {expr=true})
     end
   end
 })
@@ -18,4 +21,52 @@ vim.diagnostic.config({
   virtual_lines = {
     current_line = true
   }
+})
+
+vim.keymap.set('n', '<M-o>', function()
+  vim.print("RUNNING")
+  vim.lsp.buf.code_action({
+    apply = true,
+    context = { only = { 'source.addMissingImports.ts' }}
+  })
+  vim.lsp.buf.code_action({
+    apply = true,
+    context = { only = { 'source.organizeImports' }}
+  })
+end, { desc = 'LSP: fix imports' })
+
+
+vim.api.nvim_create_autocmd("CompleteDone", {
+  callback = function(args)
+    local client = vim.lsp.get_active_clients({ bufnr = 0 })[1]
+    if not client then
+      return
+    end
+
+    local selected_item = vim.v.completed_item
+
+    if not selected_item then
+      return
+    end
+
+    local user_data = selected_item.user_data
+    if not user_data then
+      return
+    end
+
+    local completion_item = user_data.nvim.lsp.completion_item
+    if not copmletion_item then
+      return
+    end
+
+    print(vim.inspect(completion_item))
+
+    if client.server_capabilities.completionProvider
+    and client.server_capabilities.completionProvider.resolveProvider then
+      client.request('completion/resolve', completion_item, function (a, resolved)
+        print(vim.inspect(a))
+        print(vim.inspect(resolved))
+      end)
+    end
+  end
 })

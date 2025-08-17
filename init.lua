@@ -17,6 +17,7 @@ vim.opt.swapfile = false
 vim.opt.winborder = 'rounded'
 vim.opt.ignorecase = true
 vim.opt.smartcase = true
+vim.o.completeopt = 'menu,menuone,noinsert'
 
 -- Line numbers
 vim.opt.number = true
@@ -33,3 +34,4 @@ vim.api.nvim_create_autocmd("VimEnter", {
     state.detect_project_dir()
   end
 })
+

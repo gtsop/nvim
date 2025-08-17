@@ -4,7 +4,3 @@ end
 vim.b.did_ftplugin = true
 
 vim.treesitter.start()
-
-local ide = require("ide")
-
-

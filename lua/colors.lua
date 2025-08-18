@@ -55,7 +55,7 @@ vim.api.nvim_set_hl(0, "@lsp.type.comment", { link = "Comment" })
 
 -- Explorer
 vim.api.nvim_set_hl(0, "@explorer.directory", { fg = rgb_palette.steel_blue_gray})
--- vim.api.nvim_set_hl(0, "@explorer.file",    { fg = rgb_palette.steel_blue_gray })
+vim.api.nvim_set_hl(0, "@explorer.hidden",    { link = "Comment" })
 
 -- Gherkin
 vim.api.nvim_set_hl(0, "@keyword.background", { fg = rgb_palette.steel_blue_gray })

@@ -38,6 +38,9 @@
 ## Highlight
 
 - bug: fix visual mode highlight
+
+## Treesitter Syntax
+
 - feat: gherkin comments
 
 # Technical Debt

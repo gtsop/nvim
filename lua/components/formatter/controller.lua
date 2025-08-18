@@ -4,50 +4,30 @@ M.__index = M
 function M.new()
 	local self = setmetatable({}, M)
 
-	function self.get_lines()
-		local buf = vim.api.nvim_get_current_buf()
-		local lines = vim.api.nvim_buf_get_lines(buf, 0, -1, false)
-		return table.concat(lines, "\n")
+	function self.run_cmd(cmd, args, callback)
+		local stdout = vim.fn.system(cmd, args)
+		local ok = vim.v.shell_error == 0
+
+		if ok then
+			local out = vim.split(stdout or "", "\n", { plain = true })
+			callback(out)
+		else
+			vim.notify(("Fromat failed:\n%s"):format(stdout), vim.log.levels.ERROR)
+		end
 	end
 
-	function self.get_filename()
-		local buf = vim.api.nvim_get_current_buf()
+	local model = require("components.formatter.model").new()
+	local view = require("components.formatter.view").new()
 
-		return vim.api.nvim_buf_get_name(buf)
-	end
+	local format_stylua = require("components.formatter.actions.format-stylua").create(model, view, self)
+	local format_prettier = require("components.formatter.actions.format-prettier").create(model, view, self)
 
-	vim.api.nvim_create_autocmd("BufWritePre", {
-		pattern = { "*.js", "*.jsx", "*.ts", "*.tsx", "*.md", "*.mdx", "*.json" },
-		callback = function()
-			local view = vim.fn.winsaveview()
-			vim.cmd([[%!prettier --stdin-filepath %]])
-			vim.fn.winrestview(view)
-		end,
-	})
-
-	vim.api.nvim_create_autocmd("BufWritePre", {
-		pattern = { "*.lua" },
-		callback = function()
-			local view = vim.fn.winsaveview()
-			local buf = vim.api.nvim_get_current_buf()
-
-			local code = self.get_lines()
-			local file = self.get_filename()
-
-			local stdout = vim.fn.system({ "stylua", "--stdin-filepath", file, "-" }, code)
-			local ok = vim.v.shell_error == 0
-
-			if ok then
-				local out = vim.split(stdout or "", "\n", { plain = true })
-				if out[#out] == "" and code[#code] ~= "" then
-					table.remove(out, #out)
-				end
-				vim.api.nvim_buf_set_lines(buf, 0, -1, false, out)
-			end
-
-			vim.fn.winrestview(view)
-		end,
-	})
+	vim.api.nvim_create_autocmd("BufWritePre", { pattern = { "*.json" }, callback = format_prettier })
+	vim.api.nvim_create_autocmd("BufWritePre", { pattern = { "*.js", "*.jsx" }, callback = format_prettier })
+	vim.api.nvim_create_autocmd("BufWritePre", { pattern = { "*.ts", "*.tsx" }, callback = format_prettier })
+	vim.api.nvim_create_autocmd("BufWritePre", { pattern = { "*.md", "*.mdx" }, callback = format_prettier })
+	vim.api.nvim_create_autocmd("BufWritePre", { pattern = { "*.graphql" }, callback = format_prettier })
+	vim.api.nvim_create_autocmd("BufWritePre", { pattern = { "*.lua" }, callback = format_stylua })
 
 	return self
 end

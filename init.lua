@@ -17,7 +17,9 @@ vim.opt.swapfile = false
 vim.opt.winborder = 'rounded'
 vim.opt.ignorecase = true
 vim.opt.smartcase = true
-vim.o.completeopt = 'menu,menuone,noinsert,noselect,popup'
+vim.opt.completeopt = 'menu,menuone,noinsert,noselect,popup'
+vim.opt.cursorline = true
+vim.opt.cursorcolumn = true
 
 -- Line numbers
 vim.opt.number = true

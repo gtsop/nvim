@@ -7,6 +7,8 @@ vim.opt.termguicolors = true
 local xterm_palette = {
   cadet_blue = "#5faf87",
   gray = "#808080",
+  gray3 = "#080808",
+  gray7 = "#121212",
   gray_27 = "#444444",
   fuchsia = "#ff00ff",
   light_goldenrod1 = "#ffff5f",
@@ -36,9 +38,11 @@ vim.api.nvim_set_hl(0, "RegEx",    { fg = xterm_palette.teal })
 vim.api.nvim_set_hl(0, "String",   { fg = xterm_palette.cadet_blue })
 
 -- Neovim UI Groups
-vim.api.nvim_set_hl(0, "Search", { fg = xterm_palette.white, bg = xterm_palette.medium_purple4 })
-vim.api.nvim_set_hl(0, "CurSearch", { fg = xterm_palette.white, bg = xterm_palette.fuchsia })
-vim.api.nvim_set_hl(0, "IncSearch", { fg = xterm_palette.white, bg = xterm_palette.medium_purple4 })
+vim.api.nvim_set_hl(0, "Search",     { fg = xterm_palette.white, bg = xterm_palette.medium_purple4 })
+vim.api.nvim_set_hl(0, "CurSearch",  { fg = xterm_palette.white, bg = xterm_palette.fuchsia })
+vim.api.nvim_set_hl(0, "IncSearch",  { fg = xterm_palette.white, bg = xterm_palette.medium_purple4 })
+vim.api.nvim_set_hl(0, "CursorLine", { bg = xterm_palette.gray7 })
+vim.api.nvim_set_hl(0, "CursorColumn", { bg = xterm_palette.gray7 })
 
 -- Tree-Sitter groups
 vim.api.nvim_set_hl(0, "@comment", { link = "Comment" })

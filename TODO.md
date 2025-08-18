@@ -2,6 +2,7 @@
 
 ## Formatter
 
+- bug: errors get printed on the file and destroy the buffer
 - feat: automatically pick local prettier bin, or global npm or npx
 
 ## LSP

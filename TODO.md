@@ -2,7 +2,6 @@
 
 ## Formatter
 
-- bug: errors get printed on the file and destroy the buffer
 - feat: automatically pick local prettier bin, or global npm or npx
 
 ## LSP
@@ -45,3 +44,4 @@
 
 - refactor: convert file-finder into a an MVC arch
 - refactor?: create a module that is aware of the project and supplies the other modules with relevant functionality
+

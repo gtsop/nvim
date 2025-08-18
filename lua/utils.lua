@@ -88,6 +88,10 @@ function M.subsequence_score(sequence_str, test_str, case_sensitive)
     sequence_str = string.lower(sequence_str)
   end
 
+  -- Invert strings to favor results by the end of the line 
+  sequence_str = string.reverse(sequence_str)
+  test_str = string.reverse(test_str)
+
   local score = 0
   local sequence = sequence_str
 

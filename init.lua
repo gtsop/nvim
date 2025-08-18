@@ -35,3 +35,12 @@ vim.api.nvim_create_autocmd("VimEnter", {
   end
 })
 
+vim.keymap.set('n', '<esc>', "<cmd>nohlsearch<cr><esc>", { noremap = true, silent = true })
+
+vim.api.nvim_create_autocmd("InsertEnter", {
+  callback = function()
+    vim.schedule(function()
+      vim.cmd("nohlsearch")
+    end)
+  end,
+})

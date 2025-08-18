@@ -42,7 +42,7 @@ local formatter = require("components.formatter.controller").new()
 -- TREE SITTER
 ---------------------------
 
-vim.treesitter.language.register("javascript", { "javascriptreact", "typescriptreact" })
+vim.treesitter.language.register("javascript", { "javascriptreact", "typescript", "typescriptreact" })
 
 ---------------------------
 -- FILE TYPES

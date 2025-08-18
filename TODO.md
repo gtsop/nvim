@@ -40,7 +40,6 @@
 ## Highlight
 
 - bug: fix visual mode highlight
-- bug: fix search highlight
 - feat: gherkin comments
 - feat: explorer hidden files/dirs (dotfiles)
 

@@ -7,6 +7,7 @@ function M.create(m, v, c)
       local node = m.expand_until_path(file)
       c.render()
       v.hover_node(node)
+      vim.cmd("normal! zz")
   end
 end
 

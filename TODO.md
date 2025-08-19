@@ -3,6 +3,7 @@
 ## Formatter
 
 - feat: automatically pick local prettier bin, or global npm or npx
+- feat: run eslint
 
 ## LSP
 
@@ -43,8 +44,13 @@
 
 - feat: gherkin comments
 
+## File Finder
+
+- feat: improve the scoring of files to make the basename of the flie to score higher. Also, give more points for consecutive characters
+- test: add unit tests
+- refactor: convert file-finder into a an MVC arch
+
 # Technical Debt
 
-- refactor: convert file-finder into a an MVC arch
 - refactor?: create a module that is aware of the project and supplies the other modules with relevant functionality
 

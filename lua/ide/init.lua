@@ -14,23 +14,27 @@ local autocomplete = require("components.autocomplete.controller").new()
 ---------------------------
 
 local bridge = require("components.bridge.controller").new()
-bridge:register('ide', function() return M end)
+bridge:register("ide", function()
+	return M
+end)
 
-vim.keymap.set('n', 'gtt', '<esc>:BridgeEditTestFile<cr>')
-vim.keymap.set('n', 'gtc', '<esc>:BridgeEditCodeFile<cr>')
+vim.keymap.set("n", "gtt", "<esc>:BridgeEditTestFile<cr>")
+vim.keymap.set("n", "gtc", "<esc>:BridgeEditCodeFile<cr>")
 
 ---------------------------
 -- EXPLORER
 ---------------------------
 
 local explorer = require("components.explorer.controller").new({
-  base_path = project_dir,
-  window_width = 30
+	base_path = project_dir,
+	window_width = 30,
 })
-explorer:register('ide', function() return M end)
+explorer:register("ide", function()
+	return M
+end)
 
-vim.keymap.set('n', 'gte',       '<esc>:ExplorerFindFile<cr>')
-vim.keymap.set('n', '<Leader>e', '<esc>:ExplorerShow<cr>')
+vim.keymap.set("n", "gte", "<esc>:ExplorerFindFile<cr>")
+vim.keymap.set("n", "<Leader>e", "<esc>:ExplorerShow<cr>")
 
 ---------------------------
 -- FORMATTER
@@ -48,79 +52,78 @@ vim.treesitter.language.register("javascript", { "javascriptreact", "typescript"
 -- FILE TYPES
 ---------------------------
 
-vim.filetype.add {
-  extension = { feature = "gherkin" }
-}
+vim.filetype.add({
+	extension = { feature = "gherkin" },
+})
 
 local function get_file_edit_window()
-  local avoid_filetypes = { "explorer" }
+	local avoid_filetypes = { "explorer" }
 
-  for _, win in ipairs(vim.api.nvim_tabpage_list_wins(0)) do
-    if not table.contains(avoid_filetypes, utils.win_get_buf_filetype(win)) then
-      return win
-    end
-  end
+	for _, win in ipairs(vim.api.nvim_tabpage_list_wins(0)) do
+		if not table.contains(avoid_filetypes, utils.win_get_buf_filetype(win)) then
+			return win
+		end
+	end
 
-  return vim.api.nvim_get_current_win()
+	return vim.api.nvim_get_current_win()
 end
 
 M.edit = function(full_path)
+	local buff_id = vim.fn.bufadd(full_path)
+	local win_id = nil
 
-  local buff_id = vim.fn.bufadd(full_path)
-  local win_id = nil
+	win_id = get_file_edit_window()
 
-  win_id = get_file_edit_window()
-
-  vim.api.nvim_win_set_buf(win_id, buff_id)
-  vim.api.nvim_set_current_win(win_id)
+	vim.api.nvim_win_set_buf(win_id, buff_id)
+	vim.api.nvim_set_current_win(win_id)
 end
 
 function M.create_file(path, callback)
-  local dir = vim.fs.dirname(path)
+	local dir = vim.fs.dirname(path)
 
-  vim.ui.input({ prompt = "New file: ", default = dir .. "/" }, function(new_file)
-    if new_file then
-      vim.fn.mkdir(vim.fs.dirname(new_file), "p")
-      vim.fn.writefile({}, new_file)
-      if callback then
-        callback()
-      end
-    end
-  end)
+	vim.ui.input({ prompt = "New file: ", default = dir .. "/" }, function(new_file)
+		if new_file then
+			vim.fn.mkdir(vim.fs.dirname(new_file), "p")
+			vim.fn.writefile({}, new_file)
+			if callback then
+				callback()
+			end
+		end
+	end)
 end
 
 function M.delete_file(path, callback)
-  vim.ui.input({ prompt = "Are you sure you want to delete '" .. path .. "' ? [y/n]: " }, function(answer)
-    if answer == "y" then
-      vim.fn.delete(path)
-      if callback then
-        callback()
-      end
-    end
-  end)
+	vim.ui.input({ prompt = "Are you sure you want to delete '" .. path .. "' ? [y/n]: " }, function(answer)
+		if answer == "y" then
+			vim.fn.delete(path)
+			if callback then
+				callback()
+			end
+		end
+	end)
 end
 
 function M.move_file(path, callback)
-  vim.ui.input({ prompt = "Give new file location for: ", default = path }, function(new_file)
-    if new_file then
-      vim.fn.rename(path, new_file)
-      if callback then
-        callback()
-      end
-    end
-  end)
+	vim.ui.input({ prompt = "Give new file location for: ", default = path }, function(new_file)
+		if new_file then
+			vim.fn.rename(path, new_file)
+			if callback then
+				callback()
+			end
+		end
+	end)
 end
 
 function M.copy_file(path, callback)
-  vim.ui.input({ prompt = "Copy file to new location: ", default = path }, function(new_file)
-    if new_file then
-      vim.fn.mkdir(vim.fn.fnamemodify(new_file, ":h"), "p")
-      vim.fn.writefile(vim.fn.readfile(path), new_file)
-      if callback then
-        callback()
-      end
-    end
-  end)
+	vim.ui.input({ prompt = "Copy file to new location: ", default = path }, function(new_file)
+		if new_file then
+			vim.fn.mkdir(vim.fn.fnamemodify(new_file, ":h"), "p")
+			vim.fn.writefile(vim.fn.readfile(path), new_file)
+			if callback then
+				callback()
+			end
+		end
+	end)
 end
 
 return M

@@ -20,9 +20,6 @@ end, { desc = "LSP: fix imports" })
 
 vim.api.nvim_create_autocmd("CompleteDone", {
 	callback = function(args)
-		if true then
-			return
-		end
 		local client = vim.lsp.get_active_clients({ bufnr = 0 })[1]
 		if not client then
 			return
@@ -39,20 +36,21 @@ vim.api.nvim_create_autocmd("CompleteDone", {
 			return
 		end
 
-		local completion_item = user_data.nvim.lsp.completion_item
-		if not copmletion_item then
+		local ok, completion_item = pcall(function()
+			return user_data.nvim.lsp.completion_item
+		end)
+
+		if not ok then
 			return
 		end
-
-		print(vim.inspect(completion_item))
 
 		if
 			client.server_capabilities.completionProvider
 			and client.server_capabilities.completionProvider.resolveProvider
 		then
 			client.request("completion/resolve", completion_item, function(a, resolved)
-				print(vim.inspect(a))
-				print(vim.inspect(resolved))
+				-- print(vim.inspect(a))
+				-- print(vim.inspect(resolved))
 			end)
 		end
 	end,

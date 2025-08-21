@@ -5,7 +5,7 @@ function M.new()
 	local self = setmetatable({}, M)
 
 	vim.opt.omnifunc = "v:lua.vim.lsp.omnifunc"
-	vim.opt.completeopt = "menu,menuone,noinsert,popup"
+	vim.opt.completeopt = "menu,menuone,noinsert,noselect,popup"
 	vim.opt.pumheight = 10
 
 	function self.should_show_popup(char)
@@ -13,6 +13,7 @@ function M.new()
 		local has_lsp = vim.o.omnifunc == "v:lua.vim.lsp.omnifunc"
 
 		local col = vim.fn.col(".") - 1
+
 		if col <= 0 then
 			return false
 		end

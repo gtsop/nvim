@@ -57,3 +57,9 @@ vim.api.nvim_create_autocmd("CompleteDone", {
 		end
 	end,
 })
+
+vim.api.nvim_create_user_command("LSPDiagnose", function()
+	local client = vim.lsp.get_clients({ bufnr = 0 })
+
+	vim.print("Has client: " .. (#client > 0 and "true" or "false"))
+end, { nargs = 0 })

@@ -31,6 +31,7 @@ local xterm_palette = {
 local rgb_palette = {
 	peach = "#D9A299",
 	brown = "#a0787b",
+	dark_brown = "#6b6263",
 	steel_blue_gray = "#818FB4",
 }
 
@@ -72,6 +73,11 @@ vim.api.nvim_set_hl(0, "@keyword.when", { fg = rgb_palette.peach })
 vim.api.nvim_set_hl(0, "@keyword.when_and", { fg = rgb_palette.peach })
 vim.api.nvim_set_hl(0, "@text.description", { fg = xterm_palette.gray, italic = true })
 vim.api.nvim_set_hl(0, "@text.title", { fg = rgb_palette.peach, italic = true })
+
+-- HTML
+vim.api.nvim_set_hl(0, "@html.comment", { link = "Comment" })
+vim.api.nvim_set_hl(0, "@html.start_tag", { link = "@keyword" })
+vim.api.nvim_set_hl(0, "@html.end_tag", { fg = rgb_palette.dark_brown })
 
 -- Popup Gropus
 vim.api.nvim_set_hl(0, "Pmenu", { bg = xterm_palette.gray7 })

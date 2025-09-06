@@ -13,7 +13,6 @@
 
 ## Explorer
 
-- feat: when user is in the window and there is overflow, expand the width of the window. Restore to initial width when user navigates elsewhere
 - bug: fix refreshing the view recursively
 - bug: create directory causes a crash
   <trace>
@@ -40,7 +39,6 @@
 ## Highlight
 
 - bug: fix visual mode highlight
-- feat: html support
 - feat: css support
 - feat: markdown support
 

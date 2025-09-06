@@ -9,6 +9,7 @@
 
 - feat: autocomplete
 - feat: autoimports
+- feat: markdown support
 
 ## Explorer
 
@@ -39,6 +40,9 @@
 ## Highlight
 
 - bug: fix visual mode highlight
+- feat: html support
+- feat: css support
+- feat: markdown support
 
 ## Treesitter Syntax
 

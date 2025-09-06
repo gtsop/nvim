@@ -26,6 +26,7 @@ function M.new()
 	vim.api.nvim_create_autocmd("BufWritePre", { pattern = { "*.js", "*.jsx" }, callback = format_prettier })
 	vim.api.nvim_create_autocmd("BufWritePre", { pattern = { "*.ts", "*.tsx" }, callback = format_prettier })
 	vim.api.nvim_create_autocmd("BufWritePre", { pattern = { "*.md", "*.mdx" }, callback = format_prettier })
+	vim.api.nvim_create_autocmd("BufWritePre", { pattern = { "*.css", "*.html" }, callback = format_prettier })
 	vim.api.nvim_create_autocmd("BufWritePre", { pattern = { "*.graphql" }, callback = format_prettier })
 	vim.api.nvim_create_autocmd("BufWritePre", { pattern = { "*.lua" }, callback = format_stylua })
 

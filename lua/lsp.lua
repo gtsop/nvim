@@ -1,5 +1,7 @@
 vim.lsp.enable("lua_ls")
 vim.lsp.enable("typescript")
+vim.lsp.enable("html")
+vim.lsp.enable("css")
 
 vim.diagnostic.config({
 	virtual_lines = {

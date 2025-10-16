@@ -82,15 +82,20 @@ end
 function M.create_file(path, callback)
 	local dir = vim.fs.dirname(path)
 
-	vim.ui.input({ prompt = "New file: ", default = dir .. "/" }, function(new_file)
-		if new_file then
-			vim.fn.mkdir(vim.fs.dirname(new_file), "p")
+	local new_file = vim.fn.input("New file: ", dir .. "/", "file")
+
+	if new_file then
+		vim.fn.mkdir(vim.fs.dirname(new_file), "p")
+
+		-- create file
+		if new_file:sub(-1) ~= "/" then
 			vim.fn.writefile({}, new_file)
-			if callback then
-				callback()
-			end
 		end
-	end)
+
+		if callback then
+			callback()
+		end
+	end
 end
 
 function M.delete_file(path, callback)

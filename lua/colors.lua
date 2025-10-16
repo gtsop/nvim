@@ -40,6 +40,7 @@ vim.api.nvim_set_hl(0, "Comment", { fg = xterm_palette.gray_27 })
 vim.api.nvim_set_hl(0, "Function", { fg = xterm_palette.medium_purple3 })
 vim.api.nvim_set_hl(0, "RegEx", { fg = xterm_palette.teal })
 vim.api.nvim_set_hl(0, "String", { fg = xterm_palette.cadet_blue })
+vim.api.nvim_set_hl(0, "Visual", { fg = xterm_palette.white, bg = xterm_palette.medium_purple4 })
 
 -- Neovim UI Groups
 vim.api.nvim_set_hl(0, "Search", { fg = xterm_palette.white, bg = xterm_palette.medium_purple4 })

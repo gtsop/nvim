@@ -80,6 +80,13 @@ vim.api.nvim_set_hl(0, "@html.comment", { link = "Comment" })
 vim.api.nvim_set_hl(0, "@html.start_tag", { link = "@keyword" })
 vim.api.nvim_set_hl(0, "@html.end_tag", { fg = rgb_palette.dark_brown })
 
+-- Graphql
+vim.api.nvim_set_hl(0, "@graphql.comment", { link = "Comment" })
+vim.api.nvim_set_hl(0, "@graphql.keyword", { link = "@keyword" })
+-- vim.api.nvim_set_hl(0, "@graphql.identifier", { fg = xterm_palette.light_goldenrod2 })
+-- vim.api.nvim_set_hl(0, "@graphql.scalar", { fg = xterm_palette.fuchsia })
+-- vim.api.nvim_set_hl(0, "@graphql.type", { fg = xterm_palette.fuchsia })
+
 -- Popup Gropus
 vim.api.nvim_set_hl(0, "Pmenu", { bg = xterm_palette.gray7 })
 vim.api.nvim_set_hl(0, "PmenuSel", { bg = xterm_palette.white, fg = xterm_palette.black })

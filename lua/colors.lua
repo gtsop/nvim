@@ -1,38 +1,38 @@
 -- Reset all colors
 for name, _ in pairs(vim.api.nvim_get_hl(0, {})) do
-    vim.api.nvim_set_hl(0, name, {})
+  vim.api.nvim_set_hl(0, name, {})
 end
 vim.opt.termguicolors = true
 
 -- Reference:
 -- https://www.ditig.com/256-colors-cheat-sheet#xterm-system-colors
 local xterm_palette = {
-    black = "#000000",
-    cadet_blue = "#5faf87",
-    gray = "#808080",
-    gray3 = "#080808",
-    gray7 = "#121212",
-    gray_27 = "#444444",
-    fuchsia = "#ff00ff",
-    light_goldenrod1 = "#ffff5f",
-    light_goldenrod2 = "#ffd75f",
-    light_goldrenrod3 = "#ffd75f",
-    light_steel_blue1 = "#d7d7ff",
-    light_steel_blue3 = "#afafd7",
-    medium_purple3 = "#875faf",
-    medium_purple4 = "#5f5f87",
-    spring_green3 = "#00af5f",
-    steel_blue1 = "#5fafff",
-    teal = "#008080",
-    wheat = "#ffffaf",
-    white = "#ffffff",
+  black = "#000000",
+  cadet_blue = "#5faf87",
+  gray = "#808080",
+  gray3 = "#080808",
+  gray7 = "#121212",
+  gray_27 = "#444444",
+  fuchsia = "#ff00ff",
+  light_goldenrod1 = "#ffff5f",
+  light_goldenrod2 = "#ffd75f",
+  light_goldrenrod3 = "#ffd75f",
+  light_steel_blue1 = "#d7d7ff",
+  light_steel_blue3 = "#afafd7",
+  medium_purple3 = "#875faf",
+  medium_purple4 = "#5f5f87",
+  spring_green3 = "#00af5f",
+  steel_blue1 = "#5fafff",
+  teal = "#008080",
+  wheat = "#ffffaf",
+  white = "#ffffff",
 }
 
 local rgb_palette = {
-    peach = "#D9A299",
-    brown = "#a0787b",
-    dark_brown = "#6b6263",
-    steel_blue_gray = "#818FB4",
+  peach = "#D9A299",
+  brown = "#a0787b",
+  dark_brown = "#6b6263",
+  steel_blue_gray = "#818FB4",
 }
 
 -- Neovim Code Groups

@@ -30,18 +30,26 @@ require("lsp")
 require("shortcuts")
 
 vim.api.nvim_create_autocmd("VimEnter", {
-	once = true,
-	callback = function()
-		state.detect_project_dir()
-	end,
+  once = true,
+  callback = function()
+    state.detect_project_dir()
+  end,
 })
 
-vim.keymap.set("n", "<esc>", "<cmd>nohlsearch<cr><esc>", { noremap = true, silent = true })
+vim.api.nvim_create_user_command("ClearSearch", function()
+  vim.cmd("nohlsearch")
+  vim.fn.setreg("/", "")
+end, {})
+
+vim.keymap.set("n", "<Esc>", "<cmd>ClearSearch<CR><Esc>", {
+  noremap = true,
+  silent = true,
+})
 
 vim.api.nvim_create_autocmd("InsertEnter", {
-	callback = function()
-		vim.schedule(function()
-			vim.cmd("nohlsearch")
-		end)
-	end,
+  callback = function()
+    vim.schedule(function()
+      vim.cmd("nohlsearch")
+    end)
+  end,
 })

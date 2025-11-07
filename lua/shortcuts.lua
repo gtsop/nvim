@@ -9,6 +9,3 @@ vim.keymap.set({ "n", "v" }, "<Leader>w", "<esc>:close<CR>", { silent = true })
 
 -- Ctrl + p: Show File Finder
 vim.keymap.set({ "n", "v" }, "<C-p>", "<esc>:FileFinderShow<CR>", { silent = true })
-
--- Ctrl + f: Search
-vim.keymap.set({ "n", "v" }, "<C-f>", "<esc>/", { silent = true })

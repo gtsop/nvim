@@ -43,22 +43,27 @@ vim.keymap.set("n", "<Leader>e", "<esc>:ExplorerShow<cr>")
 local seeker = require("components.seeker.controller").new({
   base_path = project_dir,
 })
---vim.keymap.set("n", "F", "<esc>:SeekerFind ")
-vim.keymap.set("x", "F", [["zy:<C-u>SeekerFind <C-R>z<CR>]], { silent = true })
 
-vim.keymap.set("n", "F", function()
-  local pat = vim.fn.getreg("/") -- current / search
-  local has_hl = vim.v.hlsearch == 1 and pat ~= "" and vim.fn.searchcount({ recompute = 1 }).total > 0
+vim.keymap.set("n", "<C-f>", "/", { noremap = true })
+vim.keymap.set("x", "<C-f>", [["zy/<C-r>z<CR>]], { noremap = true, silent = true })
 
-  if has_hl then
-    -- Safely execute with the search pattern as a single arg
-    vim.cmd({ cmd = "SeekerFind", args = { pat } })
+vim.keymap.set("n", " ", function()
+  local pat = vim.fn.getreg("/") or ""
+  if pat ~= "" then
+    vim.cmd("SeekerFind " .. pat)
   else
-    -- Pre-fill the command-line and let you type the argument
-    local keys = vim.api.nvim_replace_termcodes(":SeekerFind ", true, false, true)
-    vim.api.nvim_feedkeys(keys, "n", false)
+    vim.api.nvim_feedkeys(":SeekerFind ", "n", false)
   end
-end, { silent = true, desc = "Run MyCommand with current search or prompt" })
+end, { noremap = true, silent = true })
+
+vim.keymap.set("x", " ", '"zy:<C-u>SeekerFind <C-r>z<CR>', { noremap = true, silent = true })
+--vim.keymap.set("x", " ", function()
+--  vim.cmd([[normal! "zy]])
+--  local sel = vim.fn.getreg("z")
+--  if sel ~= "" then
+--    vim.cmd("SeekerFind " .. vim.fn.shellescape(sel))
+-- end
+--end, { noremap = true, silent = true })
 ---------------------------
 -- FORMATTER
 ---------------------------

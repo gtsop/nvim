@@ -1,36 +1,17 @@
 # TODO
 
-## Formatter
-
-- feat: automatically pick local prettier bin, or global npm or npx
-- feat: run eslint
-
-## LSP
-
-- feat: autocomplete
-- feat: autoimports
-- feat: markdown support
-
-## Explorer
-
-- bug: fix refreshing the view recursively
-- feat: when creating a file outsite the project require a confirmation
-- feat: when moving a file outsite the project require a confirmation
-- feat: when navigating to "up" directory stop at project level
-
 ## Bridge
 
 - feat: map between .feature and step.js files
 - reafctor: create a table datastructure that maps from code file to test file, so we remove all the if/else code and instead configure everything with a table
 
-## Highlight
+## Explorer
 
-- feat: css support
-- feat: markdown support
-
-## Treesitter Syntax
-
-- feat: gherkin comments
+- bug: fix refreshing the view recursively
+- feat: when creating a file and have hovered on a directory, auto populate this directory to the default input
+- feat: when creating a file outsite the project require a confirmation
+- feat: when moving a file outsite the project require a confirmation
+- feat: when navigating to "up" directory stop at project level
 
 ## File Finder
 
@@ -38,6 +19,39 @@
 - test: add unit tests
 - refactor: convert file-finder into a an MVC arch
 
+## Formatter
+
+- feat: automatically pick local prettier bin, or global npm or npx
+- feat: run eslint
+
+## Highlight
+
+- feat: css support
+- feat: yaml support
+- feat: json support
+- feat: jsx support
+- feat: markdown support
+
+## LSP
+
+- feat: autocomplete
+- feat: autoimports
+- feat: markdown support
+
+## Seeker
+
+- feat: navigate to file when clicking enter
+- feat: navigate to file but keep open when clicking shift+enter
+- feat: syntax highlight
+- feat: more beautiful ui
+- feat: expand/collapse search results mode
+- feat: expand/collapse height when navigating in and out
+
+## Treesitter Syntax
+
+- feat: gherkin comments
+
 # Technical Debt
 
 - refactor?: create a module that is aware of the project and supplies the other modules with relevant functionality
+

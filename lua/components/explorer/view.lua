@@ -52,6 +52,7 @@ function M.new(args)
     on_close = function()
       self.close()
     end,
+    position = "left",
   })
 
   local window_width = args.window_width or 40

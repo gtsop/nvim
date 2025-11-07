@@ -13,6 +13,7 @@ function Panel:new(args)
     on_close = args.on_close,
     on_enter = args.on_enter,
     on_leave = args.on_leave,
+    position = args.position,
     window = nil,
   }, Panel)
 end
@@ -29,11 +30,17 @@ function Panel:open(args)
     return
   end
 
-  self.window = vim.api.nvim_open_win(buffer, true, {
-    relative = "",
-    split = "left",
-    width = 40,
-  }) or 1
+  if self.position == "bottom" then
+    vim.cmd("botright split")
+    self.window = vim.api.nvim_get_current_win()
+    vim.api.nvim_win_set_buf(self.window, buffer)
+  else
+    self.window = vim.api.nvim_open_win(buffer, true, {
+      relative = "",
+      split = self:determine_split(),
+      width = 40,
+    }) or 1
+  end
 
   vim.api.nvim_set_option_value("number", false, { win = self.window })
   vim.api.nvim_set_option_value("relativenumber", false, { win = self.window })
@@ -96,6 +103,7 @@ function Panel:win_closed(args)
     if self.on_close then
       self.on_close()
     end
+    self.window = nil
   end
 end
 
@@ -108,6 +116,17 @@ function Panel:set_width(width)
     return
   end
   vim.api.nvim_win_set_width(self.window, width)
+end
+
+function Panel:determine_split()
+  if self.position then
+    if self.position == "left" then
+      return "left"
+    elseif self.position == "bottom" then
+      return "below"
+    end
+  end
+  return "left"
 end
 
 return Panel

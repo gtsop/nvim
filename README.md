@@ -4,6 +4,7 @@
 
 1. Clone repo in `$HOME/.config/`
 2. Suggested aliases for `$HOME/.bashrc`
+
 ```
 alias nvmini="nvim -u NONE -S $HOME/.config/nvim/init.lua -i NONE"
 alias n="nvmini"

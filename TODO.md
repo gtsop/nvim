@@ -41,4 +41,3 @@
 # Technical Debt
 
 - refactor?: create a module that is aware of the project and supplies the other modules with relevant functionality
-

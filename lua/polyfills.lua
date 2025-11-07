@@ -1,17 +1,17 @@
 function table.contains(tbl, value)
-  for _, v in ipairs(tbl) do
-    if v == value then
-      return true
+    for _, v in ipairs(tbl) do
+        if v == value then
+            return true
+        end
     end
-  end
-  return false
+    return false
 end
 
 function table.clone(orig, copies)
     copies = copies or {}
     local orig_type = type(orig)
     local copy
-    if orig_type == 'table' then
+    if orig_type == "table" then
         if copies[orig] then
             copy = copies[orig]
         else
@@ -29,26 +29,26 @@ function table.clone(orig, copies)
 end
 
 function table.extend(a, b)
-  table.move(b, 1, #b, #a + 1, a)
+    table.move(b, 1, #b, #a + 1, a)
 end
 
 function table.map(list, mapper)
-  assert(type(list)   == 'table',   'table.map: list must be a table')
-  assert(type(mapper) == 'function','table.map: mapper must be a function')
+    assert(type(list) == "table", "table.map: list must be a table")
+    assert(type(mapper) == "function", "table.map: mapper must be a function")
 
-  local into = {}
+    local into = {}
 
-  for i = 1, #list do
-    into[i] = mapper(list[i], i, list)
-  end
-  return into
+    for i = 1, #list do
+        into[i] = mapper(list[i], i, list)
+    end
+    return into
 end
 
 function table.index_of(a, item)
-  for i, v in ipairs(a) do
-    if v == item then
-      return i
+    for i, v in ipairs(a) do
+        if v == item then
+            return i
+        end
     end
-  end
-  return nil
+    return nil
 end

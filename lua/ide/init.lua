@@ -37,6 +37,14 @@ vim.keymap.set("n", "gte", "<esc>:ExplorerFindFile<cr>")
 vim.keymap.set("n", "<Leader>e", "<esc>:ExplorerShow<cr>")
 
 ---------------------------
+-- SEEKER
+---------------------------
+
+local seeker = require("components.seeker.controller").new({
+	base_path = project_dir,
+})
+
+---------------------------
 -- FORMATTER
 ---------------------------
 

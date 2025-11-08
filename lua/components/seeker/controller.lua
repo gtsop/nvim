@@ -34,6 +34,7 @@ function M.new(opts)
   function self.enter_node()
     self.using_hovered_node(function(node)
       self:service("ide").edit(node.file)
+      self.close()
     end)
   end
 
@@ -45,6 +46,7 @@ function M.new(opts)
 
   vim.keymap.set("n", "<CR>", self.enter_node, { buffer = view_buffer })
   vim.keymap.set("n", "<esc>", self.close, { buffer = view_buffer })
+  vim.keymap.set("n", "<C-c>", self.close, { buffer = view_buffer })
 
   return self
 end

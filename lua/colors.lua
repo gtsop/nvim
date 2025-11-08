@@ -36,6 +36,7 @@ local rgb_palette = {
 }
 
 -- Neovim Code Groups
+vim.api.nvim_set_hl(0, "Normal", { fg = xterm_palette.white })
 vim.api.nvim_set_hl(0, "Comment", { fg = xterm_palette.gray_27 })
 vim.api.nvim_set_hl(0, "Function", { fg = xterm_palette.medium_purple3 })
 vim.api.nvim_set_hl(0, "RegEx", { fg = xterm_palette.teal })
@@ -74,6 +75,14 @@ vim.api.nvim_set_hl(0, "@keyword.when", { fg = rgb_palette.peach })
 vim.api.nvim_set_hl(0, "@keyword.when_and", { fg = rgb_palette.peach })
 vim.api.nvim_set_hl(0, "@text.description", { fg = xterm_palette.gray, italic = true })
 vim.api.nvim_set_hl(0, "@text.title", { fg = rgb_palette.peach, italic = true })
+
+-- JS
+vim.api.nvim_set_hl(0, "@js.identifier", { link = "Normal" })
+
+-- JSX
+vim.api.nvim_set_hl(0, "@jsx.start_tag", { link = "@keyword" })
+vim.api.nvim_set_hl(0, "@jsx.self_tag", { link = "@keyword" })
+vim.api.nvim_set_hl(0, "@jsx.end_tag", { fg = rgb_palette.dark_brown })
 
 -- HTML
 vim.api.nvim_set_hl(0, "@html.comment", { link = "Comment" })

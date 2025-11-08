@@ -123,7 +123,7 @@ function M.new(args)
         max_length = #line
       end
     end
-    panel:set_width(max_length)
+    panel:set_width(max_length + 1)
   end
 
   function self.collapse()

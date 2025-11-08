@@ -43,6 +43,9 @@ vim.keymap.set("n", "<Leader>e", "<esc>:ExplorerShow<cr>")
 local seeker = require("components.seeker.controller").new({
   base_path = project_dir,
 })
+seeker:register("ide", function()
+  return M
+end)
 
 vim.keymap.set("n", "<C-f>", "/", { noremap = true })
 vim.keymap.set("x", "<C-f>", [["zy/<C-r>z<CR>]], { noremap = true, silent = true })

@@ -40,6 +40,7 @@
 
 ## Seeker
 
+- feat: exlude project exlude directories
 - feat: navigate to file when clicking enter
 - feat: navigate to file but keep open when clicking shift+enter
 - feat: syntax highlight

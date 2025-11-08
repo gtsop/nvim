@@ -7,15 +7,36 @@ function M.new(args)
   local root_dir = args.root_dir
 
   function self.grep_async(pattern, callback)
-    vim.system({ "grep", "-R", "-n", "-H", "--color=never", "-e", pattern, root_dir }, { text = true }, function(res)
-      vim.schedule(function()
-        if res.code == 0 or res.code == 1 then
-          callback(res.stdout)
-        else
-          callback("")
-        end
-      end)
-    end)
+    vim.system(
+      {
+        "grep",
+        "-R",
+        "-n",
+        "-H",
+        "--color=never",
+        "--exclude-dir",
+        "node_modules",
+        "--exclude-dir",
+        ".git",
+        "--exclude-dir",
+        "build",
+        "--exclude-dir",
+        "coverage",
+        "-e",
+        pattern,
+        root_dir,
+      },
+      { text = true },
+      function(res)
+        vim.schedule(function()
+          if res.code == 0 or res.code == 1 then
+            callback(res.stdout)
+          else
+            callback("")
+          end
+        end)
+      end
+    )
   end
 
   function self.search(needle, callback)

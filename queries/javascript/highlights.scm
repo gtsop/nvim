@@ -1,6 +1,6 @@
 (comment) @comment
 (keyword) @keyword
-(string) @javascript.litearl_string
+(string) @javascript.literal_string
 
 ; Keywords
 (kw_as) @javascript.keyword

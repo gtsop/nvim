@@ -31,8 +31,15 @@ local xterm_palette = {
 local rgb_palette = {
   peach = "#D9A299",
   brown = "#a0787b",
+  almond = "#EADDCA",
   dark_brown = "#6b6263",
   steel_blue_gray = "#818FB4",
+  light_blue = "#9cc4dc",
+  dark_blue = "#273c49",
+}
+
+local brand_palette = {
+  react_blue = "#06bcee",
 }
 
 -- Neovim Code Groups
@@ -78,14 +85,15 @@ vim.api.nvim_set_hl(0, "@text.title", { fg = rgb_palette.peach, italic = true })
 
 -- JavaScript
 vim.api.nvim_set_hl(0, "@javascript.keyword", { link = "@keyword" })
-vim.api.nvim_set_hl(0, "@javascript.string", { link = "@string" })
 vim.api.nvim_set_hl(0, "@javascript.regex", { link = "@regex" })
-vim.api.nvim_set_hl(0, "@js.identifier", { link = "Normal" })
+vim.api.nvim_set_hl(0, "@javascript.literal_object_key", { fg = rgb_palette.almond })
+vim.api.nvim_set_hl(0, "@javascript.literal_string", { link = "@string" })
+vim.api.nvim_set_hl(0, "@javascript.identifier", { link = "Normal" })
 
 -- JSX
-vim.api.nvim_set_hl(0, "@jsx.start_tag", { link = "@keyword" })
-vim.api.nvim_set_hl(0, "@jsx.self_tag", { link = "@keyword" })
-vim.api.nvim_set_hl(0, "@jsx.end_tag", { fg = rgb_palette.dark_brown })
+vim.api.nvim_set_hl(0, "@jsx.start_tag", { fg = rgb_palette.light_blue })
+vim.api.nvim_set_hl(0, "@jsx.self_tag", { fg = rgb_palette.light_blue })
+vim.api.nvim_set_hl(0, "@jsx.end_tag", { fg = rgb_palette.dark_blue })
 
 -- HTML
 vim.api.nvim_set_hl(0, "@html.comment", { link = "Comment" })

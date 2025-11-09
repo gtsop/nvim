@@ -1,6 +1,5 @@
 (comment) @comment
 (keyword) @keyword
-(regex) @regex
 (string) @string
 
 ; Keywords
@@ -12,6 +11,10 @@
 (kw_import) @javascript.keyword
 (kw_let) @javascript.keyword
 (kw_true) @javascript.keyword
+
+;
+(literal_string) @javascript.string
+(literal_regex) @javascript.regex
 
 
 (jsx_start) @jsx.start_tag

@@ -78,6 +78,8 @@ vim.api.nvim_set_hl(0, "@text.title", { fg = rgb_palette.peach, italic = true })
 
 -- JavaScript
 vim.api.nvim_set_hl(0, "@javascript.keyword", { link = "@keyword" })
+vim.api.nvim_set_hl(0, "@javascript.string", { link = "@string" })
+vim.api.nvim_set_hl(0, "@javascript.regex", { link = "@regex" })
 vim.api.nvim_set_hl(0, "@js.identifier", { link = "Normal" })
 
 -- JSX

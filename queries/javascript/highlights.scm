@@ -20,9 +20,11 @@
 (literal_object_key) @javascript.literal_object_key
 
 ; Jsx
+(jsx_name) @jsx.tag_name
 (jsx_start) @jsx.start_tag
 (jsx_end) @jsx.end_tag
 (jsx_self) @jsx.self_tag
+(attribute_name) @jsx.attribute_name
 (identifier) @js.identifier
 
 

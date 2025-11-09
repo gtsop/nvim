@@ -91,8 +91,9 @@ vim.api.nvim_set_hl(0, "@javascript.literal_string", { link = "@string" })
 vim.api.nvim_set_hl(0, "@javascript.identifier", { link = "Normal" })
 
 -- JSX
-vim.api.nvim_set_hl(0, "@jsx.start_tag", { fg = rgb_palette.light_blue })
-vim.api.nvim_set_hl(0, "@jsx.self_tag", { fg = rgb_palette.light_blue })
+vim.api.nvim_set_hl(0, "@jsx.tag_name", { fg = rgb_palette.light_blue })
+vim.api.nvim_set_hl(0, "@jsx.attribute_name", { fg = rgb_palette.light_blue })
+-- vim.api.nvim_set_hl(0, "@jsx.self_tag", { fg = rgb_palette.light_blue })
 vim.api.nvim_set_hl(0, "@jsx.end_tag", { fg = rgb_palette.dark_blue })
 
 -- HTML

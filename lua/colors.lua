@@ -4,6 +4,13 @@ for name, _ in pairs(vim.api.nvim_get_hl(0, {})) do
 end
 vim.opt.termguicolors = true
 
+local core = {
+  background = "#1f1a24",
+  foreground = "#ffffff",
+
+  comment = "#444444",
+}
+
 -- Reference:
 -- https://www.ditig.com/256-colors-cheat-sheet#xterm-system-colors
 local xterm_palette = {
@@ -40,11 +47,12 @@ local rgb_palette = {
 
 local brand_palette = {
   react_blue = "#06bcee",
+  javascript_yellow = "#efd81d",
 }
 
 -- Neovim Code Groups
-vim.api.nvim_set_hl(0, "Normal", { fg = xterm_palette.white })
-vim.api.nvim_set_hl(0, "Comment", { fg = xterm_palette.gray_27 })
+vim.api.nvim_set_hl(0, "Normal", { fg = core.foreground, bg = core.background })
+vim.api.nvim_set_hl(0, "Comment", { fg = core.comment })
 vim.api.nvim_set_hl(0, "Function", { fg = xterm_palette.medium_purple3 })
 vim.api.nvim_set_hl(0, "RegEx", { fg = xterm_palette.teal })
 vim.api.nvim_set_hl(0, "String", { fg = xterm_palette.cadet_blue })
@@ -84,7 +92,7 @@ vim.api.nvim_set_hl(0, "@text.description", { fg = xterm_palette.gray, italic = 
 vim.api.nvim_set_hl(0, "@text.title", { fg = rgb_palette.peach, italic = true })
 
 -- JavaScript
-vim.api.nvim_set_hl(0, "@javascript.keyword", { link = "@keyword" })
+vim.api.nvim_set_hl(0, "@javascript.keyword", { fg = brand_palette.javascript_yellow })
 vim.api.nvim_set_hl(0, "@javascript.regex", { link = "@regex" })
 vim.api.nvim_set_hl(0, "@javascript.literal_object_key", { fg = rgb_palette.almond })
 vim.api.nvim_set_hl(0, "@javascript.literal_string", { link = "@string" })

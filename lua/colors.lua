@@ -46,7 +46,8 @@ local rgb_palette = {
 }
 
 local brand_palette = {
-  react_blue = "#06bcee",
+  react_blue = "#087ea4",
+  react_blue_off = "#48b1d4",
   javascript_yellow = "#efd81d",
 }
 
@@ -101,10 +102,10 @@ vim.api.nvim_set_hl(0, "@javascript.identifier", { link = "Normal" })
 -- JSX
 -- vim.api.nvim_set_hl(0, "@jsx.self_tag", { fg = rgb_palette.light_blue })
 -- vim.api.nvim_set_hl(0, "@jsx.start_tag", { fg = rgb_palette.light_blue })
-vim.api.nvim_set_hl(0, "@jsx.end_tag", { fg = rgb_palette.dark_blue })
+vim.api.nvim_set_hl(0, "@jsx.end_tag", { fg = "#50717b" })
 
-vim.api.nvim_set_hl(0, "@jsx.tag_name", { fg = rgb_palette.light_blue })
-vim.api.nvim_set_hl(0, "@jsx.attribute_name", { fg = rgb_palette.almond })
+vim.api.nvim_set_hl(0, "@jsx.tag_name", { fg = brand_palette.react_blue_off })
+vim.api.nvim_set_hl(0, "@jsx.attribute_name", { fg = rgb_palette.light_blue })
 
 -- HTML
 vim.api.nvim_set_hl(0, "@html.comment", { link = "Comment" })

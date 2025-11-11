@@ -37,13 +37,13 @@ vim.keymap.set("n", "gte", "<esc>:ExplorerFindFile<cr>")
 vim.keymap.set("n", "<Leader>e", "<esc>:ExplorerShow<cr>")
 
 ---------------------------
--- SEEKER
+-- FindText
 ---------------------------
 
-local seeker = require("components.seeker.controller").new({
+local findText = require("components.find-text.controller").new({
   base_path = project_dir,
 })
-seeker:register("ide", function()
+findText:register("ide", function()
   return M
 end)
 
@@ -53,13 +53,13 @@ vim.keymap.set("x", "<C-f>", [["zy/<C-r>z<CR>]], { noremap = true, silent = true
 vim.keymap.set("n", " ", function()
   local pat = vim.fn.getreg("/") or ""
   if pat ~= "" then
-    vim.cmd("SeekerFind " .. pat)
+    vim.cmd("FindText " .. pat)
   else
-    vim.api.nvim_feedkeys(":SeekerFind ", "n", false)
+    vim.api.nvim_feedkeys(":FindText ", "n", false)
   end
 end, { noremap = true, silent = true })
 
-vim.keymap.set("x", " ", '"zy:<C-u>SeekerFind <C-r>z<CR>', { noremap = true, silent = true })
+vim.keymap.set("x", " ", '"zy:<C-u>FindText <C-r>z<CR>', { noremap = true, silent = true })
 --vim.keymap.set("x", " ", function()
 --  vim.cmd([[normal! "zy]])
 --  local sel = vim.fn.getreg("z")

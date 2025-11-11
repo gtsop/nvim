@@ -2,23 +2,23 @@ local assert = require("luassert")
 
 local mock_vim_system = require("test.helpers.mock_vim_system")
 
-local Model = require("components.seeker.model")
+local Model = require("components.find-text.model")
 
 describe("Seeker Model", function()
-	mock_vim_system({
-		{
-			{ "grep", "-R", "-n", "-H", "--color=never", "-e", "NONE", "/root" },
-			{ stdout = "", stderr = "", code = 1 },
-		},
-	}, before_each, after_each)
+  mock_vim_system({
+    {
+      { "grep", "-R", "-n", "-H", "--color=never", "-e", "NONE", "/root" },
+      { stdout = "", stderr = "", code = 1 },
+    },
+  }, before_each, after_each)
 
-	it("instanciates", function()
-		local m = Model.new({})
+  it("instanciates", function()
+    local m = Model.new({})
 
-		assert.is_table(m)
-	end)
+    assert.is_table(m)
+  end)
 
-	--[[
+  --[[
   test("'search' greps the project tree but finds no results", function()
 		local m = Model.new({ root_dir = "/root" })
 

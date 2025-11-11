@@ -1,11 +1,11 @@
-local M = {}
-M.__index = M
+local FindText = {}
+FindText.__index = FindText
 
-local Model = require("components.seeker.model")
-local View = require("components.seeker.view")
+local Model = require("components.find-text.model")
+local View = require("components.find-text.view")
 
-function M.new(opts)
-  local self = setmetatable({ di = { providers = {}, instances = {} } }, M)
+function FindText.new(opts)
+  local self = setmetatable({ di = { providers = {}, instances = {} } }, FindText)
 
   local model = Model.new({ root_dir = opts.base_path })
   local view = View.new()
@@ -42,7 +42,7 @@ function M.new(opts)
     view.close()
   end
 
-  vim.api.nvim_create_user_command("SeekerFind", self.seek, { nargs = 1 })
+  vim.api.nvim_create_user_command("FindText", self.seek, { nargs = 1 })
 
   vim.keymap.set("n", "<CR>", self.enter_node, { buffer = view_buffer })
   vim.keymap.set("n", "<esc>", self.close, { buffer = view_buffer })
@@ -51,15 +51,15 @@ function M.new(opts)
   return self
 end
 
-function M:register(name, provider)
+function FindText:register(name, provider)
   self.di.providers[name] = provider
 end
 
-function M:service(name)
+function FindText:service(name)
   if not self.di.instances[name] then
     self.di.instances[name] = self.di.providers[name](self)
   end
   return self.di.instances[name]
 end
 
-return M
+return FindText

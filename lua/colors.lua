@@ -56,7 +56,7 @@ vim.api.nvim_set_hl(0, "Normal", { fg = core.foreground, bg = core.background })
 vim.api.nvim_set_hl(0, "Comment", { fg = core.comment })
 vim.api.nvim_set_hl(0, "Function", { fg = xterm_palette.medium_purple3 })
 vim.api.nvim_set_hl(0, "RegEx", { fg = xterm_palette.teal })
-vim.api.nvim_set_hl(0, "String", { fg = xterm_palette.cadet_blue })
+vim.api.nvim_set_hl(0, "String", { fg = "#997C70" })
 vim.api.nvim_set_hl(0, "Visual", { fg = xterm_palette.white, bg = xterm_palette.medium_purple4 })
 
 -- Neovim UI Groups
@@ -93,6 +93,7 @@ vim.api.nvim_set_hl(0, "@text.description", { fg = xterm_palette.gray, italic = 
 vim.api.nvim_set_hl(0, "@text.title", { fg = rgb_palette.peach, italic = true })
 
 -- JavaScript
+vim.api.nvim_set_hl(0, "@javascript.keyword.false", { fg = "#E06B80" })
 vim.api.nvim_set_hl(0, "@javascript.keyword", { fg = brand_palette.javascript_yellow })
 vim.api.nvim_set_hl(0, "@javascript.regex", { link = "@regex" })
 vim.api.nvim_set_hl(0, "@javascript.literal_object_key", { fg = rgb_palette.almond })

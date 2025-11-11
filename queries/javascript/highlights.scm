@@ -1,11 +1,11 @@
 (comment) @comment
-(keyword) @keyword
+(keyword) @javascript.keyword 
 (string) @javascript.literal_string
 
 ; Keywords
 (kw_as) @javascript.keyword
 (kw_const) @javascript.keyword
-(kw_false) @javascript.keyword
+(kw_false) @javascript.keyword.false
 (kw_from) @javascript.keyword
 (kw_function) @javascript.keyword
 (kw_import) @javascript.keyword

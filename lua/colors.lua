@@ -49,6 +49,7 @@ local brand_palette = {
   react_blue = "#087ea4",
   react_blue_off = "#48b1d4",
   javascript_yellow = "#efd81d",
+  typescript_blue = "#3078c6",
 }
 
 -- Neovim Code Groups
@@ -94,6 +95,7 @@ vim.api.nvim_set_hl(0, "@text.title", { fg = rgb_palette.peach, italic = true })
 
 -- JavaScript
 vim.api.nvim_set_hl(0, "@javascript.keyword.false", { fg = "#E06B80" })
+vim.api.nvim_set_hl(0, "@javascript.keyword.true", { fg = "#73AF6F" })
 vim.api.nvim_set_hl(0, "@javascript.keyword", { fg = brand_palette.javascript_yellow })
 vim.api.nvim_set_hl(0, "@javascript.regex", { link = "@regex" })
 vim.api.nvim_set_hl(0, "@javascript.literal_object_key", { fg = rgb_palette.almond })
@@ -107,6 +109,10 @@ vim.api.nvim_set_hl(0, "@jsx.end_tag", { fg = "#50717b" })
 
 vim.api.nvim_set_hl(0, "@jsx.tag_name", { fg = brand_palette.react_blue_off })
 vim.api.nvim_set_hl(0, "@jsx.attribute_name", { fg = rgb_palette.light_blue })
+
+-- Typescript
+vim.api.nvim_set_hl(0, "@typescript.keyword", { fg = brand_palette.typescript_blue })
+vim.api.nvim_set_hl(0, "@typescript.user_type", { fg = brand_palette.typescript_blue })
 
 -- HTML
 vim.api.nvim_set_hl(0, "@html.comment", { link = "Comment" })

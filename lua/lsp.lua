@@ -63,3 +63,7 @@ vim.api.nvim_create_user_command("LSPDiagnose", function()
 
   vim.print("Has client: " .. (#client > 0 and "true" or "false"))
 end, { nargs = 0 })
+
+vim.keymap.set("n", "gri", vim.lsp.buf.implementation)
+vim.keymap.set("n", "grr", vim.lsp.buf.references)
+vim.keymap.set("n", "gd", vim.lsp.buf.definition)

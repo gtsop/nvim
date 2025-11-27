@@ -30,3 +30,10 @@ key = "F"
 mods = "Control|Shift"
 chars = "\u2007"
 ```
+
+# Tmux config
+
+set -g default-terminal "tmux-256color"
+set -ag terminal-overrides ",xterm-256color:RGB,_:Tc"
+set -as terminal-overrides ',_:Smulx=\E[4::%p1%dm'
+set -as terminal-overrides ',\*:Setulc=\E[58::2::::%p1%{65536}%/%d::%p1%{256}%/%{255}%&%d::%p1%{255}%&%d%;m'

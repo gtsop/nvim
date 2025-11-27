@@ -68,3 +68,29 @@ end, { nargs = 0 })
 vim.keymap.set("n", "gri", vim.lsp.buf.implementation)
 vim.keymap.set("n", "grr", vim.lsp.buf.references)
 vim.keymap.set("n", "gd", vim.lsp.buf.definition)
+
+--- Diagnostics
+
+local signs = {
+  Error = " ",
+  Warn = " ",
+  Info = " ",
+  Hint = " ",
+}
+
+for type, icon in pairs(signs) do
+  local hl = "DiagnosticSign" .. type
+  vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
+end
+
+vim.diagnostic.config({
+  virtual_lines = false,
+  underline = true,
+  signs = true,
+})
+vim.api.nvim_create_autocmd("CursorHold", {
+  callback = function()
+    vim.diagnostic.open_float(nil, { focus = false })
+  end,
+})
+vim.o.updatetime = 400

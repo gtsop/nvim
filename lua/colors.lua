@@ -129,3 +129,14 @@ vim.api.nvim_set_hl(0, "@graphql.keyword", { link = "@keyword" })
 -- Popup Gropus
 vim.api.nvim_set_hl(0, "Pmenu", { bg = xterm_palette.gray7 })
 vim.api.nvim_set_hl(0, "PmenuSel", { bg = xterm_palette.white, fg = xterm_palette.black })
+
+-- Diagnostic
+vim.api.nvim_set_hl(0, "DiagnosticUnderlineError", { underline = true, sp = "#D34E4E" })
+vim.api.nvim_set_hl(0, "DiagnosticUnderlineWarn", { underline = true, sp = "#F5C857" })
+vim.api.nvim_set_hl(0, "DiagnosticUnderlineInfo", { underline = true, sp = "#AEDEFC" })
+vim.api.nvim_set_hl(0, "DiagnosticUnderlineHint", { underline = true, sp = "#57595B" })
+
+vim.api.nvim_set_hl(0, "DiagnosticSignError", { fg = "#D34E4E" })
+vim.api.nvim_set_hl(0, "DiagnosticSignWarn", { fg = "#F5C857" })
+vim.api.nvim_set_hl(0, "DiagnosticSignInfo", { fg = "#AEDEFC" })
+vim.api.nvim_set_hl(0, "DiagnosticSignHint", { fg = "#57595B" })

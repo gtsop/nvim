@@ -73,6 +73,7 @@ vim.keymap.set("x", " ", '"zy:<C-u>FindText <C-r>z<CR>', { noremap = true, sil
 ---------------------------
 
 local linter = require("components.linter.controller").new()
+
 ---------------------------
 -- FORMATTER
 ---------------------------

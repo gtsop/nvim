@@ -10,6 +10,12 @@ alias nvmini="nvim -u NONE -S $HOME/.config/nvim/init.lua -i NONE"
 alias n="nvmini"
 ```
 
+3. Install tools
+
+```
+npm install -g vscode-langservers-extracted typescript-language-server eslint prettier
+```
+
 ## Development
 
 1. Install [luarocks](https://luarocks.org/#quick-start)
@@ -24,4 +30,3 @@ key = "F"
 mods = "Control|Shift"
 chars = "\u2007"
 ```
-

@@ -67,6 +67,12 @@ vim.keymap.set("x", " ", '"zy:<C-u>FindText <C-r>z<CR>', { noremap = true, sil
 --    vim.cmd("SeekerFind " .. vim.fn.shellescape(sel))
 -- end
 --end, { noremap = true, silent = true })
+
+---------------------------
+-- LINTER
+---------------------------
+
+local linter = require("components.linter.controller").new()
 ---------------------------
 -- FORMATTER
 ---------------------------

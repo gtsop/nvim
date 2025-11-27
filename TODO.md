@@ -22,14 +22,12 @@
 ## Formatter
 
 - feat: automatically pick local prettier bin, or global npm or npx
-- feat: run eslint
 
 ## Highlight
 
-- feat: css support
 - feat: yaml support
+- feat: css support
 - feat: json support
-- feat: jsx support
 - feat: markdown support
 
 ## LSP
@@ -37,8 +35,10 @@
 - feat: autocomplete
 - feat: autoimports
 - feat: markdown support
+- feat: graphql support
+- feat: cucumber support
 
-## Seeker
+## Find-Text
 
 - feat: exlude project exlude directories
 - feat: navigate to file but keep open when clicking shift+enter
@@ -54,4 +54,3 @@
 # Technical Debt
 
 - refactor?: create a module that is aware of the project and supplies the other modules with relevant functionality
-

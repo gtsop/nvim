@@ -1,4 +1,5 @@
 local M = {}
+local ide = M
 
 local utils = require("utils")
 local state = require("state")
@@ -7,16 +8,12 @@ local project_dir = state.get_project_dir()
 ---------------------------
 -- AUTOCOMPLETE
 ---------------------------
-local autocomplete = require("components.autocomplete.controller").new()
+require("components.autocomplete.controller").new({ ide = ide })
 
 ---------------------------
 -- BRIDGE
 ---------------------------
-
-local bridge = require("components.bridge.controller").new()
-bridge:register("ide", function()
-  return M
-end)
+require("components.bridge.controller").new({ ide = ide })
 
 vim.keymap.set("n", "gtt", "<esc>:BridgeEditTestFile<cr>")
 vim.keymap.set("n", "gtc", "<esc>:BridgeEditCodeFile<cr>")
@@ -24,14 +21,11 @@ vim.keymap.set("n", "gtc", "<esc>:BridgeEditCodeFile<cr>")
 ---------------------------
 -- EXPLORER
 ---------------------------
-
-local explorer = require("components.explorer.controller").new({
+require("components.explorer.controller").new({
   base_path = project_dir,
+  ide = ide,
   window_width = 30,
 })
-explorer:register("ide", function()
-  return M
-end)
 
 vim.keymap.set("n", "gte", "<esc>:ExplorerFindFile<cr>")
 vim.keymap.set("n", "<Leader>e", "<esc>:ExplorerShow<cr>")
@@ -60,13 +54,6 @@ vim.keymap.set("n", " ", function()
 end, { noremap = true, silent = true })
 
 vim.keymap.set("x", " ", '"zy:<C-u>FindText <C-r>z<CR>', { noremap = true, silent = true })
---vim.keymap.set("x", " ", function()
---  vim.cmd([[normal! "zy]])
---  local sel = vim.fn.getreg("z")
---  if sel ~= "" then
---    vim.cmd("SeekerFind " .. vim.fn.shellescape(sel))
--- end
---end, { noremap = true, silent = true })
 
 ---------------------------
 -- LINTER

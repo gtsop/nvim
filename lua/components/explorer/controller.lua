@@ -2,7 +2,7 @@ local M = {}
 M.__index = M
 
 function M.new(opts)
-  local self = setmetatable({ di = { providers = {}, instances = {} } }, M)
+  local self = setmetatable({ ide = opts.ide }, M)
 
   local model = require("components.explorer.model").new(opts.base_path)
   local view = require("components.explorer.view").new({
@@ -69,17 +69,6 @@ function M.new(opts)
   self.render()
 
   return self
-end
-
-function M:register(name, provider)
-  self.di.providers[name] = provider
-end
-
-function M:service(name)
-  if not self.di.instances[name] then
-    self.di.instances[name] = self.di.providers[name](self)
-  end
-  return self.di.instances[name]
 end
 
 return M

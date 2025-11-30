@@ -25,6 +25,9 @@ npm install -g vscode-langservers-extracted typescript-language-server eslint pr
 # Alacritty conf
 
 ```
+[env]
+TERM = "xterm-256color"
+
 [[keyboard.bindings]]
 key = "F"
 mods = "Control|Shift"

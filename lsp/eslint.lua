@@ -15,7 +15,7 @@ return {
     rulesCustomizations = {},
     run = "onType",
     validate = "on",
-    experimental = { useFlatConfig = true },
+    experimental = { useFlatConfig = false },
     problems = { shortenToSingleLine = false },
   },
 }

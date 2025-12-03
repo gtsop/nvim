@@ -13,7 +13,7 @@ alias n="nvmini"
 3. Install tools
 
 ```
-npm install -g vscode-langservers-extracted typescript-language-server eslint prettier
+npm install -g vscode-langservers-extracted@4.8.0 typescript-language-server typescript eslint prettier eslint_d
 ```
 
 ## Development

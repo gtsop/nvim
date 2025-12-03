@@ -4,12 +4,6 @@ vim.lsp.enable("html")
 vim.lsp.enable("lua_ls")
 vim.lsp.enable("typescript")
 
-vim.diagnostic.config({
-  virtual_lines = {
-    current_line = true,
-  },
-})
-
 vim.keymap.set("n", "<S-M-o>", function()
   vim.lsp.buf.code_action({
     apply = true,
@@ -65,6 +59,14 @@ vim.api.nvim_create_user_command("LSPDiagnose", function()
   vim.print("Has client: " .. (#client > 0 and "true" or "false"))
 end, { nargs = 0 })
 
+vim.api.nvim_create_user_command("LSPNames", function()
+  local names = {}
+  for _, client in ipairs(vim.lsp.get_clients({ bufnr = vim.api.nvim_get_current_buf() })) do
+    table.insert(names, client.name)
+  end
+  print(table.concat(names, ", "))
+end, {})
+
 vim.keymap.set("n", "gri", vim.lsp.buf.implementation)
 vim.keymap.set("n", "grr", vim.lsp.buf.references)
 vim.keymap.set("n", "gd", vim.lsp.buf.definition)
@@ -88,9 +90,11 @@ vim.diagnostic.config({
   underline = true,
   signs = true,
 })
+
 vim.api.nvim_create_autocmd("CursorHold", {
   callback = function()
     vim.diagnostic.open_float(nil, { focus = false })
   end,
 })
-vim.o.updatetime = 400
+
+vim.o.updatetime = 300

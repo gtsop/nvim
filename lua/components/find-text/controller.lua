@@ -13,6 +13,9 @@ function FindText.new(opts)
 
   function self.seek(cargs)
     model.search(cargs.args, function(results)
+      vim.fn.setreg("/", cargs.args)
+      vim.v.searchforward = 1
+      vim.v.hlsearch = 1
       view.render(results)
       view.show()
     end)
@@ -33,7 +36,7 @@ function FindText.new(opts)
 
   function self.enter_node()
     self.using_hovered_node(function(node)
-      self:service("ide").edit(node.file)
+      self:service("ide").edit(node.file, node.line)
       self.close()
     end)
   end

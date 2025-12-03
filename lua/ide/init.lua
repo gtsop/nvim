@@ -54,7 +54,7 @@ vim.keymap.set("x", "<C-f>", [["zy/<C-r>z<CR>]], { noremap = true, silent = true
 vim.keymap.set("n", " ", function()
   local pat = vim.fn.getreg("/") or ""
   if pat ~= "" then
-    vim.cmd("FindText " .. pat)
+    vim.api.nvim_feedkeys(":FindText " .. pat, "n", false)
   else
     vim.api.nvim_feedkeys(":FindText ", "n", false)
   end
@@ -101,7 +101,9 @@ local function get_file_edit_window()
   return vim.api.nvim_get_current_win()
 end
 
-M.edit = function(full_path)
+M.edit = function(full_path, line)
+  line = line or 1
+
   local buff_id = vim.fn.bufadd(full_path)
   local win_id = nil
 
@@ -109,6 +111,9 @@ M.edit = function(full_path)
 
   vim.api.nvim_win_set_buf(win_id, buff_id)
   vim.api.nvim_set_current_win(win_id)
+  vim.api.nvim_win_set_cursor(win_id, { line, 0 })
+
+  vim.api.nvim_exec2("normal! zz", { output = false })
 end
 
 function M.create_file(path, callback)

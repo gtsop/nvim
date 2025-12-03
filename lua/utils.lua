@@ -89,27 +89,28 @@ function M.subsequence_score(sequence_str, test_str, case_sensitive)
   end
 
   -- Invert strings to favor results by the end of the line
-  sequence_str = string.reverse(sequence_str)
-  test_str = string.reverse(test_str)
-
   local score = 0
+  local abs_index = 0
+  local matches = {}
   local sequence = sequence_str
 
   for test_str_ch in test_str:gmatch(".") do
     local ch_index = string.find(sequence, test_str_ch, 1, true)
 
     if not ch_index then
-      return { is_subsequence = false, score = 0 }
+      return { is_subsequence = false, score = 0, matches = {} }
     end
 
     score = score - ch_index + 1
-
     sequence = sequence:sub(ch_index + 1)
+
+    abs_index = abs_index + ch_index
+    table.insert(matches, abs_index)
   end
 
   score = score - #sequence
 
-  return { is_subsequence = true, score = score }
+  return { is_subsequence = true, score = score, matches = matches }
 end
 
 function M.rank_by_subsequence(tbl, subsequence)
@@ -120,7 +121,7 @@ function M.rank_by_subsequence(tbl, subsequence)
 
     if result then
       if result.is_subsequence then
-        table.insert(rank, { score = result.score, value = item })
+        table.insert(rank, { score = result.score, matches = result.matches, value = item })
       end
     end
   end
@@ -129,9 +130,7 @@ function M.rank_by_subsequence(tbl, subsequence)
     return a.score > b.score
   end)
 
-  return vim.tbl_map(function(i)
-    return i.value
-  end, rank)
+  return rank
 end
 
 function M.tbl_slice(tbl, first, last)

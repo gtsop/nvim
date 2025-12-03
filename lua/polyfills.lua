@@ -52,3 +52,12 @@ function table.index_of(a, item)
   end
   return nil
 end
+
+function table.reverse(t)
+  local n = #t
+  local r = {}
+  for i = n, 1, -1 do
+    r[#r + 1] = t[i]
+  end
+  return r
+end

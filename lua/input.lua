@@ -15,6 +15,21 @@ local input_win = nil
 local input_options = nil
 local input_selected_option = 1
 
+local ns = vim.api.nvim_create_namespace("color_positions_ns")
+
+local function color_positions(buf, row, cols, hl)
+  -- Clear old marks first (important for rerendering)
+  vim.api.nvim_buf_clear_namespace(buf, ns, row, row + 1)
+
+  for _, col in ipairs(cols) do
+    vim.api.nvim_buf_set_extmark(buf, ns, row - 1, col + 2, {
+      end_row = row - 1,
+      end_col = col + 3,
+      hl_group = hl,
+    })
+  end
+end
+
 function M.open(on_change, on_submit, on_cancel)
   if input_on_key_ns then
     return
@@ -34,7 +49,7 @@ function M.open(on_change, on_submit, on_cancel)
   input_on_key_ns = vim.on_key(function(key, raw)
     if raw == cr_code then
       if input_options then
-        on_submit(input_options[input_selected_option])
+        on_submit(input_options[input_selected_option].value)
       else
         on_submit(input_str)
       end
@@ -70,12 +85,11 @@ function M.print()
   if input_options then
     for i, option in ipairs(input_options) do
       if i == input_selected_option then
-        table.insert(lines, " ~ " .. option .. " ~")
+        table.insert(lines, " ~ " .. option.value .. " ~")
       else
-        table.insert(lines, "   " .. option)
+        table.insert(lines, "   " .. option.value)
       end
     end
-    lines = vim.fn.reverse(lines)
   end
 
   local win_width = vim.api.nvim_win_get_width(input_win)
@@ -91,10 +105,18 @@ function M.print()
   vim.api.nvim_buf_set_lines(input_buf, 0, -1, false, lines)
   vim.api.nvim_win_set_height(input_win, #lines)
   vim.api.nvim_win_set_cursor(input_win, { last_row, last_col })
+
+  -- color matches
+  local ns = vim.api.nvim_create_namespace("match_color")
+  if input_options then
+    for row, option in ipairs(input_options) do
+      color_positions(0, row, option.matches, "IncSearch")
+    end
+  end
 end
 
 function M.options(options)
-  input_options = options
+  input_options = table.reverse(options)
 end
 
 function M.close()

@@ -5,6 +5,13 @@ local utils = require("utils")
 local state = require("state")
 local project_dir = state.get_project_dir()
 
+local Panel = require("utils.ui.panel")
+
+local leftPanel = Panel:new({
+  name = "left_panel",
+  position = "left",
+})
+
 ---------------------------
 -- AUTOCOMPLETE
 ---------------------------

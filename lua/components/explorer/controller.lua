@@ -4,7 +4,7 @@ M.__index = M
 function M.new(opts)
   local self = setmetatable({ ide = opts.ide }, M)
 
-  local model = require("components.explorer.model").new(opts.base_path)
+  local model = require("components.explorer.model").new({ path = opts.base_path })
   local view = require("components.explorer.view").new({
     window_width = opts.window_width,
   })

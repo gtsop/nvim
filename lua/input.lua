@@ -60,12 +60,12 @@ function M.open(on_change, on_submit, on_cancel)
         input_str = input_str:sub(1, -2)
         on_change(input_str)
       end
-    elseif raw == down_code then
+    elseif raw == up_code then
       if input_selected_option > 1 then
         input_selected_option = input_selected_option - 1
         M.print()
       end
-    elseif raw == up_code then
+    elseif raw == down_code then
       if input_selected_option < #input_options then
         input_selected_option = input_selected_option + 1
         M.print()
@@ -117,6 +117,7 @@ end
 
 function M.options(options)
   input_options = table.reverse(options)
+  input_selected_option = #input_options
 end
 
 function M.close()

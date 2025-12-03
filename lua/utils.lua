@@ -92,7 +92,8 @@ function M.subsequence_score(sequence_str, test_str, case_sensitive)
   local score = 0
   local abs_index = 0
   local matches = {}
-  local sequence = sequence_str
+  local sequence = string.reverse(sequence_str)
+  test_str = string.reverse(test_str)
 
   for test_str_ch in test_str:gmatch(".") do
     local ch_index = string.find(sequence, test_str_ch, 1, true)
@@ -110,7 +111,13 @@ function M.subsequence_score(sequence_str, test_str, case_sensitive)
 
   score = score - #sequence
 
-  return { is_subsequence = true, score = score, matches = matches }
+  return {
+    is_subsequence = true,
+    score = score,
+    matches = table.reverse(table.map(matches, function(i)
+      return #sequence_str - i + 1
+    end)),
+  }
 end
 
 function M.rank_by_subsequence(tbl, subsequence)

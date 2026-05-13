@@ -6,6 +6,9 @@
 (background
   "Background:" @keyword.background)
 
+(rule
+  "Rule:" @keyword.rule)
+
 (scenario
   "Scenario:" @keyword.scenario)
 

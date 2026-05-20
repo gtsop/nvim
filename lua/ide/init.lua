@@ -26,6 +26,13 @@ vim.keymap.set("n", "gtt", "<esc>:BridgeEditTestFile<cr>")
 vim.keymap.set("n", "gtc", "<esc>:BridgeEditCodeFile<cr>")
 
 ---------------------------
+-- Chat
+---------------------------
+require("components.chat.controller").new({ ide = ide })
+
+vim.keymap.set("n", "gtl", "<esc>:ChatShow<cr>")
+
+---------------------------
 -- EXPLORER
 ---------------------------
 require("components.explorer.controller").new({

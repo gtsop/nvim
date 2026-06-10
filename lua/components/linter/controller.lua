@@ -28,6 +28,7 @@ function LinterController.new(opts)
   vim.api.nvim_create_autocmd("BufWritePre", { pattern = { "*.js", "*.ts" }, callback = lint_eslint })
   vim.api.nvim_create_autocmd("BufWritePre", { pattern = { "*.mjs", "*.cjs" }, callback = lint_eslint })
   vim.api.nvim_create_autocmd("BufWritePre", { pattern = { "*.jsx", "*.tsx" }, callback = lint_eslint })
+  vim.api.nvim_create_autocmd("BufWritePre", { pattern = { "*.graphql" }, callback = lint_eslint })
 
   return self
 end

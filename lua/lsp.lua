@@ -4,6 +4,7 @@ vim.lsp.enable("html")
 vim.lsp.enable("lua_ls")
 vim.lsp.enable("python")
 vim.lsp.enable("typescript")
+vim.lsp.enable("graphql")
 
 vim.keymap.set("n", "<S-M-o>", function()
   vim.lsp.buf.code_action({

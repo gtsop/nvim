@@ -64,8 +64,15 @@ vim.api.nvim_set_hl(0, "Visual", { fg = xterm_palette.white, bg = xterm_palette.
 vim.api.nvim_set_hl(0, "Search", { fg = xterm_palette.white, bg = xterm_palette.medium_purple4 })
 vim.api.nvim_set_hl(0, "CurSearch", { fg = xterm_palette.white, bg = xterm_palette.fuchsia })
 vim.api.nvim_set_hl(0, "IncSearch", { fg = xterm_palette.white, bg = xterm_palette.medium_purple4 })
+vim.api.nvim_set_hl(0, "Cursor", { bg = xterm_palette.fuchsia })
 vim.api.nvim_set_hl(0, "CursorLine", { bg = xterm_palette.gray7 })
 vim.api.nvim_set_hl(0, "CursorColumn", { bg = xterm_palette.gray7 })
+vim.api.nvim_set_hl(0, "WinSeparator", { fg = xterm_palette.gray_27, bg = core.background })
+vim.api.nvim_set_hl(0, "LineNr", { fg = core.comment, bg = core.background })
+vim.api.nvim_set_hl(0, "LineNrAbove", { fg = core.comment, bg = core.background })
+vim.api.nvim_set_hl(0, "LineNrBelow", { fg = core.comment, bg = core.background })
+vim.api.nvim_set_hl(0, "CursorLineNr", { fg = xterm_palette.fuchsia, bg = core.background })
+vim.api.nvim_set_hl(0, "EndOfBuffer", { fg = core.background, bg = core.background })
 
 -- Tree-Sitter groups
 vim.api.nvim_set_hl(0, "@comment", { link = "Comment" })

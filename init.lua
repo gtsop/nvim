@@ -5,7 +5,7 @@ require("polyfills")
 local state = require("state")
 
 -- Cursor style
-vim.opt.guicursor = "a:ver1"
+vim.opt.guicursor = "a:ver1-Cursor"
 
 -- Whitespace stuff
 vim.g.mapleader = " "

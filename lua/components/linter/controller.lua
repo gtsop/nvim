@@ -15,7 +15,7 @@ function LinterController.new(opts)
       local out = vim.split(stdout or "", "\n", { plain = true })
       callback(out)
     else
-      vim.notify(("Linter failed:\n%s"):format(stdout), vim.log.levels.ERROR)
+      -- vim.notify(("Linter failed:\n%s"):format(stdout), vim.log.levels.ERROR)
     end
   end
 

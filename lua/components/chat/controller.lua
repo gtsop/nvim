@@ -27,8 +27,10 @@ function ChatController.new(opts)
   vim.keymap.set("n", "<CR>", function()
     vim.print("Sending text to chat")
     local lines = table.concat(vim.api.nvim_buf_get_lines(0, 0, -1, false), "\n")
-    ask_llm(lines, function(response)
-      vim.print(response)
+    local acc = ""
+    ask_llm(lines, function(token)
+      acc = acc .. token
+      vim.api.nvim_buf_set_lines(buffer, 0, -1, false, vim.split(acc, "\n"))
     end)
   end, {
     buffer = buffer,
@@ -38,12 +40,14 @@ end
 function ask_llm(prompt, callback)
   vim.fn.jobstart({
     "curl",
-    "-s",
+    "-N",
     "http://localhost:11434/api/chat",
+    "-H",
+    "Content-Type: application/json",
     "-d",
     vim.fn.json_encode({
       model = "gemma3:4b",
-      stream = false,
+      stream = true,
       messages = {
         {
           role = "user",
@@ -51,14 +55,17 @@ function ask_llm(prompt, callback)
         },
       },
     }),
-    "-H",
-    "Content-Type: application/json",
   }, {
-    stdout_buffered = true,
+    stdout_buffered = false,
     on_stdout = function(_, data)
-      local response = vim.fn.json_decode(table.concat(data, "\n"))
-      local answer = response.message.content
-      callback(answer)
+      for _, line in ipairs(data) do
+        if line and line ~= "" then
+          local ok, decoded = pcall(vim.fn.json_decode, line)
+          if ok and decoded.message and decoded.message.content then
+            callback(decoded.message.content)
+          end
+        end
+      end
     end,
   })
 end

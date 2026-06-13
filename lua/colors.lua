@@ -19,6 +19,7 @@ local xterm_palette = {
   gray3 = "#080808",
   gray7 = "#121212",
   gray_27 = "#444444",
+  gray_39 = "#626262",
   gray_54 = "#8a8a8a",
   gray_82 = "#d0d0d0",
   gray_93 = "#eeeeee",
@@ -67,8 +68,8 @@ vim.api.nvim_set_hl(0, "Search", { fg = xterm_palette.white, bg = xterm_palette.
 vim.api.nvim_set_hl(0, "CurSearch", { fg = xterm_palette.white, bg = xterm_palette.fuchsia })
 vim.api.nvim_set_hl(0, "IncSearch", { fg = xterm_palette.white, bg = xterm_palette.medium_purple4 })
 vim.api.nvim_set_hl(0, "Cursor", { bg = xterm_palette.fuchsia })
-vim.api.nvim_set_hl(0, "CursorLine", { bg = xterm_palette.gray7 })
-vim.api.nvim_set_hl(0, "CursorColumn", { bg = xterm_palette.gray7 })
+vim.api.nvim_set_hl(0, "CursorLine", { bg = "#251d23" })
+--vim.api.nvim_set_hl(0, "CursorColumn", { bg = xterm_palette.gray7 })
 vim.api.nvim_set_hl(0, "WinSeparator", { fg = xterm_palette.gray_27, bg = core.background })
 vim.api.nvim_set_hl(0, "LineNr", { fg = core.comment, bg = core.background })
 vim.api.nvim_set_hl(0, "LineNrAbove", { fg = core.comment, bg = core.background })
@@ -86,9 +87,9 @@ vim.api.nvim_set_hl(0, "@string", { link = "String" })
 vim.api.nvim_set_hl(0, "@lsp.type.comment", { link = "Comment" })
 
 -- Explorer
-vim.api.nvim_set_hl(0, "@explorer.directory", { fg = xterm_palette.gray_54 })
+vim.api.nvim_set_hl(0, "@explorer.directory", { fg = xterm_palette.gray_39 })
 vim.api.nvim_set_hl(0, "@explorer.hidden", { link = "Comment" })
-vim.api.nvim_set_hl(0, "@explorer.file", { fg = xterm_palette.gray_82 })
+vim.api.nvim_set_hl(0, "@explorer.file", { fg = xterm_palette.gray_54 })
 
 -- Gherkin
 vim.api.nvim_set_hl(0, "@keyword.background", { fg = rgb_palette.steel_blue_gray })

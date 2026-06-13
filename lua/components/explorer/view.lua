@@ -61,6 +61,7 @@ function M.new(args)
   local rendered_lines = nil
 
   local buffer = vim.api.nvim_create_buf(false, true)
+  vim.api.nvim_buf_set_name(buffer, "explorer")
   vim.api.nvim_buf_set_option(buffer, "filetype", "explorer")
   vim.api.nvim_buf_set_option(buffer, "modifiable", false)
 

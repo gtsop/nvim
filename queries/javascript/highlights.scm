@@ -4,6 +4,8 @@
 
 ; Keywords
 (kw_as) @javascript.keyword
+(kw_async) @javascript.keyword
+(kw_await) @javascript.keyword
 (kw_const) @javascript.keyword
 (kw_else) @javascript.keyword
 (kw_false) @javascript.keyword.false
@@ -12,6 +14,7 @@
 (kw_if) @javascript.keyword
 (kw_import) @javascript.keyword
 (kw_let) @javascript.keyword
+(kw_new) @javascript.keyword
 (kw_return) @javascript.keyword
 (kw_this) @javascript.keyword
 (kw_true) @javascript.keyword.true
@@ -34,6 +37,7 @@
 
 
 ; Typescript
+(ts_string) @typescript.keyword
 (kw_interface) @typescript.keyword
 (kw_type) @typescript.keyword
 (ts_user_type) @typescript.user_type

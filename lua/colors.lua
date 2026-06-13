@@ -5,9 +5,8 @@ end
 vim.opt.termguicolors = true
 
 local core = {
-  background = "#1f1a24",
-  foreground = "#ffffff",
-
+  background = "#181818",
+  foreground = "#d5d5d5",
   comment = "#444444",
 }
 
@@ -20,6 +19,9 @@ local xterm_palette = {
   gray3 = "#080808",
   gray7 = "#121212",
   gray_27 = "#444444",
+  gray_54 = "#8a8a8a",
+  gray_82 = "#d0d0d0",
+  gray_93 = "#eeeeee",
   fuchsia = "#ff00ff",
   light_goldenrod1 = "#ffff5f",
   light_goldenrod2 = "#ffd75f",
@@ -84,8 +86,9 @@ vim.api.nvim_set_hl(0, "@string", { link = "String" })
 vim.api.nvim_set_hl(0, "@lsp.type.comment", { link = "Comment" })
 
 -- Explorer
-vim.api.nvim_set_hl(0, "@explorer.directory", { fg = rgb_palette.steel_blue_gray })
+vim.api.nvim_set_hl(0, "@explorer.directory", { fg = xterm_palette.gray_54 })
 vim.api.nvim_set_hl(0, "@explorer.hidden", { link = "Comment" })
+vim.api.nvim_set_hl(0, "@explorer.file", { fg = xterm_palette.gray_82 })
 
 -- Gherkin
 vim.api.nvim_set_hl(0, "@keyword.background", { fg = rgb_palette.steel_blue_gray })

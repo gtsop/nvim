@@ -22,8 +22,8 @@ require("components.autocomplete.controller").new({ ide = ide })
 ---------------------------
 require("components.bridge.controller").new({ ide = ide })
 
-vim.keymap.set("n", "gtt", "<esc>:BridgeEditTestFile<cr>")
 vim.keymap.set("n", "gtc", "<esc>:BridgeEditCodeFile<cr>")
+vim.keymap.set("n", "gtt", "<esc>:BridgeEditTestFile<cr>")
 
 ---------------------------
 -- Chat

@@ -23,6 +23,8 @@ function M.create(_, _, c)
       code_file = dirname .. "/" .. basename:gsub(".test", "") .. ".ts"
     elseif extension == "tsx" then
       code_file = dirname .. "/" .. basename:gsub(".test", "") .. ".tsx"
+    elseif extension == "feature" then
+      code_file = dirname .. "/" .. basename:gsub(".feature", "") .. ".js"
     end
 
     if fs.is_file(code_file) then

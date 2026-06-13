@@ -13,7 +13,7 @@ alias n="nvmini"
 3. Install tools
 
 ```
-npm install -g vscode-langservers-extracted@4.8.0 typescript-language-server typescript eslint@8 prettier eslint_d graphql-language-service-cli
+npm install -g vscode-langservers-extracted@4.8.0 typescript-language-server typescript eslint@8 prettier eslint_d graphql-language-service-cli @johnnymorganz/stylua-bin
 ```
 
 ## Development

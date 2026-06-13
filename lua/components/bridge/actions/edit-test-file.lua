@@ -12,11 +12,13 @@ function M.create(_, _, c)
     local extension = path.extension(file)
 
     local unit_test_file = ""
+    local cucumber_test_file = ""
 
     if extension == "lua" then
       unit_test_file = dirname .. "/" .. basename .. ".test.lua"
     elseif extension == "js" then
       unit_test_file = dirname .. "/" .. basename .. ".test.js"
+      cucumber_test_file = dirname .. "/" .. basename .. ".feature"
     elseif extension == "jsx" then
       unit_test_file = dirname .. "/" .. basename .. ".test.jsx"
     elseif extension == "ts" then
@@ -27,6 +29,8 @@ function M.create(_, _, c)
 
     if fs.is_file(unit_test_file) then
       c.ide.edit(unit_test_file)
+    elseif fs.is_file(cucumber_test_file) then
+      c.ide.edit(cucumber_test_file)
     else
       vim.print("Failed to find unit test at: " .. unit_test_file)
     end

@@ -8,6 +8,7 @@ local core = {
   background = "#181818",
   foreground = "#d5d5d5",
   comment = "#444444",
+  selection = "#303030",
 }
 
 -- Reference:
@@ -61,12 +62,12 @@ vim.api.nvim_set_hl(0, "Comment", { fg = core.comment })
 vim.api.nvim_set_hl(0, "Function", { fg = xterm_palette.medium_purple3 })
 vim.api.nvim_set_hl(0, "RegEx", { fg = xterm_palette.teal })
 vim.api.nvim_set_hl(0, "String", { fg = "#997C70" })
-vim.api.nvim_set_hl(0, "Visual", { fg = xterm_palette.white, bg = xterm_palette.medium_purple4 })
+vim.api.nvim_set_hl(0, "Visual", { fg = xterm_palette.white, bg = core.selection })
 
 -- Neovim UI Groups
 vim.api.nvim_set_hl(0, "Search", { fg = xterm_palette.white, bg = xterm_palette.medium_purple4 })
 vim.api.nvim_set_hl(0, "CurSearch", { fg = xterm_palette.white, bg = xterm_palette.fuchsia })
-vim.api.nvim_set_hl(0, "IncSearch", { fg = xterm_palette.white, bg = xterm_palette.medium_purple4 })
+vim.api.nvim_set_hl(0, "IncSearch", { fg = xterm_palette.white, bg = "#453d43" })
 vim.api.nvim_set_hl(0, "Cursor", { bg = xterm_palette.fuchsia })
 vim.api.nvim_set_hl(0, "CursorLine", { bg = "#251d23" })
 --vim.api.nvim_set_hl(0, "CursorColumn", { bg = xterm_palette.gray7 })

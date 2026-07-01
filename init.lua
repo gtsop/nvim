@@ -53,3 +53,6 @@ vim.api.nvim_create_autocmd("InsertEnter", {
     end)
   end,
 })
+
+vim.cmd("ExplorerShow")
+vim.cmd("wincmd l")

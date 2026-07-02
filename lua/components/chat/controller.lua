@@ -16,6 +16,7 @@ function ChatController.new(opts)
   local buffer = vim.api.nvim_create_buf(false, true)
   vim.api.nvim_buf_set_option(buffer, "filetype", "chat")
   vim.api.nvim_buf_set_option(buffer, "modifiable", true)
+  vim.api.nvim_buf_set_option(buffer, "wrap", true)
 
   local panel = Panel:new({
     name = "chat",
@@ -43,6 +44,7 @@ function ChatController.new(opts)
     ask_llm(function(token)
       acc = acc .. token
       vim.api.nvim_buf_set_lines(buffer, 0, -1, false, vim.split(acc, "\n"))
+      -- vim.cmd("normal! G")
     end, function()
       table.insert(chat_history, {
         role = "assistant",

@@ -111,6 +111,10 @@ end
 M.edit = function(full_path, line)
   line = line or 1
 
+  if utils.is_dir(full_path) then
+    return
+  end
+
   local buff_id = vim.fn.bufadd(full_path)
   local win_id = nil
 
@@ -124,11 +128,16 @@ M.edit = function(full_path, line)
 end
 
 function M.create_file(path, callback)
-  local dir = vim.fs.dirname(path)
+  local dir
+  if utils.is_dir(path) then
+    dir = path
+  else
+    dir = vim.fs.dirname(path)
+  end
 
   local new_file = vim.fn.input("New file: ", dir .. "/", "file")
 
-  if new_file then
+  if #new_file > 0 then
     vim.fn.mkdir(vim.fs.dirname(new_file), "p")
 
     -- create file

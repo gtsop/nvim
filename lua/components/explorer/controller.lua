@@ -7,6 +7,7 @@ function M.new(opts)
   local model = require("components.explorer.model").new({ path = opts.base_path })
   local view = require("components.explorer.view").new({
     window_width = opts.window_width,
+    panel = opts.panel,
   })
 
   local view_buffer = view.get_buffer()

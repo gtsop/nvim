@@ -11,23 +11,26 @@ local chat_history = {
 }
 
 function ChatController.new(opts)
-  local self = setmetatable({ ide = opts.ide }, ChatController)
+  local self = setmetatable({ ide = opts.ide, panel = opts.panel }, ChatController)
 
   local buffer = vim.api.nvim_create_buf(false, true)
   vim.api.nvim_buf_set_option(buffer, "filetype", "chat")
   vim.api.nvim_buf_set_option(buffer, "modifiable", true)
-  vim.api.nvim_buf_set_option(buffer, "wrap", true)
 
-  local panel = Panel:new({
-    name = "chat",
-    on_enter = function() end,
+  local panel = self.panel:register("chat", {
+    buffer = buffer,
+    on_enter = function()
+      vim.api.nvim_set_option_value("wrap", true, {
+        win = self.panel.window,
+      })
+      self.panel:set_width(50)
+    end,
     on_leave = function() end,
     on_close = function() end,
-    position = "bottom",
   })
 
   function self.show()
-    panel:open({ buffer = buffer })
+    self.panel:open("chat")
   end
 
   vim.api.nvim_create_user_command("ChatShow", self.show, { nargs = 0 })
@@ -73,6 +76,7 @@ function ask_llm(stream_callback, end_callback)
     vim.fn.json_encode({
       model = "gemma3:4b",
       -- model = "qwen3.5:9b",
+      -- model = "deepseek-r1:latest",
       stream = true,
       messages = chat_history,
     }),

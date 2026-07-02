@@ -6,7 +6,7 @@ local state = require("state")
 local project_dir = state.get_project_dir()
 local edited_files = {}
 
-local Panel = require("utils.ui.panel")
+local Panel = require("utils.ui.panel_v2")
 
 local leftPanel = Panel:new({
   name = "left_panel",
@@ -29,7 +29,7 @@ vim.keymap.set("n", "gtt", "<esc>:BridgeEditTestFile<cr>")
 ---------------------------
 -- Chat
 ---------------------------
-require("components.chat.controller").new({ ide = ide })
+require("components.chat.controller").new({ ide = ide, panel = leftPanel })
 
 vim.keymap.set("n", "gtl", "<esc>:ChatShow<cr>")
 
@@ -39,6 +39,7 @@ vim.keymap.set("n", "gtl", "<esc>:ChatShow<cr>")
 require("components.explorer.controller").new({
   base_path = project_dir,
   ide = ide,
+  panel = leftPanel,
   window_width = 30,
 })
 

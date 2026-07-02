@@ -1,8 +1,6 @@
 local M = {}
 M.__index = M
 
-local Panel = require("utils.ui.panel")
-
 local function get_node_lines(tree, prefix)
   if not prefix then
     prefix = ""
@@ -35,12 +33,15 @@ local function get_node_lines(tree, prefix)
 end
 
 function M.new(args)
-  local self = setmetatable({}, M)
+  local self = setmetatable({
+    panel = args.panel,
+  }, M)
 
   if not args then
     args = {}
   end
 
+  --[[
   local panel = Panel:new({
     name = "explorer",
     on_enter = function()
@@ -54,6 +55,7 @@ function M.new(args)
     end,
     position = "left",
   })
+  ]]
 
   local window_width = args.window_width or 40
 
@@ -65,8 +67,24 @@ function M.new(args)
   vim.api.nvim_buf_set_option(buffer, "filetype", "explorer")
   vim.api.nvim_buf_set_option(buffer, "modifiable", false)
 
+  self.panel:register("explorer", {
+    buffer = buffer,
+    on_enter = function()
+      vim.api.nvim_set_option_value("wrap", false, {
+        win = self.panel.window,
+      })
+      self.expand()
+    end,
+    on_leave = function()
+      self.collapse()
+    end,
+    on_close = function()
+      self.close()
+    end,
+  })
+
   function self.close()
-    panel:close()
+    self.panel:close()
   end
 
   function self.render(model)
@@ -78,7 +96,7 @@ function M.new(args)
   end
 
   function self.show()
-    panel:open({ buffer = buffer })
+    self.panel:open("explorer")
   end
 
   function self.get_buffer()
@@ -102,7 +120,7 @@ function M.new(args)
 
     local nodeIndex = table.index_of(rendered_nodes, node)
     if nodeIndex then
-      local window = panel:get_window()
+      local window = self.panel:get_window()
       vim.api.nvim_set_current_win(window)
       vim.api.nvim_win_set_cursor(window, { nodeIndex, 1 })
     else
@@ -124,11 +142,11 @@ function M.new(args)
         max_length = #line
       end
     end
-    panel:set_width(max_length + 1)
+    self.panel:set_width(max_length + 1)
   end
 
   function self.collapse()
-    panel:set_width(window_width)
+    self.panel:set_width(window_width)
   end
 
   return self

@@ -137,7 +137,7 @@ function M.create_file(path, callback)
     end
 
     if callback then
-      callback()
+      callback(new_file)
     end
   end
 end
@@ -145,7 +145,7 @@ end
 function M.delete_file(path, callback)
   vim.ui.input({ prompt = "Are you sure you want to delete '" .. path .. "' ? [y/n]: " }, function(answer)
     if answer == "y" then
-      vim.fn.delete(path)
+      vim.fn.delete(path, "rf")
       if callback then
         callback()
       end

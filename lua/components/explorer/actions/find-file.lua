@@ -1,8 +1,8 @@
 local M = {}
 
 function M.create(m, v, c)
-  return function()
-    local file = vim.api.nvim_buf_get_name(0)
+  return function(args)
+    local file = args.path or vim.api.nvim_buf_get_name(0)
     c.show()
     local node = m.expand_until_path(file)
     c.render()

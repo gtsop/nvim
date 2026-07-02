@@ -70,6 +70,7 @@ function ask_llm(stream_callback, end_callback)
     "-d",
     vim.fn.json_encode({
       model = "gemma3:4b",
+      -- model = "qwen3.5:9b",
       stream = true,
       messages = chat_history,
     }),

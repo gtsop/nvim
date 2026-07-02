@@ -4,6 +4,7 @@ local ide = M
 local utils = require("utils")
 local state = require("state")
 local project_dir = state.get_project_dir()
+local edited_files = {}
 
 local Panel = require("utils.ui.panel")
 
@@ -115,6 +116,8 @@ M.edit = function(full_path, line)
     return
   end
 
+  table.insert(edited_files, full_path)
+
   local buff_id = vim.fn.bufadd(full_path)
   local win_id = nil
 
@@ -183,6 +186,10 @@ function M.copy_file(path, callback)
       end
     end
   end)
+end
+
+function M.get_edited_files()
+  return table.clone(edited_files)
 end
 
 return M

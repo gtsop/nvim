@@ -32,6 +32,12 @@ TERM = "xterm-256color"
 key = "F"
 mods = "Control|Shift"
 chars = "\u2007"
+
+
+[[keyboard.bindings]]
+key = "P"
+mods = "Control|Shift"
+chars = "\u2008"
 ```
 
 # Tmux config

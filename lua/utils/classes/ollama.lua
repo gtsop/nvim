@@ -17,6 +17,10 @@ function Ollama:select_model(model)
   self.model = model
 end
 
+function Ollama:get_model(model)
+  return self.model
+end
+
 function Ollama:prompt(args)
   vim.print("prompting...")
   self.on_end = args.on_end

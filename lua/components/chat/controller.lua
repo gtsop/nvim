@@ -2,6 +2,9 @@ local ChatController = {}
 ChatController.__index = ChatController
 
 local Panel = require("utils.ui.panel")
+local Ollama = require("utils.classes.ollama")
+
+local ollama = Ollama:new("gemma3:4b")
 
 local chat_history = {
   {
@@ -36,24 +39,30 @@ function ChatController.new(opts)
   vim.api.nvim_create_user_command("ChatShow", self.show, { nargs = 0 })
 
   vim.keymap.set("n", "<CR>", function()
-    vim.print("Sending prompt to ollama")
     local prompt = table.concat(vim.api.nvim_buf_get_lines(0, 0, -1, false), "\n")
     table.insert(chat_history, {
       role = "user",
       content = prompt,
     })
 
-    local acc = ""
-    ask_llm(function(token)
-      acc = acc .. token
-      vim.api.nvim_buf_set_lines(buffer, 0, -1, false, vim.split(acc, "\n"))
-      -- vim.cmd("normal! G")
-    end, function()
-      table.insert(chat_history, {
-        role = "assistant",
-        content = acc,
-      })
-    end)
+    ollama:prompt({
+      messages = chat_history,
+      on_stream = function(response)
+        vim.api.nvim_buf_set_lines(buffer, 0, -1, false, vim.split(response, "\n"))
+      end,
+      on_end = function(response)
+        table.insert(chat_history, {
+          role = "assistant",
+          content = response,
+        })
+      end,
+    })
+  end, {
+    buffer = buffer,
+  })
+
+  vim.keymap.set("n", "<C-c>", function()
+    ollama:cancel()
   end, {
     buffer = buffer,
   })
@@ -63,39 +72,6 @@ function ChatController.new(opts)
   end
 
   vim.api.nvim_create_user_command("ChatDebugHistory", self.print_history, { nargs = 0 })
-end
-
-function ask_llm(stream_callback, end_callback)
-  vim.fn.jobstart({
-    "curl",
-    "-N",
-    "http://localhost:11434/api/chat",
-    "-H",
-    "Content-Type: application/json",
-    "-d",
-    vim.fn.json_encode({
-      model = "gemma3:4b",
-      -- model = "qwen3.5:9b",
-      -- model = "deepseek-r1:latest",
-      stream = true,
-      messages = chat_history,
-    }),
-  }, {
-    stdout_buffered = false,
-    on_stdout = function(_, data)
-      for _, line in ipairs(data) do
-        if line and line ~= "" then
-          local ok, decoded = pcall(vim.fn.json_decode, line)
-          if ok and decoded.message and decoded.message.content then
-            stream_callback(decoded.message.content)
-          end
-          if decoded.done then
-            end_callback()
-          end
-        end
-      end
-    end,
-  })
 end
 
 return ChatController

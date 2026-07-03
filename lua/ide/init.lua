@@ -117,7 +117,9 @@ M.edit = function(full_path, line)
     return
   end
 
-  table.insert(edited_files, full_path)
+  if not table.contains(edited_files, full_path) then
+    table.insert(edited_files, full_path)
+  end
 
   local buff_id = vim.fn.bufadd(full_path)
   local win_id = nil

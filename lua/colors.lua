@@ -115,6 +115,14 @@ vim.api.nvim_set_hl(0, "@javascript.literal_object_key", { fg = rgb_palette.almo
 vim.api.nvim_set_hl(0, "@javascript.literal_string", { link = "@string" })
 vim.api.nvim_set_hl(0, "@javascript.identifier", { link = "Normal" })
 
+-- JSON
+vim.api.nvim_set_hl(0, "@json.member_name", { fg = rgb_palette.almond })
+vim.api.nvim_set_hl(0, "@json.false", { fg = "#E06B80" })
+vim.api.nvim_set_hl(0, "@json.string", { link = "String" })
+vim.api.nvim_set_hl(0, "@json.true", { fg = "#73AF6F" })
+vim.api.nvim_set_hl(0, "@json.number", { fg = xterm_palette.steel_blue1 })
+vim.api.nvim_set_hl(0, "@json.null", { link = "Comment" })
+
 -- JSX
 -- vim.api.nvim_set_hl(0, "@jsx.self_tag", { fg = rgb_palette.light_blue })
 -- vim.api.nvim_set_hl(0, "@jsx.start_tag", { fg = rgb_palette.light_blue })

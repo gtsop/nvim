@@ -5,7 +5,9 @@ local Panel = require("utils.ui.panel")
 local Ollama = require("utils.classes.ollama")
 
 --local ollama = Ollama:new("gemma3:4b")
-local ollama = Ollama:new({ model = "qwen2.5-coder:7b" })
+local ollama = Ollama:new()
+--ollama:select_model("qwen2.5-coder:7b")
+ollama:select_model("gemma3:4b")
 
 local chat_history = {
   {
@@ -58,6 +60,11 @@ function ChatController.new(opts)
           role = "assistant",
           content = response,
         })
+        --vim.print({
+        -- messages = #chat_history,
+        --  prompt_eval_count = ollama.prompt_eval_count,
+        --  usage = ollama:get_context_usage(),
+        --})
       end,
     })
   end, {
@@ -76,7 +83,12 @@ function ChatController.new(opts)
 
   function self.update_status(status)
     status = status or ""
-    vim.wo.winbar = "Model(" .. ollama:get_model() .. "): " .. status
+    vim.wo.winbar = "("
+      .. ollama:get_model()
+      .. " - "
+      .. string.format("%.1f%%%%", ollama:get_context_usage())
+      .. " ): "
+      .. status
   end
 
   vim.api.nvim_create_user_command("ChatDebugHistory", self.print_history, { nargs = 0 })

@@ -90,6 +90,14 @@ local formatter = require("components.formatter.controller").new()
 vim.treesitter.language.register("javascript", { "javascriptreact", "typescript", "typescriptreact" })
 vim.treesitter.language.register("html", { "handlebars" })
 
+-- fix json detection for some reason
+vim.api.nvim_create_autocmd({ "BufNewFile", "BufEnter", "VimEnter" }, {
+  pattern = "*.json",
+  callback = function(args)
+    vim.bo[args.buf].filetype = "json"
+  end,
+})
+
 ---------------------------
 -- FILE TYPES
 ---------------------------

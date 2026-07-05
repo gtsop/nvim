@@ -3,63 +3,54 @@ M.__index = M
 
 function M.new(opts)
   local self = setmetatable({}, M)
+  opts = opts or {}
 
-  vim.opt.omnifunc = "v:lua.vim.lsp.omnifunc"
-  vim.opt.completeopt = "menu,menuone,noinsert,noselect,popup"
-  vim.opt.pumheight = 10
+  vim.opt.completeopt = opts.completeopt or "menu,menuone,noinsert,noselect,popup"
+  vim.opt.pumheight = opts.pumheight or 10
 
-  function self.should_show_popup(char)
-    local popup_visible = vim.fn.pumvisible() == 1
-    local has_lsp = vim.o.omnifunc == "v:lua.vim.lsp.omnifunc"
+  local group = vim.api.nvim_create_augroup("UserLspCompletion", { clear = true })
 
-    local col = vim.fn.col(".") - 1
+  vim.api.nvim_create_autocmd("LspAttach", {
+    group = group,
+    callback = function(args)
+      local client = vim.lsp.get_client_by_id(args.data.client_id)
 
-    if col <= 0 then
-      return false
-    end
-
-    local makese_sense_to_show = char:match("[%w_.]") ~= nil
-
-    return not popup_visible and has_lsp and makese_sense_to_show
-  end
-
-  function self.show_autocomplete()
-    local keys = vim.api.nvim_replace_termcodes("<C-x><C-o>", true, false, true)
-    vim.api.nvim_feedkeys(keys, "n", false)
-  end
-
-  vim.api.nvim_create_autocmd({ "InsertCharPre" }, {
-    callback = function()
-      if self.should_show_popup(vim.v.char) then
-        self.show_autocomplete()
+      if not client then
+        return
       end
+
+      if not client:supports_method("textDocument/completion") then
+        return
+      end
+
+      vim.lsp.completion.enable(true, client.id, args.buf, {
+        autotrigger = opts.autotrigger ~= false,
+      })
     end,
+  })
+
+  vim.keymap.set("i", "<C-Space>", function()
+    vim.lsp.completion.get()
+  end, {
+    desc = "Trigger LSP completion",
   })
 
   vim.keymap.set("i", "<CR>", function()
     if vim.fn.pumvisible() == 1 then
-      local sel = vim.fn.complete_info({ "selected" }).selected
-      if sel ~= -1 then
-        return vim.api.nvim_replace_termcodes("<C-y>", true, false, true) -- confirm
-      else
-        return vim.api.nvim_replace_termcodes("<C-e><CR>", true, false, true) -- close menu, newline
-      end
-    end
-    return "\r" -- normal Enter
-  end, { expr = true, desc = "Confirm completion only if selected" })
+      local selected = vim.fn.complete_info({ "selected" }).selected
 
-  --[[ Signature help
-	vim.api.nvim_create_autocmd("InsertCharPre", {
-		callback = function()
-			local char = vim.v.char
-			if char == "(" or char == "," then
-				vim.defer_fn(function()
-					vim.lsp.buf.signature_help()
-				end, 50)
-			end
-		end,
-	})
-  ]]
+      if selected ~= -1 then
+        return vim.api.nvim_replace_termcodes("<C-y>", true, false, true)
+      end
+
+      return vim.api.nvim_replace_termcodes("<C-e><CR>", true, false, true)
+    end
+
+    return "\r"
+  end, {
+    expr = true,
+    desc = "Confirm completion only if selected",
+  })
 
   return self
 end

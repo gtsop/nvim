@@ -5,7 +5,6 @@ local utils = require("utils")
 local state = require("state")
 local project_dir = state.get_project_dir()
 local edited_files = {}
-
 local Panel = require("utils.ui.panel_v2")
 
 local leftPanel = Panel:new({
@@ -59,7 +58,6 @@ end)
 
 vim.keymap.set("n", "<C-f>", "/", { noremap = true })
 vim.keymap.set("x", "<C-f>", [["zy/<C-r>z<CR>]], { noremap = true, silent = true })
-
 vim.keymap.set("n", " ", function()
   local pat = vim.fn.getreg("/") or ""
   if pat ~= "" then
@@ -202,5 +200,4 @@ end
 function M.get_edited_files()
   return table.clone(edited_files)
 end
-
 return M

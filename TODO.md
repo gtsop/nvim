@@ -1,5 +1,7 @@
 # TODO
 
+- feat: comment out (undo)
+
 ## Bridge
 
 - reafctor: create a table datastructure that maps from code file to test file, so we remove all the if/else code and instead configure everything with a table
@@ -24,7 +26,6 @@
 
 - feat: yaml support
 - feat: css support
-- feat: json support
 - feat: markdown support
 
 ## LSP
@@ -48,4 +49,3 @@
 # Technical Debt
 
 - refactor?: create a module that is aware of the project and supplies the other modules with relevant functionality
-- refactor: create new panel component that it can house multiple components in the same window and alternate buffers

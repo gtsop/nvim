@@ -9,11 +9,7 @@ vim.lsp.enable("typescript")
 vim.keymap.set("n", "<S-M-o>", function()
   vim.lsp.buf.code_action({
     apply = true,
-    context = { only = { "source.addMissingImports.ts" } },
-  })
-  vim.lsp.buf.code_action({
-    apply = true,
-    context = { only = { "source.organizeImports" } },
+    context = { only = { "source.addMissingImports.ts", "source.organizeImports" } },
   })
 end, { desc = "LSP: fix imports" })
 

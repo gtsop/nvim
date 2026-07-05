@@ -81,6 +81,10 @@ function ChatController.new(opts)
     vim.print(chat_history)
   end
 
+  function self.select_model(params)
+    ollama:select_model(params.args)
+  end
+
   function self.update_status(status)
     status = status or ""
     vim.wo.winbar = "("
@@ -92,6 +96,7 @@ function ChatController.new(opts)
   end
 
   vim.api.nvim_create_user_command("ChatDebugHistory", self.print_history, { nargs = 0 })
+  vim.api.nvim_create_user_command("ChatSelectModel", self.select_model, { nargs = 1 })
 end
 
 return ChatController

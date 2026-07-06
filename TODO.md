@@ -30,9 +30,6 @@
 
 ## LSP
 
-- feat: markdown support
-- feat: cucumber support
-
 ## Find-Text
 
 - feat: exlude project exlude directories

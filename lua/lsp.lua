@@ -1,4 +1,5 @@
 vim.lsp.enable("css")
+vim.lsp.enable("cucumber")
 vim.lsp.enable("eslint")
 vim.lsp.enable("graphql")
 vim.lsp.enable("html")

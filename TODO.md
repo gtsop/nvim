@@ -27,6 +27,7 @@
 - feat: yaml support
 - feat: css support
 - feat: markdown support
+- feat: bash support
 
 ## LSP
 
@@ -45,4 +46,6 @@
 
 # Technical Debt
 
+- test: clean up unit test errors
+- ci: add unit tests on commit hook
 - refactor?: create a module that is aware of the project and supplies the other modules with relevant functionality

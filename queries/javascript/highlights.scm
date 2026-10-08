@@ -38,6 +38,7 @@
 
 ; Typescript
 (ts_string) @typescript.keyword
+(ts_number) @typescript.keyword
 (kw_interface) @typescript.keyword
 (kw_type) @typescript.keyword
 (ts_user_type) @typescript.user_type

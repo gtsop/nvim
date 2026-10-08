@@ -35,6 +35,10 @@ function Ollama:prompt(args)
     model = self.model,
     stream = true,
     messages = args.messages,
+    format = args.format,
+    options = {
+      temperature = 0.2,
+    },
   }, function(_, data)
     for _, line in ipairs(data) do
       if line and line ~= "" then
@@ -42,7 +46,9 @@ function Ollama:prompt(args)
         if ok and decoded.message and decoded.message.content then
           local token = decoded.message.content
           self.response = self.response .. token
-          args.on_stream(self.response, token)
+          if args.on_stream then
+            args.on_stream(self.response, token)
+          end
         end
         if decoded.done then
           self.prompt_eval_count = decoded.prompt_eval_count

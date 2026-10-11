@@ -6,18 +6,13 @@ local Toolkit = require("components.chat.toolkit")
 local log = require("utils.log")
 local Panel = require("utils.ui.panel")
 local Ollama = require("utils.classes.ollama")
+local input = require("input")
 
 local toolkit = Toolkit:new()
 local ollama = Ollama:new({ tools = toolkit.list() })
---ollama:select_model("deepseek-r1:latest")
---ollama:select_model("devstral-small-2:24b")
---ollama:select_model("gemma3:4b")
+
 ollama:select_model("gemma4:31b")
---ollama:select_model("qwen2.5-coder:7b")
---ollama:select_model("qwen3-coder:30b")
---ollama:select_model("qwen3.5:4b")
 --ollama:select_model("qwen3.5:9b")
---ollama:select_model("qwen3:14b")
 
 local isAsking
 
@@ -108,10 +103,6 @@ function ChatController.new(opts)
     vim.print(chat_history)
   end
 
-  function self.select_model(params)
-    ollama:select_model(params.args)
-  end
-
   function self.update_status(status)
     status = status or ""
     vim.wo.winbar = "("
@@ -122,8 +113,20 @@ function ChatController.new(opts)
       .. status
   end
 
+  function self.show_model_selection_ui()
+    ollama:fetch_models(function(models)
+      vim.ui.select(models, {
+        prompt = "Select model:",
+      }, function(choice)
+        if choice then
+          ollama:select_model(choice)
+        end
+      end)
+    end)
+  end
+
   vim.api.nvim_create_user_command("ChatDebugHistory", self.print_history, { nargs = 0 })
-  vim.api.nvim_create_user_command("ChatSelectModel", self.select_model, { nargs = 1 })
+  vim.api.nvim_create_user_command("ChatSelectModel", self.show_model_selection_ui, { nargs = 0 })
 end
 
 return ChatController

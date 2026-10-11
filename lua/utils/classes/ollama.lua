@@ -146,23 +146,48 @@ function get_context_length(model_info)
 end
 
 function curl(endpoint, data, on_stdout, stdout_buffered)
-  local job_id = vim.fn.jobstart({
+  local args = {
     "curl",
-    "-N",
+    "-sN",
     "http://localhost:11434" .. endpoint,
     "-H",
     "Content-Type: application/json",
-    "--data-binary",
-    "@-",
-  }, {
+  }
+
+  if data ~= nil then
+    vim.list_extend(args, {
+      "--data-binary",
+      "@-",
+    })
+  end
+
+  local job_id = vim.fn.jobstart(args, {
     stdout_buffered = stdout_buffered,
     on_stdout = on_stdout,
   })
 
-  vim.fn.chansend(job_id, vim.fn.json_encode(data))
+  if data ~= nil then
+    vim.fn.chansend(job_id, vim.fn.json_encode(data))
+  end
+
   vim.fn.chanclose(job_id, "stdin")
 
   return job_id
+end
+
+function Ollama:fetch_models(callback)
+  curl("/api/tags", nil, function(_, data)
+    local models = {}
+
+    local response = table.concat(data, "")
+    local decoded = vim.json.decode(response)
+
+    for _, model in ipairs(decoded.models or {}) do
+      models[#models + 1] = model.name
+    end
+
+    callback(models)
+  end, true)
 end
 
 return Ollama

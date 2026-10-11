@@ -38,6 +38,7 @@ function Ollama:prompt(args)
     format = args.format,
     options = {
       temperature = 0.2,
+      num_ctx = 32768,
     },
   }, function(_, data)
     for _, line in ipairs(data) do

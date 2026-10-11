@@ -1,31 +1,30 @@
 local state = require("state")
 local utils = require("utils")
 
-local function name()
-  return "project.list_files"
-end
-
-local function desc()
-  return [[
-Tool: "project.list_files"
-Returns a string containing all the files of the project seperated by new line
-@param {string} as - Name of the variable to store the response of the LLM
-@example
-{ "name": "project.list_files", "args": { "as": "project_files" } }
-]]
-end
-
-local function exec(args, vars, engine, callback)
+local function exec(args)
   local project_dir = state.get_project_dir()
   local files = utils.list_dir_files(project_dir, true)
 
-  vars[args.as] = table.concat(files, "\n")
-  callback()
+  return table.concat(files, "\n")
 end
 
+local name = "project.list_files"
+
+local schema = {
+  type = "function",
+  ["function"] = {
+    name = "project.list_files",
+    description = "Returns a string containing all project file paths, separated by newlines.",
+    parameters = {
+      type = "object",
+      properties = vim.empty_dict(),
+    },
+  },
+}
+
 return {
-  desc = desc,
+  _enabled = true,
   exec = exec,
   name = name,
-  on = true,
+  schema = schema,
 }

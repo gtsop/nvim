@@ -10,30 +10,26 @@ function Toolkit.new(opts)
 
   local tool_path = vim.fn.stdpath("config") .. "/lua/components/chat/tools"
   local tool_files = list_dir_contents(tool_path)
-  local tool_names = {}
-  local tool_descriptions = {}
+
   local tools = {}
+  local tool_names = {}
+  local tool_schemas = {}
 
   for _, file in ipairs(tool_files) do
     local tool = require("components.chat.tools." .. basename(file[1], true))
-    if tool.on then
-      local tool_name = tool.name()
-      table.insert(tool_names, tool_name)
-      table.insert(tool_descriptions, tool.desc())
-      tools[tool_name] = tool
+    if tool._enabled then
+      tools[tool.name] = tool
+      table.insert(tool_names, tool.name)
+      table.insert(tool_schemas, tool.schema)
     end
   end
 
   function self.list()
-    return table.concat(tool_names, ",")
+    return tool_schemas
   end
 
-  function self.descriptions()
-    return table.concat(tool_descriptions, "\n---\n")
-  end
-
-  function self.exec(name, args, vars, engine, cb)
-    return tools[name].exec(args, vars, engine, cb)
+  function self.exec(name, args, engine, cb)
+    return tools[name].exec(args, engine, cb)
   end
 
   return self

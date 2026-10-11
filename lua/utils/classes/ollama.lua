@@ -6,9 +6,10 @@ function Ollama:new(args)
 
   return setmetatable({
     model = nil,
+    toolkit = args.toolkit,
     on_end = nil,
     on_stream = nil,
-    promopt_job_id = nil,
+    prompt_job_id = nil,
     response = "",
   }, Ollama)
 end
@@ -31,30 +32,72 @@ function Ollama:prompt(args)
   self.on_end = args.on_end
   self.on_stream = args.on_stream
   self.response = ""
+  self.tool_calls = {}
+
   self.prompt_job_id = curl("/api/chat", {
-    model = self.model,
-    stream = true,
-    messages = args.messages,
     format = args.format,
-    options = {
-      temperature = 0.2,
-      num_ctx = 32768,
-    },
+    messages = args.messages,
+    model = self.model,
+    options = { temperature = 0.2, num_ctx = 32768 },
+    stream = true,
+    tools = self.toolkit.list(),
   }, function(_, data)
     for _, line in ipairs(data) do
       if line and line ~= "" then
         local ok, decoded = pcall(vim.fn.json_decode, line)
-        if ok and decoded.message and decoded.message.content then
-          local token = decoded.message.content
-          self.response = self.response .. token
-          if args.on_stream then
-            args.on_stream(self.response, token)
+        if ok and type(decoded) == "table" then
+          -- Message response parsing
+          local message = decoded.message or {}
+          if message.content and message.content ~= "" then
+            local token = decoded.message.content
+            self.response = self.response .. token
+            if args.on_stream then
+              args.on_stream(self.response, token)
+            end
           end
-        end
-        if decoded.done then
-          self.prompt_eval_count = decoded.prompt_eval_count
-          args.on_end(self.response)
-          self.prompt_job_id = nil
+
+          -- Tool call response parsing
+          if message.tool_calls then
+            for _, call in ipairs(message.tool_calls) do
+              table.insert(self.tool_calls, call)
+            end
+          end
+
+          if decoded.done then
+            self.prompt_eval_count = decoded.prompt_eval_count
+            self.prompt_job_id = nil
+
+            if #self.tool_calls > 0 then
+              table.insert(args.messages, {
+                role = "assistant",
+                content = self.response,
+                tool_calls = self.tool_calls,
+              })
+
+              for _, call in ipairs(self.tool_calls) do
+                local name = call["function"].name
+                local tool_args = call["function"].arguments or {}
+
+                local result = self.toolkit.exec(name, tool_args)
+
+                table.insert(args.messages, {
+                  role = "tool",
+                  tool_name = name,
+                  content = tostring(result),
+                })
+              end
+
+              self:prompt(args)
+            else
+              table.insert(args.messages, {
+                role = "assistant",
+                content = self.response,
+              })
+              if args.on_end then
+                args.on_end(self.response)
+              end
+            end
+          end
         end
       end
     end

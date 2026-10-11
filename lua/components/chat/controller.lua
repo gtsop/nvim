@@ -38,6 +38,7 @@ function ChatController.new(opts)
   local self = setmetatable({ ide = opts.ide, panel = opts.panel }, ChatController)
 
   local buffer = vim.api.nvim_create_buf(false, true)
+  vim.api.nvim_buf_set_name(buffer, "chat")
   vim.api.nvim_buf_set_option(buffer, "filetype", "chat")
   vim.api.nvim_buf_set_option(buffer, "modifiable", true)
 

@@ -21,7 +21,7 @@ npm install -g vscode-langservers-extracted@4.8.0 typescript-language-server typ
 1. Download and install from [ollama.com](https://ollama.com)
 2. Pull a model:
 ```bash
-ollama pull llama3
+ollama pull qwen3.5:9b
 ```
 
 ## Development

@@ -106,7 +106,7 @@ vim.filetype.add({
 })
 
 local function get_file_edit_window()
-  local avoid_filetypes = { "explorer" }
+  local avoid_filetypes = { "explorer", "chat" }
 
   for _, win in ipairs(vim.api.nvim_tabpage_list_wins(0)) do
     if not table.contains(avoid_filetypes, utils.win_get_buf_filetype(win)) then

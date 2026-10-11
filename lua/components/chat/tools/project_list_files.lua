@@ -1,7 +1,7 @@
 local state = require("state")
 local utils = require("utils")
 
-local function exec(args)
+local function exec(args, ide)
   local project_dir = state.get_project_dir()
   local files = utils.list_dir_files(project_dir, true)
 

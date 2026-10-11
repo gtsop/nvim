@@ -1,12 +1,12 @@
 local is_file = require("utils.fs.is_file")
 local read_file = require("utils.fs.read_file")
 
-local function exec(args)
+local function exec(args, ide)
   local path = args.path or args.file_path or ""
-  if not is_file(path) then
-    return "ArgError: 'path' does not contain a valid file path"
-  else
+  if ide.is_project_file(path) then
     return read_file(args.path)
+  else
+    return "ArgError: 'path' does not contain a valid file path"
   end
 end
 

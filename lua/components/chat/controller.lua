@@ -7,15 +7,17 @@ local log = require("utils.log")
 local Panel = require("utils.ui.panel")
 local Ollama = require("utils.classes.ollama")
 
---local ollama = Ollama:new("gemma3:4b")
 local toolkit = Toolkit:new()
-local ollama = Ollama:new({ toolkit = toolkit })
+local ollama = Ollama:new({ tools = toolkit.list() })
+--ollama:select_model("deepseek-r1:latest")
+--ollama:select_model("devstral-small-2:24b")
+--ollama:select_model("gemma3:4b")
+ollama:select_model("gemma4:31b")
 --ollama:select_model("qwen2.5-coder:7b")
--- ollama:select_model("gemma3:4b")
--- ollama:select_model("qwen3.5:4b")
--- ollama:select_model("qwen3.5:9b")
--- ollama:select_model("deepseek-r1:latest")
-ollama:select_model("qwen3-coder:30b")
+--ollama:select_model("qwen3-coder:30b")
+--ollama:select_model("qwen3.5:4b")
+--ollama:select_model("qwen3.5:9b")
+--ollama:select_model("qwen3:14b")
 
 local isAsking
 
@@ -23,7 +25,11 @@ local plans = {}
 
 local engine_prompt = {
   role = "system",
-  content = "You are an IDE integrated coding assistant",
+  content = [[
+You are an IDE integrated coding assistant.
+When asked reply with concice answers, don't be overly verbose unless explicitly asked so by the user
+When writting code, refrain from writting too many explanatory comments
+]],
 }
 
 local chat_history = { engine_prompt }
@@ -79,6 +85,12 @@ function ChatController.new(opts)
       on_end = function(response)
         self.update_status("ok")
         engine.print_text(response)
+      end,
+      on_call_tool = function(tool_name, tool_args)
+        self.update_status("[tool][start] " .. tool_name)
+        local result = toolkit.exec(tool_name, tool_args, self.ide)
+        self.update_status("[tool][end] " .. tool_name)
+        return result
       end,
     })
   end, {

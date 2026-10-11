@@ -6,7 +6,7 @@ function Ollama:new(args)
 
   return setmetatable({
     model = nil,
-    toolkit = args.toolkit,
+    tools = args.tools,
     on_end = nil,
     on_stream = nil,
     prompt_job_id = nil,
@@ -40,7 +40,8 @@ function Ollama:prompt(args)
     model = self.model,
     options = { temperature = 0.2, num_ctx = 32768 },
     stream = true,
-    tools = self.toolkit.list(),
+    think = true,
+    tools = self.tools,
   }, function(_, data)
     for _, line in ipairs(data) do
       if line and line ~= "" then
@@ -78,7 +79,7 @@ function Ollama:prompt(args)
                 local name = call["function"].name
                 local tool_args = call["function"].arguments or {}
 
-                local result = self.toolkit.exec(name, tool_args)
+                local result = args.on_call_tool(name, tool_args)
 
                 table.insert(args.messages, {
                   role = "tool",

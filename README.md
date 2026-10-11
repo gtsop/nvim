@@ -13,7 +13,15 @@ alias n="nvmini"
 3. Install tools
 
 ```
-npm install -g vscode-langservers-extracted@4.8.0 typescript-language-server typescript eslint@8 prettier eslint_d graphql-language-service-cli @johnnymorganz/stylua-bin @cucumber/language-server
+npm install -g vscode-langservers-extracted@4.8.0 typescript-language-server typescript eslint@8 prettier eslint_d graphql-language-service-cli @cucumber/language-server
+```
+
+## Ollama
+
+1. Download and install from [ollama.com](https://ollama.com)
+2. Pull a model:
+```bash
+ollama pull llama3
 ```
 
 ## Development

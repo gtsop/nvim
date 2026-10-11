@@ -2,6 +2,7 @@ local M = {}
 local ide = M
 
 local utils = require("utils")
+local is_file = require("utils.fs.is_file")
 local state = require("state")
 local project_dir = state.get_project_dir()
 local edited_files = {}
@@ -200,4 +201,27 @@ end
 function M.get_edited_files()
   return table.clone(edited_files)
 end
+
+function M.is_project_file(path)
+  if not path or path == "" then
+    return false
+  end
+
+  -- Use the project_dir already defined in your init.lua
+  local root = vim.fn.simplify(project_dir)
+
+  -- Resolve the absolute path and simplify it (removes '..' and '.')
+  -- expand() handles relative paths and ~
+  local absolute_path = vim.fn.simplify(vim.fn.expand(path))
+
+  -- Security Check: Ensure the resolved path starts with the project root
+  -- We use a plain string search (true) starting at index 1
+  if absolute_path:find(root, 1, true) ~= 1 then
+    return false
+  end
+
+  -- Existence Check: Ensure the file actually exists and is readable
+  return vim.fn.filereadable(absolute_path) == 1
+end
+
 return M

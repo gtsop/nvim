@@ -17,7 +17,7 @@ function Toolkit.new(opts)
 
   for _, file in ipairs(tool_files) do
     local tool = require("components.chat.tools." .. basename(file[1], true))
-    if tool._enabled then
+    if tool and type(tool) == "table" and tool._enabled then
       tools[tool.name] = tool
       table.insert(tool_names, tool.name)
       table.insert(tool_schemas, tool.schema)
@@ -28,8 +28,8 @@ function Toolkit.new(opts)
     return tool_schemas
   end
 
-  function self.exec(name, args, engine, cb)
-    return tools[name].exec(args, engine, cb)
+  function self.exec(name, args, ide)
+    return tools[name].exec(args, ide)
   end
 
   return self

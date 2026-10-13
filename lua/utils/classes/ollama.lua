@@ -1,6 +1,9 @@
 local Ollama = {}
 Ollama.__index = Ollama
 
+local last_curl_request = {}
+local last_curl_response = {}
+
 function Ollama:new(args)
   args = args or {}
 
@@ -40,7 +43,7 @@ function Ollama:prompt(args)
     model = self.model,
     options = { temperature = 0.2, num_ctx = 32768 },
     stream = true,
-    think = true,
+    -- think = true,
     tools = self.tools,
   }, function(_, data)
     for _, line in ipairs(data) do
@@ -161,9 +164,17 @@ function curl(endpoint, data, on_stdout, stdout_buffered)
     })
   end
 
+  last_curl_request = { args = args, data = data }
+
   local job_id = vim.fn.jobstart(args, {
     stdout_buffered = stdout_buffered,
-    on_stdout = on_stdout,
+    on_stdout = function(code, data)
+      last_curl_response = data
+      on_stdout(code, data)
+    end,
+    on_stderr = function(_, data)
+      last_curl_response = data
+    end,
   })
 
   if data ~= nil then
@@ -189,5 +200,42 @@ function Ollama:fetch_models(callback)
     callback(models)
   end, true)
 end
+
+vim.api.nvim_create_user_command("ChatDebugLastCurlRequest", function()
+  vim.print(last_curl_request)
+end, { nargs = 0 })
+vim.api.nvim_create_user_command("ChatDebugLastCurlResponse", function()
+  vim.print(last_curl_response)
+end, { nargs = 0 })
+
+vim.api.nvim_create_user_command("ChatDebugLastCurl", function()
+  if not last_curl_request then
+    vim.notify("No previous curl request", vim.log.levels.WARN)
+    return
+  end
+
+  local args = vim.deepcopy(last_curl_request.args)
+  local json = vim.fn.json_encode(last_curl_request.data)
+
+  -- Replace stdin body (@-) with the actual JSON payload.
+  for i, arg in ipairs(args) do
+    if arg == "@-" then
+      args[i] = json
+      args[i - 1] = "--data-binary"
+      break
+    end
+  end
+
+  -- Shell-escape every argument.
+  local escaped = {}
+  for _, arg in ipairs(args) do
+    table.insert(escaped, vim.fn.shellescape(arg))
+  end
+
+  local cmd = table.concat(escaped, " ")
+  vim.fn.setreg("+", cmd)
+  print(cmd)
+  vim.notify("Curl command copied to clipboard")
+end, {})
 
 return Ollama

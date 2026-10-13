@@ -11,8 +11,12 @@ local input = require("input")
 local toolkit = Toolkit:new()
 local ollama = Ollama:new({ tools = toolkit.list() })
 
-ollama:select_model("gemma4:31b")
+--ollama:select_model("gemma4:31b")
+--ollama:select_model("qwen2.5-coder:3b")
 --ollama:select_model("qwen3.5:9b")
+--ollama:select_model("qwen3:4b")
+--ollama:select_model("gemma3:1b")
+ollama:select_model("lfm2.5:latest")
 
 local isAsking
 

@@ -83,6 +83,12 @@ local linter = require("components.linter.controller").new()
 local formatter = require("components.formatter.controller").new()
 
 ---------------------------
+-- Git
+---------------------------
+
+local git = require("components.git.controller").new({ ide = M })
+
+---------------------------
 -- TREE SITTER
 ---------------------------
 
@@ -222,6 +228,14 @@ function M.is_project_file(path)
 
   -- Existence Check: Ensure the file actually exists and is readable
   return vim.fn.filereadable(absolute_path) == 1
+end
+
+function M.get_current_file()
+  return vim.api.nvim_buf_get_name(0)
+end
+
+function M.get_current_line()
+  return vim.api.nvim_win_get_cursor(0)[1]
 end
 
 return M

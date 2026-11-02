@@ -6,6 +6,8 @@ function M.new(args)
 
   local root_dir = args.root_dir
 
+  -- REVIEW(chat-tools): extract a sync (or callback-free wait) shared grep helper with
+  -- path/glob/limit params so project.grep and FindText share one implementation.
   function self.grep_async(pattern, callback)
     vim.system({
       "grep",

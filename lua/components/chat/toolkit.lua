@@ -5,6 +5,9 @@ local state = require("state")
 local basename = require("utils.fs.path.basename")
 local list_dir_contents = require("utils.fs.list_dir_contents")
 
+-- REVIEW(chat-tools): for small models, support selective tool loading (by name/tag/model)
+-- so schemas do not burn context. Consider skipping non-*.lua entries and a result-size
+-- budget wrapper around exec(). Async tool results would also need toolkit + ollama changes.
 function Toolkit.new(opts)
   local self = setmetatable({}, Toolkit)
 
@@ -29,7 +32,15 @@ function Toolkit.new(opts)
   end
 
   function self.exec(name, args, ide)
-    return tools[name].exec(args, ide)
+    -- Defense in depth: never allow LLM-facing shell tools even if re-enabled by mistake.
+    if type(name) == "string" and (name == "shell.run" or name:match("^shell%.")) then
+      return "SecurityError: arbitrary shell execution is forbidden"
+    end
+    local tool = tools[name]
+    if not tool then
+      return "ArgError: unknown tool: " .. tostring(name)
+    end
+    return tool.exec(args, ide)
   end
 
   return self

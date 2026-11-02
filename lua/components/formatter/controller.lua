@@ -1,6 +1,8 @@
 local M = {}
 M.__index = M
 
+-- REVIEW(chat-tools): add a path-based format API that returns formatted text or a
+-- compact diff (for project.format_file) without requiring a visible buffer write hook.
 function M.new()
   local self = setmetatable({}, M)
 

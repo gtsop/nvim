@@ -9,6 +9,8 @@ local Ollama = require("utils.classes.ollama")
 local input = require("input")
 
 local toolkit = Toolkit:new()
+-- REVIEW(chat-tools): consider per-model tool subsets when wiring toolkit.list()
+-- into Ollama for small-context models. Arbitrary shell is forbidden by toolkit/_shared.
 local ollama = Ollama:new({ tools = toolkit.list() })
 
 --ollama:select_model("gemma4:31b")

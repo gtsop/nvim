@@ -1,3 +1,6 @@
+-- REVIEW(chat-tools): expose data-returning helpers for LLM tools, e.g.
+-- get_diagnostics({path?, severity?, limit?}), lsp_definition(path, line, col),
+-- lsp_references(path, line, col) — returning compact tables/strings, not UI floats.
 vim.lsp.enable("css")
 vim.lsp.enable("cucumber")
 vim.lsp.enable("eslint")

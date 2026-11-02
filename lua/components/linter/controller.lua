@@ -4,6 +4,8 @@ LinterController.__index = LinterController
 local LinterModel = require("components.linter.model")
 local LinterView = require("components.linter.view")
 
+-- REVIEW(chat-tools): add a path-based lint API that returns diagnostics as data
+-- (for project.lint_file) instead of only BufWritePre buffer side effects.
 function LinterController.new(opts)
   local self = setmetatable({}, LinterController)
 

@@ -146,6 +146,11 @@ M.edit = function(full_path, line)
   vim.api.nvim_exec2("normal! zz", { output = false })
 end
 
+-- REVIEW(chat-tools): add silent non-UI variants for LLM tools —
+-- create_file_silent(path), delete_file_silent(path), move_file_silent(path, new_path),
+-- copy_file_silent(path, new_path) — so chat tools can stop reimplementing FS ops locally.
+-- Also add is_under_project(path) that does not require the file to already exist
+-- (unlike is_project_file), plus get_selection() / get_buffer_range(bufnr, start, end).
 function M.create_file(path, callback)
   local dir
   if utils.is_dir(path) then

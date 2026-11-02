@@ -37,6 +37,9 @@ function Ollama:prompt(args)
   self.response = ""
   self.tool_calls = {}
 
+  -- REVIEW(chat-tools): tool loop is sync-only today; async tools (grep via vim.system)
+  -- need continuation support. Also consider per-model tool subsets, result truncation,
+  -- and optional user confirmation / allowlist for shell.run.
   self.prompt_job_id = curl("/api/chat", {
     format = args.format,
     messages = args.messages,

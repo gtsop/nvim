@@ -115,6 +115,8 @@ function ChatController.new(opts)
       .. ollama:get_model()
       .. " - "
       .. string.format("%.1f%%%%", ollama:get_context_usage())
+      .. " - "
+      .. string.format("%.1f t/s", ollama:get_tokens_per_second())
       .. " ): "
       .. status
   end

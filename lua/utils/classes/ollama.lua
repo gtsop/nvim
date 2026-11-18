@@ -72,6 +72,8 @@ function Ollama:prompt(args)
 
           if decoded.done then
             self.prompt_eval_count = decoded.prompt_eval_count
+            self.eval_count = decoded.eval_count
+            self.eval_duration = decoded.eval_duration
             self.prompt_job_id = nil
 
             if #self.tool_calls > 0 then
@@ -135,6 +137,19 @@ function Ollama:get_context_usage()
     return 0
   end
   return latest_tokens / context_length * 100
+end
+
+--- Tokens generated per second from the last completed response (Ollama eval_*).
+function Ollama:get_tokens_per_second()
+  local count = self.eval_count
+  local duration_ns = self.eval_duration
+  if type(count) ~= "number" or type(duration_ns) ~= "number" then
+    return 0
+  end
+  if count <= 0 or duration_ns <= 0 then
+    return 0
+  end
+  return count / (duration_ns / 1e9)
 end
 
 function get_context_length(model_info)

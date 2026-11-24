@@ -9,17 +9,15 @@ local LinterView = require("components.linter.view")
 function LinterController.new(opts)
   local self = setmetatable({}, LinterController)
 
-  function self.run_cmd(cmd, args, callback, opts)
-    opts = opts or {}
-    local max_exit_code = opts.max_exit_code or 0
+  function self.run_cmd(cmd, args, callback)
     local stdout = vim.fn.system(cmd, args)
-    local code = vim.v.shell_error
+    local ok = vim.v.shell_error == 0
 
-    if code <= max_exit_code then
+    if ok then
       local out = vim.split(stdout or "", "\n", { plain = true })
       callback(out)
     else
-      -- vim.notify(("Linter failed:\n%s"):format(stdout), vim.log.levels.ERROR)
+      vim.notify(("Linter failed:\n%s"):format(stdout), vim.log.levels.ERROR)
     end
   end
 

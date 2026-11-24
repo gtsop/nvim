@@ -112,6 +112,9 @@ function M.new(opts)
   end
 
   function self.expand_node(node)
+    if not node then
+      return
+    end
     node.tree = list_dir_contents(node.path, { parent = node })
     return node
   end

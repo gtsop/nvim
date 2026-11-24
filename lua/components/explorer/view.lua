@@ -6,6 +6,10 @@ local function get_node_lines(tree, prefix)
     prefix = ""
   end
 
+  if not tree then
+    tree = {}
+  end
+
   local lines = {}
   local nodes = {}
 
@@ -33,13 +37,13 @@ local function get_node_lines(tree, prefix)
 end
 
 function M.new(args)
-  local self = setmetatable({
-    panel = args.panel,
-  }, M)
-
   if not args then
     args = {}
   end
+
+  local self = setmetatable({
+    panel = args.panel,
+  }, M)
 
   --[[
   local panel = Panel:new({
@@ -61,6 +65,7 @@ function M.new(args)
 
   local rendered_nodes = nil
   local rendered_lines = nil
+  local root_node = nil
 
   local buffer = vim.api.nvim_create_buf(false, true)
   vim.api.nvim_buf_set_name(buffer, "explorer")
@@ -89,6 +94,7 @@ function M.new(args)
 
   function self.render(model)
     rendered_lines, rendered_nodes = get_node_lines(model.tree)
+    root_node = model
 
     vim.api.nvim_buf_set_option(buffer, "modifiable", true)
     vim.api.nvim_buf_set_lines(buffer, 0, -1, false, rendered_lines)
@@ -104,8 +110,8 @@ function M.new(args)
   end
 
   function self.get_hovered_node()
-    if not rendered_nodes then
-      return nil
+    if not rendered_nodes or #rendered_nodes == 0 then
+      return root_node
     end
 
     local line_number = vim.api.nvim_win_get_cursor(0)[1]

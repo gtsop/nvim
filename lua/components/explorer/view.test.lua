@@ -5,13 +5,16 @@ local mock_vim_api_nvim_win_get_cursor = require("test.helpers.mock_vim_api_nvim
 
 local View = require("components.explorer.view")
 
+local Panel = require("utils.ui.panel_v2")
+local panel = Panel:new()
+
 describe("Explorer View", function()
   local fake_buffer = 1
   mock_vim_api_nvim_create_buf(fake_buffer, before_each, after_each)
   mock_vim_api_nvim_win_get_cursor(2, 0, before_each, after_each)
 
   it("instanciates", function()
-    local view = View.new()
+    local view = View.new({ panel = panel })
 
     assert.is_table(view)
   end)
@@ -19,7 +22,7 @@ describe("Explorer View", function()
   test("'render' prints a directory on the buffer", function()
     local s = spy.on(vim.api, "nvim_buf_set_lines")
 
-    local view = View.new()
+    local view = View.new({ panel = panel })
 
     local model = {
       path = "/root",
@@ -41,7 +44,7 @@ describe("Explorer View", function()
   test("'render' prints a file on the buffer", function()
     local s = spy.on(vim.api, "nvim_buf_set_lines")
 
-    local view = View.new()
+    local view = View.new({ panel = panel })
 
     local model = {
       path = "/root",
@@ -63,7 +66,7 @@ describe("Explorer View", function()
   test("'render' prints a directory and a file on the buffer", function()
     local s = spy.on(vim.api, "nvim_buf_set_lines")
 
-    local view = View.new()
+    local view = View.new({ panel = panel })
 
     local model = {
       path = "/root",
@@ -87,7 +90,7 @@ describe("Explorer View", function()
   test("'render' prints a nested view", function()
     local s = spy.on(vim.api, "nvim_buf_set_lines")
 
-    local view = View.new()
+    local view = View.new({ panel = panel })
 
     local model = {
       path = "/root",
@@ -117,23 +120,9 @@ describe("Explorer View", function()
     })
   end)
 
-  test("'show' opens a window with the buffer", function()
-    local s = spy.on(vim.api, "nvim_open_win")
-
-    local view = View.new()
-
-    view.show()
-
-    assert.spy(s).was_called_with(fake_buffer, true, {
-      relative = "",
-      split = "left",
-      width = 40,
-    })
-  end)
-
   describe("get_hovered_node", function()
     it("returns the model node that is currently being hovered by the UI", function()
-      local view = View.new()
+      local view = View.new({ panel = panel })
 
       local model = {
         path = "/root",
@@ -149,12 +138,27 @@ describe("Explorer View", function()
 
       view.render(model)
 
-      assert.are.equal(view.get_hovered_node(), model.tree[2])
+      assert.are.equal(model.tree[2], view.get_hovered_node())
+    end)
+
+    it("returns the root node if there are currently no children nodes", function()
+      local view = View.new({ panel = panel })
+
+      local model = {
+        path = "/root",
+        name = "/root",
+        type = "directory",
+        is_dir = true,
+      }
+
+      view.render(model)
+
+      assert.are.equal(view.get_hovered_node(), model)
     end)
   end)
 
   it("works in nested trees", function()
-    local view = View.new()
+    local view = View.new({ panel = panel })
 
     local model = {
       path = "/root",

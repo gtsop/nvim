@@ -8,7 +8,7 @@ function Panel:new(args)
   }, Panel)
 
   if not args then
-    args = {}
+    args = { name = "default_panel" }
   end
 
   if args.position == "bottom" then
@@ -17,7 +17,7 @@ function Panel:new(args)
     vim.cmd("vsplit")
   end
 
-  this.window = vim.api.nvim_get_current_win()
+  this.window = vim.api.nvim_get_current_win() or 1
   vim.api.nvim_set_option_value("number", false, { win = this.window })
   vim.api.nvim_set_option_value("relativenumber", false, { win = this.window })
   vim.api.nvim_set_option_value("wrap", false, { win = this.window })

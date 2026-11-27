@@ -18,7 +18,7 @@ local ollama = Ollama:new({ tools = toolkit.list() })
 --ollama:select_model("qwen3.5:9b")
 --ollama:select_model("qwen3:4b")
 --ollama:select_model("gemma3:1b")
-ollama:select_model("qwen2.5-coder:7b")
+ollama:select_model("qwen3.5:9b")
 
 local isAsking
 
@@ -133,8 +133,13 @@ function ChatController.new(opts)
     end)
   end
 
+  function self.clear_chat_history()
+    chat_history = { engine_prompt }
+  end
+
   vim.api.nvim_create_user_command("ChatDebugHistory", self.print_history, { nargs = 0 })
   vim.api.nvim_create_user_command("ChatSelectModel", self.show_model_selection_ui, { nargs = 0 })
+  vim.api.nvim_create_user_command("ChatNew", self.clear_chat_history, { nargs = 0 })
 end
 
 return ChatController

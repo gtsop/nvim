@@ -1,6 +1,8 @@
 local Panel = {}
 Panel.__index = Panel
 
+local layout = require("utils.ui.layout")
+
 function Panel:new(args)
   if not args then
     args = {}
@@ -15,6 +17,7 @@ function Panel:new(args)
     on_leave = args.on_leave,
     position = args.position,
     window = nil,
+    ide_layout = nil,
   }, Panel)
 end
 
@@ -22,6 +25,8 @@ function Panel:open(args)
   if not args then
     args = {}
   end
+
+  self.ide_layout = layout.save_layout()
 
   local buffer = self.buffer or args.buffer
 
@@ -74,6 +79,10 @@ function Panel:close()
       vim.api.nvim_win_close(self.window, true)
     end
     self.window = nil
+  end
+  if self.ide_layout then
+    vim.print("restoring")
+    layout.restore_layout(self.ide_layout)
   end
   if self.group then
     pcall(vim.api.nvim_del_augroup_by_id, self.group)

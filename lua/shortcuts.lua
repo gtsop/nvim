@@ -10,3 +10,6 @@ vim.keymap.set({ "n", "v" }, "<Leader>w", "<esc>:close<CR>", { silent = true })
 -- Ctrl + p: Show File Finder
 vim.keymap.set({ "n", "v" }, "<C-p>", "<esc>:FileFinderShow<CR>", { silent = true })
 vim.keymap.set({ "n", "v" }, " ", "<esc>:FileFinderShowEdited<CR>", { silent = true })
+
+-- Ctrl + w + - : Horizontal split
+vim.keymap.set({ "n", "v" }, "<C-w>-", "<esc>:split<CR><esc>:wincmd j<CR>", { silent = true })

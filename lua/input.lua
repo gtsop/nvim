@@ -1,6 +1,7 @@
 local M = {}
 
 local utils = require("utils")
+local layout = require("utils.ui.layout")
 
 local esc_code = vim.api.nvim_replace_termcodes("<Esc>", true, false, true)
 local cr_code = vim.api.nvim_replace_termcodes("<CR>", true, false, true)
@@ -30,10 +31,14 @@ local function color_positions(buf, row, cols, hl)
   end
 end
 
+local saved_layout = nil
+
 function M.open(on_change, on_submit, on_cancel)
   if input_on_key_ns then
     return
   end
+
+  saved_layout = layout.save_layout()
 
   vim.cmd("botright split")
 
@@ -41,6 +46,7 @@ function M.open(on_change, on_submit, on_cancel)
   input_buf = utils.create_scratch_buffer()
 
   vim.api.nvim_win_set_buf(input_win, input_buf)
+  vim.api.nvim_buf_set_option(input_buf, "filetype", "input")
   vim.api.nvim_win_set_option(input_win, "number", false)
   vim.api.nvim_win_set_option(input_win, "relativenumber", false)
 
@@ -127,6 +133,8 @@ function M.close()
 
   vim.api.nvim_win_close(0, true)
   vim.on_key(nil, input_on_key_ns)
+
+  layout.restore_layout(saved_layout)
 
   input_on_key_ns = nil
   input_str = ""

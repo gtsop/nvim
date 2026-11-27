@@ -111,11 +111,30 @@ vim.filetype.add({
   extension = { feature = "gherkin" },
 })
 
+local function is_editting_window(win_id)
+  local avoid_filetypes = { "explorer", "chat", "input", "file-finder" }
+
+  return not table.contains(avoid_filetypes, utils.win_get_buf_filetype(win_id))
+end
+
+local last_editable_window_id = nil
+vim.api.nvim_create_autocmd("WinLeave", {
+  group = vim.api.nvim_create_augroup("last_widow", {}),
+  callback = function()
+    local win_id = vim.api.nvim_get_current_win()
+    if is_editting_window(win_id) then
+      last_editable_window_id = win_id
+    end
+  end,
+})
+
 local function get_file_edit_window()
-  local avoid_filetypes = { "explorer", "chat" }
+  if last_editable_window_id then
+    return last_editable_window_id
+  end
 
   for _, win in ipairs(vim.api.nvim_tabpage_list_wins(0)) do
-    if not table.contains(avoid_filetypes, utils.win_get_buf_filetype(win)) then
+    if is_editting_window(win) then
       return win
     end
   end
